@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Segoe UI", system-ui, sans-serif;
+
+  --color-ink-950: #0b0c0f;
+  --color-ink-900: #14151a;
+  --color-ink-800: #1e2027;
+  --color-ink-700: #2b2e37;
+  --color-ink-600: #40444f;
+  --color-ink-500: #5b606c;
+  --color-ink-400: #7d8290;
+  --color-ink-300: #a7abb6;
+  --color-ink-200: #d3d5db;
+  --color-ink-100: #eceef2;
+  --color-ink-50: #f6f7f9;
+
+  --color-gold-600: #b8860b;
+  --color-gold-500: #d4a017;
+  --color-gold-400: #e6b93a;
+  --color-gold-300: #f2d17a;
+  --color-gold-100: #fbf1d8;
+
+  --color-teal-700: #0e6e63;
+  --color-teal-600: #12897a;
+  --color-teal-500: #17a390;
+  --color-teal-400: #35c2ad;
+  --color-teal-100: #dcf5f0;
+
+  --color-coral-500: #e2574c;
+  --color-coral-100: #fbe2df;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-ink-50);
+  color: var(--color-ink-900);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  scrollbar-width: thin;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  font-family: var(--font-sans);
+}
+
+.leaflet-popup-content-wrapper {
+  border-radius: 16px;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in-up {
+  animation: fade-in-up 0.25s ease-out;
+}
+
+@keyframes crow-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.animate-crow-bob {
+  animation: crow-bob 2.4s ease-in-out infinite;
+}
