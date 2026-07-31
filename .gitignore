@@ -12,6 +12,17 @@ dist
 dist-ssr
 *.local
 
+# Verilənlər bazası faylı — seed ilə yenidən yaradılır, commit olunmur
+server/data/
+*.db
+*.db-wal
+*.db-shm
+
+# Mühit dəyişənləri
+.env
+.env.*
+!.env.example
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

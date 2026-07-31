@@ -3,8 +3,15 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.5.0"
+  },
   "scripts": {
     "dev": "vite",
+    "api": "node server/index.mjs",
+    "db:seed": "node server/seed.mjs",
+    "db:reset": "node server/seed.mjs --fresh",
+    "test": "node --test server/test.mjs",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
