@@ -13,11 +13,13 @@ import { useToast } from '../../components/Toast';
 import type { Registration } from '../../types';
 
 const STEPS = ['Kurs', 'Tələbə', 'Endirim', 'Şərtlər', 'Ödəniş', 'Təsdiq'];
+// Yalnız "Mərkəzdə ödə" işlək üsuldur. Kart/Apple Pay/Google Pay real ödəniş
+// inteqrasiyası olmadığı üçün söndürülüb — brauzerdə saxta "ödənilib" statusu yaradılmır.
 const PAYMENT_METHODS = [
-  { id: 'card', label: '💳 Kart ödənişi' },
-  { id: 'apple_pay', label: ' Apple Pay' },
-  { id: 'google_pay', label: '🅖 Google Pay' },
-  { id: 'pay_at_center', label: '🏢 Kursda ödəniş' },
+  { id: 'pay_at_center', label: 'Kursda ödəniş', enabled: true },
+  { id: 'card', label: 'Kart ödənişi', enabled: false },
+  { id: 'apple_pay', label: 'Apple Pay', enabled: false },
+  { id: 'google_pay', label: 'Google Pay', enabled: false },
 ];
 
 export function RegistrationFlow() {
@@ -37,7 +39,7 @@ export function RegistrationFlow() {
   const [promo, setPromo] = useState('');
   const [lelekUse, setLelekUse] = useState(0);
   const [agreed, setAgreed] = useState(false);
-  const [payment, setPayment] = useState('card');
+  const [payment, setPayment] = useState('pay_at_center');
   const [reg, setReg] = useState<Registration | null>(null);
 
   if (!course) return <div className="p-6">Kurs tapılmadı.</div>;
@@ -76,7 +78,7 @@ export function RegistrationFlow() {
             <Row label="Qiymət" value={formatAZN(reg.price)} />
             {reg.discount > 0 && <Row label="Endirim" value={`-${formatAZN(reg.discount)}`} />}
             <Row label="Yekun ödəniş" value={formatAZN(reg.finalPrice)} />
-            <Row label="Ödəniş statusu" value={reg.paymentStatus === 'pay_at_center' ? 'Kursda ödəniləcək' : 'Ödənilib'} />
+            <Row label="Ödəniş statusu" value="Kursda ödəniləcək" />
             <Row label="Qazanılan Lələk" value={`+${reg.lelekEarned} 🪶`} />
             <Row label="Provayder əlaqəsi" value={provider?.phone ?? ''} />
           </div>
@@ -163,15 +165,24 @@ export function RegistrationFlow() {
         {step === 4 && (
           <div>
             <p className="text-sm font-semibold text-ink-800 mb-2">Ödəniş üsulunu seçin</p>
-            <div className="flex flex-wrap gap-2 mb-4">
+            <div className="flex flex-wrap gap-2 mb-2">
               {PAYMENT_METHODS.map((m) => (
-                <Chip key={m.id} active={payment === m.id} onClick={() => setPayment(m.id)}>{m.label}</Chip>
+                <Chip
+                  key={m.id}
+                  active={payment === m.id}
+                  disabled={!m.enabled}
+                  title={m.enabled ? undefined : 'Onlayn ödəniş hələ aktiv deyil'}
+                  onClick={m.enabled ? () => setPayment(m.id) : undefined}
+                >
+                  {m.label}{m.enabled ? '' : ' — tezliklə'}
+                </Chip>
               ))}
             </div>
+            <p className="text-xs text-ink-500 mb-4">Onlayn ödəniş hələ aktiv deyil. Qeydiyyat sorğusu göndərilir, məbləği kurs mərkəzində ödəyirsiniz.</p>
             <div className="bg-ink-50 rounded-xl p-3 text-sm mb-4 flex justify-between font-bold">
-              <span>Ödəniləcək məbləğ</span><span>{formatAZN(finalPrice)}</span>
+              <span>Mərkəzdə ödəniləcək məbləğ</span><span>{formatAZN(finalPrice)}</span>
             </div>
-            <Button fullWidth onClick={submit}>{payment === 'pay_at_center' ? 'Qeydiyyatı təsdiqlə' : `${formatAZN(finalPrice)} ödə və təsdiqlə`}</Button>
+            <Button fullWidth onClick={submit}>Qeydiyyatı təsdiqlə</Button>
           </div>
         )}
       </div>

@@ -81,13 +81,17 @@ export function Login() {
         <Button variant="outline" fullWidth onClick={() => handleSocial('Apple')} icon={<span></span>}>{t('continue_with_apple')}</Button>
       </div>
 
-      <div className="mt-auto pt-8">
-        <p className="text-center text-xs text-ink-400 mb-2">Demo üçün digər rollarda da baxa bilərsiniz</p>
-        <div className="flex gap-2">
-          <Button variant="ghost" size="sm" fullWidth onClick={() => { loginAsRole('provider'); navigate('/provider/dashboard'); }}>🏢 Provayder demo</Button>
-          <Button variant="ghost" size="sm" fullWidth onClick={() => { loginAsRole('admin'); navigate('/admin/dashboard'); }}>🛡️ Admin demo</Button>
+      {/* Rol keçidi yalnız development-də görünür. Produksiya build-ində rollar
+          server tərəfindən təyin olunmalıdır — bu düymələr ora düşməməlidir. */}
+      {import.meta.env.DEV && (
+        <div className="mt-auto pt-8">
+          <p className="text-center text-xs text-ink-500 mb-2">Yalnız development: digər rollarda bax</p>
+          <div className="flex gap-2">
+            <Button variant="ghost" size="sm" fullWidth onClick={() => { loginAsRole('provider'); navigate('/provider/dashboard'); }}>Provayder demo</Button>
+            <Button variant="ghost" size="sm" fullWidth onClick={() => { loginAsRole('admin'); navigate('/admin/dashboard'); }}>Admin demo</Button>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

@@ -238,7 +238,9 @@ export const useAppStore = create<AppState>()(
           branchId: input.branchId, format: input.format, mode: input.mode, studentName: input.studentName,
           studentPhone: input.studentPhone, studentAge: input.studentAge, promoCode: input.promoCode, lelekUsed: lelekDiscount,
           price: basePrice, discount, finalPrice, paymentMethod: input.paymentMethod,
-          paymentStatus: input.paymentMethod === 'pay_at_center' ? 'pay_at_center' : 'paid',
+          // Brauzer heç vaxt ödənişi "paid" kimi işarələmir. Real ödəniş yalnız
+          // server tərəfdə təsdiqlənmiş webhook-dan sonra bu statusu ala bilər.
+          paymentStatus: 'pay_at_center',
           lelekEarned, status: 'confirmed', createdAt: new Date().toISOString(),
         };
         set((s) => ({
