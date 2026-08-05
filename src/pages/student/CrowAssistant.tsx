@@ -8,6 +8,7 @@ import { formatAZN, formatDistance } from '../../lib/utils';
 import { CrowMascot } from '../../components/CrowMascot';
 import { CourseCard } from '../../components/CourseCard';
 import { Button } from '../../components/Button';
+import { courseToOfferingSummary, mockCategoryToInfo } from '../../lib/legacyCourseAdapter';
 import type { Course, CourseFormat, CourseLevel, DayPart, LessonMode } from '../../types';
 
 interface Answers {
@@ -264,7 +265,7 @@ export function CrowAssistant() {
             <div>
               <p className="text-xs font-bold text-ink-400 uppercase mb-2">Bütün tövsiyələr ({scored.length})</p>
               <div className="flex flex-col gap-3">
-                {scored.slice(0, 8).map((s) => <CourseCard key={s.course.id} course={s.course} />)}
+                {scored.slice(0, 8).map((s) => <CourseCard key={s.course.id} course={courseToOfferingSummary(s.course)} category={mockCategoryToInfo(getCategory(s.course.categoryId))} />)}
               </div>
             </div>
 
@@ -283,7 +284,7 @@ function RecommendationBlock({ title, item, explain }: { title: string; item: Sc
   return (
     <div className="bg-white rounded-2xl p-4 shadow-sm border border-gold-300">
       <p className="text-xs font-bold text-gold-600 mb-2">{title}</p>
-      <CourseCard course={item.course} dense />
+      <CourseCard course={courseToOfferingSummary(item.course)} category={mockCategoryToInfo(getCategory(item.course.categoryId))} dense />
       <p className="text-xs text-ink-500 mt-2 italic">🐦‍⬛ "{explain(item)}"</p>
       <Button size="sm" className="mt-2" fullWidth onClick={() => navigate(`/app/course/${item.course.id}`)}>Kursu gör</Button>
     </div>

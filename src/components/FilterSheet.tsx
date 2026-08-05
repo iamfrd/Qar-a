@@ -1,10 +1,10 @@
-import { useMemo, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Sheet } from './Sheet';
 import { Chip } from './Chip';
 import { Button } from './Button';
 import { useAppStore, defaultFilters } from '../store/useAppStore';
-import { areas } from '../data/areas';
-import { courses } from '../data/mockData';
+import { api } from '../lib/api';
+import type { AreaInfo, CategoryInfo } from '../lib/api';
 import type { CourseFormat, CourseLevel, DayPart, LessonMode } from '../types';
 
 const dayPartOptions: { id: DayPart; label: string }[] = [
@@ -28,13 +28,43 @@ const levelOptions: { id: CourseLevel; label: string }[] = [
   { id: 'advanced', label: 'İrəli' },
 ];
 
-export function FilterSheet({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function FilterSheet({
+  open,
+  onClose,
+  categories,
+  areas,
+}: {
+  open: boolean;
+  onClose: () => void;
+  categories: CategoryInfo[];
+  areas: AreaInfo[];
+}) {
   const filters = useAppStore((s) => s.filters);
   const setFilters = useAppStore((s) => s.setFilters);
   const resetFilters = useAppStore((s) => s.resetFilters);
-  const categories = useAppStore((s) => s.categories);
 
-  const ageGroups = useMemo(() => Array.from(new Set(courses.map((c) => c.ageGroup))), []);
+  const [ageGroups, setAgeGroups] = useState<string[]>([]);
+  const [subcategories, setSubcategories] = useState<string[]>([]);
+
+  // Yaş qrupu / alt kateqoriya siyahısı bazadan gəlməlidir — mock kursların
+  // sabit siyahısı yerinə, açıq olanda bir dəfə cari kataloqdan çəkilir.
+  useEffect(() => {
+    if (!open || ageGroups.length > 0) return;
+    api.searchOfferings({ perPage: 60 }).then((res) => {
+      setAgeGroups(Array.from(new Set(res.items.map((c) => c.ageGroup).filter(Boolean))));
+    }).catch(() => {
+      // Filtr seçimləri optional bəzəkdir — uğursuz olsa filtri boş saxla, çökmə.
+    });
+  }, [open, ageGroups.length]);
+
+  useEffect(() => {
+    if (!filters.categoryId) { setSubcategories([]); return; }
+    api.searchOfferings({ categoryId: filters.categoryId, perPage: 60 }).then((res) => {
+      setSubcategories(Array.from(new Set(res.items.map((c) => c.subcategory).filter(Boolean))));
+    }).catch(() => setSubcategories([]));
+  }, [filters.categoryId]);
+
+  const categoryChips = useMemo(() => categories, [categories]);
 
   return (
     <Sheet
@@ -51,20 +81,20 @@ export function FilterSheet({ open, onClose }: { open: boolean; onClose: () => v
       <FilterSection title="Kateqoriya">
         <div className="flex flex-wrap gap-2">
           <Chip active={!filters.categoryId} onClick={() => setFilters({ categoryId: null, subcategory: null })}>Hamısı</Chip>
-          {categories.map((c) => (
+          {categoryChips.map((c) => (
             <Chip key={c.id} active={filters.categoryId === c.id} onClick={() => setFilters({ categoryId: c.id, subcategory: null })} icon={<span>{c.icon}</span>}>
-              {c.name.az}
+              {c.nameAz}
             </Chip>
           ))}
         </div>
       </FilterSection>
 
-      {filters.categoryId && (
+      {filters.categoryId && subcategories.length > 0 && (
         <FilterSection title="Alt kateqoriya">
           <div className="flex flex-wrap gap-2">
             <Chip active={!filters.subcategory} onClick={() => setFilters({ subcategory: null })}>Hamısı</Chip>
-            {categories.find((c) => c.id === filters.categoryId)?.subcategories.map((sc) => (
-              <Chip key={sc.az} active={filters.subcategory === sc.az} onClick={() => setFilters({ subcategory: sc.az })}>{sc.az}</Chip>
+            {subcategories.map((sc) => (
+              <Chip key={sc} active={filters.subcategory === sc} onClick={() => setFilters({ subcategory: sc })}>{sc}</Chip>
             ))}
           </div>
         </FilterSection>

@@ -13,6 +13,7 @@ import { CourseMap } from '../../components/CourseMap';
 import { Modal } from '../../components/Sheet';
 import { TextArea } from '../../components/FormField';
 import { useToast } from '../../components/Toast';
+import { courseToOfferingSummary, mockCategoryToInfo } from '../../lib/legacyCourseAdapter';
 
 export function CourseDetail() {
   const { id } = useParams();
@@ -138,7 +139,7 @@ export function CourseDetail() {
           <p className="text-sm font-semibold text-ink-800">{branch?.name}</p>
           <p className="text-xs text-ink-500">{branch?.address}, {branch?.area}</p>
           <div className="rounded-2xl overflow-hidden border border-ink-100 mt-2" style={{ height: 180 }}>
-            <CourseMap courses={[course]} height="100%" />
+            <CourseMap courses={[courseToOfferingSummary(course)]} categories={category ? [mockCategoryToInfo(category)!] : []} height="100%" />
           </div>
           {branch && (
             <a

@@ -3,6 +3,8 @@ import { useAppStore } from '../../store/useAppStore';
 import { CourseCard } from '../../components/CourseCard';
 import { EmptyState } from '../../components/EmptyState';
 import { Button } from '../../components/Button';
+import { getCategory } from '../../data/categories';
+import { courseToOfferingSummary, mockCategoryToInfo } from '../../lib/legacyCourseAdapter';
 
 export function Favorites() {
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ export function Favorites() {
           <EmptyState title="Hələ seçilmiş kursun yoxdur" body="Bəyəndiyin kursları ürək işarəsinə basaraq buraya əlavə et." action={<Button onClick={() => navigate('/app/map')}>Kursları kəşf et</Button>} />
         ) : (
           <div className="flex flex-col gap-3">
-            {favCourses.map((c) => <CourseCard key={c.id} course={c} />)}
+            {favCourses.map((c) => <CourseCard key={c.id} course={courseToOfferingSummary(c)} category={mockCategoryToInfo(getCategory(c.categoryId))} />)}
           </div>
         )}
       </div>

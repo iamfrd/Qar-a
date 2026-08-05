@@ -153,6 +153,22 @@ export interface SearchFilters {
   lng?: number;
 }
 
+export interface CategoryInfo {
+  id: string;
+  nameAz: string;
+  nameEn: string;
+  nameRu: string;
+  icon: string;
+  color: string;
+}
+
+export interface AreaInfo {
+  id: string;
+  name: string;
+  lat: number;
+  lng: number;
+}
+
 export interface SessionUser {
   id: string;
   phone: string;
@@ -168,8 +184,8 @@ export interface SessionUser {
 export const api = {
   health: () => request<{ ok: boolean }>('/health'),
 
-  areas: () => request<{ areas: Array<{ id: string; name: string; lat: number; lng: number }> }>('/areas'),
-  categories: () => request<{ categories: Array<{ id: string; nameAz: string; nameEn: string; nameRu: string; icon: string; color: string }> }>('/categories'),
+  areas: () => request<{ areas: AreaInfo[] }>('/areas'),
+  categories: () => request<{ categories: CategoryInfo[] }>('/categories'),
 
   searchOfferings: (f: SearchFilters = {}) => {
     const { bounds, ...rest } = f;
