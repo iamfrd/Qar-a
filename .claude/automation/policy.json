@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "default": "disabled-until-explicitly-configured",
+  "allowedInitialMode": "read-only monitoring and reporting",
+  "recurringWorkerRequirements": [
+    "explicit project-owner approval",
+    "documented schedule",
+    "budget limit",
+    "minimum permissions",
+    "secret management",
+    "failure alerting",
+    "kill switch",
+    "no auto-merge",
+    "no auto-deploy"
+  ],
+  "templates": [
+    "automation/cloudflare-workers/qarga-daily-health",
+    "automation/cloudflare-workers/qarga-weekly-pulse",
+    "automation/github/qarga-ticket-to-draft-pr.example.yml"
+  ]
+}

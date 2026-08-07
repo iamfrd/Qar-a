@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "savedViews": [
+    {
+      "id": "owner-decisions",
+      "name": "Owner decisions",
+      "filters": {
+        "status": ["needs_decision"]
+      }
+    },
+    {
+      "id": "active-work",
+      "name": "Active work",
+      "filters": {
+        "status": ["ready", "in_progress", "review", "blocked"]
+      }
+    },
+    {
+      "id": "critical-work",
+      "name": "Critical work",
+      "filters": {
+        "priority": ["critical"]
+      }
+    },
+    {
+      "id": "done-this-month",
+      "name": "Done this month",
+      "filters": {
+        "status": ["done"],
+        "completedWithinDays": 31
+      }
+    }
+  ]
+}

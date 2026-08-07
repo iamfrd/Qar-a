@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "status": "planning-contract-not-proof-of-instrumentation",
+  "principles": [
+    "Every event must answer a decision.",
+    "Server-owned outcomes should be emitted or validated by the server where practical.",
+    "Do not collect unnecessary personal data.",
+    "Unknown baselines remain unknown."
+  ],
+  "commonForbiddenProperties": [
+    "password",
+    "otp",
+    "card_number",
+    "cvv",
+    "full_payment_token",
+    "raw_auth_token",
+    "secret",
+    "private_message_body"
+  ],
+  "events": [
+    {
+      "name": "search_performed",
+      "decision": "Understand search demand and search-to-course discovery.",
+      "source": "client with server query context when available",
+      "requiredProperties": [
+        "query_present",
+        "result_count"
+      ],
+      "status": "planned"
+    },
+    {
+      "name": "filter_applied",
+      "decision": "Understand which discovery filters contribute to course finding.",
+      "source": "client",
+      "requiredProperties": [
+        "filter_type"
+      ],
+      "status": "planned"
+    },
+    {
+      "name": "course_viewed",
+      "decision": "Measure course-detail reach and downstream registration conversion.",
+      "source": "client/server correlated",
+      "requiredProperties": [
+        "course_id",
+        "provider_id"
+      ],
+      "status": "planned"
+    },
+    {
+      "name": "provider_viewed",
+      "decision": "Measure provider discovery and trust behavior.",
+      "source": "client",
+      "requiredProperties": [
+        "provider_id"
+      ],
+      "status": "planned"
+    },
+    {
+      "name": "registration_started",
+      "decision": "Measure registration funnel entry.",
+      "source": "client/server correlated",
+      "requiredProperties": [
+        "course_id"
+      ],
+      "status": "planned"
+    },
+    {
+      "name": "registration_completed",
+      "decision": "Measure successful registration conversion.",
+      "source": "server preferred",
+      "requiredProperties": [
+        "course_id",
+        "registration_id"
+      ],
+      "status": "planned"
+    },
+    {
+      "name": "payment_started",
+      "decision": "Measure future payment funnel entry.",
+      "source": "server preferred",
+      "requiredProperties": [
+        "registration_id",
+        "payment_method"
+      ],
+      "status": "future"
+    },
+    {
+      "name": "payment_succeeded",
+      "decision": "Measure paid registration and revenue outcomes.",
+      "source": "server/webhook only",
+      "requiredProperties": [
+        "registration_id",
+        "payment_id",
+        "currency"
+      ],
+      "status": "future"
+    },
+    {
+      "name": "payment_failed",
+      "decision": "Measure payment reliability and failure categories.",
+      "source": "server/webhook only",
+      "requiredProperties": [
+        "registration_id",
+        "failure_category"
+      ],
+      "status": "future"
+    },
+    {
+      "name": "refund_requested",
+      "decision": "Measure refund/support burden and policy quality.",
+      "source": "server/support system",
+      "requiredProperties": [
+        "registration_id",
+        "reason_category"
+      ],
+      "status": "future"
+    },
+    {
+      "name": "support_ticket_created",
+      "decision": "Measure support demand by journey and issue category.",
+      "source": "support system",
+      "requiredProperties": [
+        "category",
+        "actor_type"
+      ],
+      "status": "future"
+    }
+  ]
+}

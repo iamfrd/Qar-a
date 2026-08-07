@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Persistent visual work orchestration for Qar\u011fa. The board is the operational source of truth for delegated work; completion contracts, performance ledgers, project memory, and repository evidence remain authoritative for their own domains.",
+  "board": {
+    "columns": [
+      "inbox",
+      "needs_decision",
+      "ready",
+      "in_progress",
+      "review",
+      "blocked",
+      "routine",
+      "done",
+      "archived"
+    ],
+    "defaultVisibleColumns": [
+      "inbox",
+      "needs_decision",
+      "ready",
+      "in_progress",
+      "review",
+      "blocked",
+      "routine",
+      "done"
+    ],
+    "doneIsDerived": true,
+    "manualDoneForbidden": true,
+    "archiveRequiresCoordinator": true
+  },
+  "roles": {
+    "projectOwner": "project-owner",
+    "boardOrchestrator": "qarga-coordinator",
+    "specialistsMaySelfAssign": false,
+    "specialistsMayMarkOwnWorkDone": false,
+    "reviewerMustDifferFromImplementer": true
+  },
+  "taskModel": {
+    "parentTaskMayHaveManyAgents": true,
+    "subtaskHasOnePrimaryAgent": true,
+    "subtaskMayHaveCollaborators": true,
+    "subtaskRequiresIndependentReviewer": true,
+    "subtaskRequiresCompletionContract": true,
+    "subtaskBasePoints": {
+      "min": 1,
+      "max": 10,
+      "integerOnly": true
+    },
+    "parentKpiMaxPoints": "sum of all subtask base points",
+    "parentEarnedPoints": "sum of accepted or partial subtask earned points",
+    "dependencyRule": "A subtask becomes ready only when every dependency is independently accepted as done and no owner-decision gate blocks it.",
+    "closureRule": "A parent task becomes done only when every subtask is independently accepted as done, no owner decision remains open, and no blocking review remains."
+  },
+  "subtaskStatuses": [
+    "waiting",
+    "ready",
+    "in_progress",
+    "review",
+    "rework",
+    "blocked",
+    "done"
+  ],
+  "taskTypes": [
+    "feature",
+    "bug",
+    "research",
+    "payment",
+    "security",
+    "operations",
+    "support",
+    "seo",
+    "analytics",
+    "experiment",
+    "technical_debt",
+    "release",
+    "routine",
+    "skill_evolution"
+  ],
+  "priorities": [
+    "low",
+    "medium",
+    "high",
+    "critical"
+  ],
+  "review": {
+    "reworkDoesNotCloseContract": true,
+    "acceptedClosesContract": true,
+    "partialClosesContractAndRequiresExplicitRemainingRisk": true,
+    "rejectedClosesContractAndEarnsZero": true,
+    "acceptedRequiresEvidenceForEveryRequirement": true,
+    "performanceEvaluationCreatedAfterContractClosure": true
+  },
+  "activity": {
+    "appendOnlyEventLog": true,
+    "eventLog": ".claude/work-os/events.jsonl",
+    "stateFile": ".claude/work-os/state.json",
+    "noSecrets": true,
+    "noPersonalData": true,
+    "storeEvidenceReferencesInsteadOfSensitivePayloads": true
+  },
+  "routineWork": {
+    "templatesFile": ".claude/work-os/routines.json",
+    "automaticMaterializationEnabled": false,
+    "requiresAutomationApprovalBeforeScheduling": true
+  },
+  "ui": {
+    "bindAddress": "127.0.0.1",
+    "defaultPort": 4177,
+    "remoteBindingForbiddenByDefault": true,
+    "boardIsInternalOnly": true
+  }
+}

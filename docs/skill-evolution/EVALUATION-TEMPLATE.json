@@ -1,0 +1,42 @@
+{
+  "evaluationId": "SKE-0001",
+  "candidateId": "SKC-0001",
+  "workTaskId": "QW-0000",
+  "evaluatedBy": "qarga-evaluation-engineer",
+  "candidateAuthor": "qarga-system-improver",
+  "suiteId": "backend-core-safety-v1",
+  "diagnosticCaseIds": [
+    "D1"
+  ],
+  "validationCaseIds": [
+    "V1",
+    "V2",
+    "V3"
+  ],
+  "holdoutCaseIds": [
+    "H1",
+    "H2",
+    "H3"
+  ],
+  "results": [
+    {
+      "caseId": "V1",
+      "set": "validation",
+      "category": "authorization",
+      "baselineScore": 70,
+      "candidateScore": 90,
+      "critical": true,
+      "baselineCriticalPass": true,
+      "candidateCriticalPass": true
+    }
+  ],
+  "cost": {
+    "baselineUsd": null,
+    "candidateUsd": null
+  },
+  "durationMs": {
+    "baseline": null,
+    "candidate": null
+  },
+  "notes": []
+}

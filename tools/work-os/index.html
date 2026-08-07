@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Qarğa Work OS</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">Qarğa Internal Operations</div>
+      <h1>Work OS</h1>
+    </div>
+    <div class="top-actions">
+      <button id="refreshBtn" class="secondary">Refresh</button>
+      <button id="newTaskBtn">New task</button>
+    </div>
+  </header>
+
+  <section id="summary" class="summary"></section>
+
+  <section class="filters">
+    <input id="searchInput" type="search" placeholder="Search tasks" />
+    <select id="agentFilter"><option value="">All agents</option></select>
+    <select id="priorityFilter"><option value="">All priorities</option><option>critical</option><option>high</option><option>medium</option><option>low</option></select>
+    <select id="typeFilter"><option value="">All types</option></select>
+  </section>
+
+  <main id="board" class="board" aria-live="polite"></main>
+
+  <dialog id="taskDialog" class="task-dialog">
+    <div class="dialog-grid">
+      <section id="taskDetail" class="detail-pane"></section>
+      <aside id="activityPane" class="activity-pane"></aside>
+    </div>
+    <button id="closeDialog" class="dialog-close" aria-label="Close">×</button>
+  </dialog>
+
+  <dialog id="createDialog" class="create-dialog">
+    <form id="createTaskForm" method="dialog">
+      <h2>Create task</h2>
+      <label>Title<input name="title" required maxlength="160" /></label>
+      <label>Description<textarea name="description" rows="5"></textarea></label>
+      <div class="form-row">
+        <label>Type<select name="type" id="createType"></select></label>
+        <label>Priority<select name="priority"><option>medium</option><option>high</option><option>critical</option><option>low</option></select></label>
+      </div>
+      <div class="form-row">
+        <label>Team<input name="team" placeholder="Engineering" /></label>
+        <label>Sprint<input name="sprint" placeholder="Current sprint" /></label>
+      </div>
+      <div class="dialog-actions">
+        <button type="button" class="secondary" id="cancelCreate">Cancel</button>
+        <button type="submit">Create</button>
+      </div>
+      <p class="form-help">Creating a parent task does not start agent work. The coordinator must decompose it into independently reviewable subtasks before delegation.</p>
+    </form>
+  </dialog>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

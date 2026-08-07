@@ -1,0 +1,17 @@
+# Reference only. Do not copy into .github/workflows until the project owner approves
+# API budget, GitHub write permissions, sandboxing, branch policy, and a pinned
+# official Claude/GitHub automation action.
+name: Qarga Ticket to Draft PR (disabled reference)
+
+on:
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Approved AI-ready issue number
+        required: true
+
+jobs:
+  policy-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Reference workflow only. Configure a pinned implementation before enabling."

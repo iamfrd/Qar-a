@@ -1,0 +1,29 @@
+{
+  "parentTask": {
+    "title": "Bug title",
+    "description": "Observed behavior, expected behavior, affected flow, and reproduction evidence.",
+    "type": "bug",
+    "priority": "high"
+  },
+  "suggestedSubtasks": [
+    {
+      "title": "Reproduce and isolate root cause",
+      "agent": "qarga-qa-auditor",
+      "reviewer": "qarga-coordinator",
+      "basePoints": 3
+    },
+    {
+      "title": "Regression test",
+      "agent": "qarga-test-automator",
+      "reviewer": "qarga-qa-auditor",
+      "basePoints": 3
+    },
+    {
+      "title": "Focused fix",
+      "agent": "qarga-backend-engineer",
+      "reviewer": "qarga-qa-auditor",
+      "basePoints": 4
+    }
+  ],
+  "note": "The coordinator selects frontend/backend/integration ownership from the verified root cause instead of blindly using this example."
+}

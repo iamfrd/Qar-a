@@ -1,0 +1,538 @@
+{
+  "generatedAt": "2026-08-07T14:17:28.346Z",
+  "agents": {
+    "qarga-coordinator": {
+      "department": "Leadership",
+      "role": "Technical-product orchestrator",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-product-manager": {
+      "department": "Product",
+      "role": "Product manager",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-revenue-strategist": {
+      "department": "Revenue",
+      "role": "Marketplace revenue strategist",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-architect": {
+      "department": "Engineering",
+      "role": "Software architect",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-frontend-engineer": {
+      "department": "Engineering",
+      "role": "Frontend engineer",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-backend-engineer": {
+      "department": "Engineering",
+      "role": "Backend engineer",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-integration-engineer": {
+      "department": "Engineering",
+      "role": "Frontend-backend integration engineer",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-test-automator": {
+      "department": "Quality",
+      "role": "Test automation engineer",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-qa-auditor": {
+      "department": "Quality",
+      "role": "QA and code-review auditor",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-ui-auditor": {
+      "department": "Design",
+      "role": "UI/UX auditor",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "security-auditor": {
+      "department": "Security",
+      "role": "Application security auditor",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-devops-engineer": {
+      "department": "Platform",
+      "role": "DevOps/platform engineer",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "payment-integration": {
+      "department": "Revenue",
+      "role": "Payment integration engineer",
+      "status": "conditional",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "legal-advisor": {
+      "department": "Legal",
+      "role": "Legal draft specialist",
+      "status": "conditional",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-system-researcher": {
+      "department": "Agent System",
+      "role": "Read-only system-evolution researcher",
+      "status": "core-system",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-system-improver": {
+      "department": "Agent System",
+      "role": "Controlled agent-system implementer",
+      "status": "core-system",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-system-reviewer": {
+      "department": "Agent System",
+      "role": "Independent agent-system reviewer",
+      "status": "core-system",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-customer-support-strategist": {
+      "department": "Operations",
+      "role": "Customer support strategy and operations specialist",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-skill-researcher": {
+      "department": "AI Operations",
+      "role": "Read-only skill and capability researcher",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    },
+    "qarga-evaluation-engineer": {
+      "department": "AI Operations",
+      "role": "Independent agent and skill evaluation engineer",
+      "status": "core",
+      "level": "unrated",
+      "tasksEvaluated": 0,
+      "totalEarnedPoints": 0,
+      "averageQuality": null,
+      "rollingQuality": null,
+      "recentImprovementAreas": [],
+      "lifecycle": {
+        "starts": 0,
+        "stops": 0,
+        "lastSeen": null
+      },
+      "recentTaskIds": [],
+      "workload": {
+        "ready": 0,
+        "inProgress": 0,
+        "inReview": 0,
+        "blocked": 0,
+        "waiting": 0,
+        "current": []
+      }
+    }
+  },
+  "recentLifecycle": [],
+  "workOs": {
+    "tasks": 0,
+    "active": 0,
+    "ownerDecisions": 0,
+    "done": 0
+  },
+  "taskSummary": {
+    "tracked": 0,
+    "blocked": 0,
+    "readyToClose": 0
+  },
+  "systemEvolution": {
+    "openResearch": 0,
+    "awaitingApproval": 0,
+    "awaitingReview": 0,
+    "pilots": 0
+  },
+  "skillEvolution": {
+    "active": 0,
+    "blocked": 0,
+    "proven": 0,
+    "rejected": 0,
+    "scorecards": {}
+  },
+  "projectMemory": {
+    "releaseBlockers": 0,
+    "learningCandidates": 0
+  },
+  "notes": [
+    "Do not compare unrelated roles by raw task count or points.",
+    "Insufficient sample size must remain unrated rather than inferred."
+  ]
+}

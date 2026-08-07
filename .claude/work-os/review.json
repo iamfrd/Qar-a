@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-08-07T18:57:37.848Z",
+  "status": "HEALTHY",
+  "validation": {
+    "errors": [],
+    "warnings": []
+  },
+  "summary": {
+    "updatedAt": "2026-08-07T18:57:37.843Z",
+    "taskCount": 0,
+    "byStatus": {
+      "inbox": 0,
+      "needs_decision": 0,
+      "ready": 0,
+      "in_progress": 0,
+      "review": 0,
+      "blocked": 0,
+      "routine": 0,
+      "done": 0,
+      "archived": 0
+    },
+    "ownerDecisions": [],
+    "activeSubtasks": 0,
+    "totalKpiMaxPoints": 0,
+    "totalKpiEarnedPoints": 0
+  },
+  "blocked": [],
+  "stale": [],
+  "reviewQueue": [],
+  "learningCandidates": [],
+  "note": "Learning candidates are evidence prompts only. They never authorize automatic prompt, skill, permission, hook, integration, or agent changes."
+}

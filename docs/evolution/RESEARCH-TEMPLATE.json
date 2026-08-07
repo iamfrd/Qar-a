@@ -1,0 +1,21 @@
+{
+  "eventId": "EVO-R-EVT-001",
+  "researchId": "EVO-R-001",
+  "researchedBy": "qarga-system-researcher",
+  "problem": "Evidence-backed problem statement",
+  "evidence": [
+    "task/performance/learning references"
+  ],
+  "rootCauseHypotheses": [
+    "hypothesis with confidence"
+  ],
+  "options": [
+    "documentation",
+    "skill",
+    "routing"
+  ],
+  "recommendation": "Smallest recommended change or NO CHANGE",
+  "rollback": "How a future change would be reversed",
+  "pilotPlan": "How improvement would be measured on relevant tasks",
+  "sensitiveDataIncluded": false
+}

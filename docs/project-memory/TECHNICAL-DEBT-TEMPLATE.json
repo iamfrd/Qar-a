@@ -1,0 +1,27 @@
+{
+  "eventId": "DEBT-EVT-YYYYMMDD-001",
+  "debtId": "DEBT-001",
+  "eventType": "created",
+  "status": "open",
+  "title": "Technical debt title",
+  "category": "testing",
+  "severity": "medium",
+  "impact": "Concrete current or future cost caused by the existing liability.",
+  "evidence": [
+    "File, diff, test, or issue reference."
+  ],
+  "affectedAreas": [
+    "backend"
+  ],
+  "rootCause": "Known cause or unknown.",
+  "remediation": "Smallest safe remediation direction.",
+  "ownerAgent": "qarga-backend-engineer",
+  "relatedTaskIds": [],
+  "reviewTrigger": {
+    "type": "milestone",
+    "value": "Review before payment milestone."
+  },
+  "resolutionEvidence": [],
+  "sensitiveDataIncluded": false,
+  "recordedBy": "qarga-coordinator"
+}

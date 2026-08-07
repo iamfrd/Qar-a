@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "scope": "project",
+  "purpose": "Convert repeated, evidence-backed Qarğa work patterns into controlled improvement proposals without autonomous mutation of permanent rules.",
+  "observationCategories": [
+    "success-pattern",
+    "defect-pattern",
+    "routing-error",
+    "handoff-gap",
+    "verification-gap",
+    "prompt-gap",
+    "skill-gap",
+    "tooling-gap",
+    "scope-gap",
+    "safety-signal"
+  ],
+  "evidenceTypes": [
+    "test-output",
+    "diff",
+    "review-finding",
+    "incident",
+    "task-evaluation",
+    "user-acceptance",
+    "repeated-handoff",
+    "measured-outcome"
+  ],
+  "minimumEvidenceItems": 1,
+  "repetitionThreshold": 2,
+  "validationWindowTasks": 3,
+  "confidenceLevels": {
+    "candidate": "One credible observation.",
+    "repeated": "At least two independent observations with a shared signal.",
+    "validated": "An approved improvement succeeded across at least three relevant tasks.",
+    "retired": "The learning was contradicted, obsolete, harmful, or superseded."
+  },
+  "allowedProposalTypes": [
+    "documentation",
+    "checklist",
+    "skill",
+    "agent-prompt",
+    "command",
+    "hook",
+    "integration",
+    "workflow-routing",
+    "new-agent",
+    "retire-rule"
+  ],
+  "automaticActions": [
+    "validate an observation record",
+    "append an observation to the project ledger",
+    "aggregate recurring signals into a review report"
+  ],
+  "forbiddenAutomaticActions": [
+    "edit agent prompts",
+    "edit CLAUDE.md",
+    "change permissions or hooks",
+    "install plugins or dependencies",
+    "create or retire agents",
+    "change scorecards",
+    "merge or deploy",
+    "promote a proposal into a permanent rule"
+  ],
+  "approvalRules": {
+    "documentation": "Coordinator approval; project-owner approval when the document changes a product or operating decision.",
+    "checklist": "Coordinator approval and review by the affected role.",
+    "skill": "Coordinator approval, independent QA review, and project-owner approval before permanent registration.",
+    "agent-prompt": "Coordinator proposal, independent QA review, and project-owner approval.",
+    "command": "Coordinator proposal and QA review; project-owner approval when it changes decision or permission boundaries.",
+    "hook": "Security review and explicit project-owner approval.",
+    "integration": "Security review, cost/permission analysis, and explicit project-owner approval.",
+    "workflow-routing": "Coordinator proposal, QA review, and project-owner approval.",
+    "new-agent": "Follow the owner-approved hiring workflow.",
+    "retire-rule": "Coordinator proposal and project-owner approval."
+  },
+  "privacyRules": [
+    "Do not store secrets, credentials, tokens, personal data, or raw private conversations.",
+    "Do not store unsupported market figures or claims as learned facts.",
+    "Project-specific learning remains in the Qarğa repository.",
+    "Repository code, CLAUDE.md, official documentation, and approved decisions outrank learning records."
+  ]
+}

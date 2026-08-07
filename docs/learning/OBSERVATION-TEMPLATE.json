@@ -1,0 +1,18 @@
+{
+  "observationId": "OBS-TASK-001-01",
+  "taskId": "TASK-001",
+  "recordedBy": "qarga-coordinator",
+  "agent": "qarga-backend-engineer",
+  "category": "verification-gap",
+  "capability": "authorization-testing",
+  "summary": "Describe one evidence-backed success or failure pattern.",
+  "evidence": [
+    {
+      "type": "test-output",
+      "reference": "npm test: exact failing or passing test name"
+    }
+  ],
+  "impact": "Describe the user, business, quality, cost, or safety impact.",
+  "suggestedAction": "Optional smallest reversible improvement to investigate.",
+  "sensitiveDataIncluded": false
+}

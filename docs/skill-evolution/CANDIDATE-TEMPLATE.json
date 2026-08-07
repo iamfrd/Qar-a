@@ -1,0 +1,14 @@
+{
+  "candidateId": "SKC-0001",
+  "researchId": "SKR-0001",
+  "workTaskId": "QW-0000",
+  "targetType": "skill",
+  "targetName": "qarga-example",
+  "action": "edit",
+  "authoredBy": "qarga-system-improver",
+  "baselineVersion": "",
+  "candidateVersion": "",
+  "filesChanged": [],
+  "status": "CANDIDATE",
+  "rollback": ""
+}

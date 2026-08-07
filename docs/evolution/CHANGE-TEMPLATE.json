@@ -1,0 +1,11 @@
+{
+  "eventId": "EVO-C-EVT-001",
+  "changeId": "EVO-C-001",
+  "proposalId": "EVO-P-001",
+  "implementedBy": "qarga-system-improver",
+  "filesChanged": [
+    ".claude/skills/example/SKILL.md"
+  ],
+  "rollback": "Exact rollback procedure",
+  "sensitiveDataIncluded": false
+}

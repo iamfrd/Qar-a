@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Evidence-first completion contracts and anti-spin control for delegated Qarğa tasks.",
+  "contractRequiredForDelegatedTasks": true,
+  "basePoints": {
+    "min": 1,
+    "max": 10
+  },
+  "lanes": {
+    "fast": {
+      "points": [
+        1,
+        3
+      ],
+      "minimumRequirements": 1,
+      "testPolicy": "Run the smallest relevant verification; behavior-changing code still needs a test when practical."
+    },
+    "standard": {
+      "points": [
+        4,
+        6
+      ],
+      "minimumRequirements": 2,
+      "testPolicy": "Behavior-changing code requires tests and independent review."
+    },
+    "critical": {
+      "points": [
+        7,
+        10
+      ],
+      "minimumRequirements": 3,
+      "testPolicy": "Test-first is mandatory for executable behavior; all relevant specialist reviews and human gates apply."
+    }
+  },
+  "antiSpin": {
+    "maxMaterialIterations": 5,
+    "maxReviewRounds": 3,
+    "consecutiveNoProgressLimit": 2,
+    "sameApproachWithoutNewEvidenceLimit": 2,
+    "detectFlipFlop": true,
+    "contractWeakeningForbidden": true,
+    "scopeExpansionRequiresApproval": true
+  },
+  "closure": {
+    "acceptedRequiresAllRequirementsVerified": true,
+    "acceptedRequiresIndependentReviewer": true,
+    "acceptedForbiddenWhenAntiSpinBlocked": true,
+    "partialRequiresExplicitRemainingRisk": true,
+    "rejectedMayEarnPoints": false
+  },
+  "privacy": {
+    "noSecrets": true,
+    "noPersonalData": true,
+    "evidenceReferencesPreferredOverRawSensitiveContent": true
+  }
+}

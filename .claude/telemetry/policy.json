@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Privacy-minimized operational telemetry for Qarğa agent routing and audit.",
+  "allowedFields": [
+    "event",
+    "timestamp",
+    "sessionId",
+    "agentId",
+    "agentName",
+    "agentType",
+    "source"
+  ],
+  "forbiddenFields": [
+    "prompt",
+    "toolInput",
+    "toolOutput",
+    "userContent",
+    "secrets",
+    "personalData",
+    "environmentValues"
+  ],
+  "retention": "Keep only as long as useful for agent operations; archive or delete old local telemetry manually when no longer needed.",
+  "qualityRule": "Telemetry may explain invocation patterns but never substitutes for task evidence or reviewer quality scores."
+}

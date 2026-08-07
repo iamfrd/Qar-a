@@ -1,0 +1,30 @@
+{
+  "eventId": "EXP-EVT-YYYYMMDD-001",
+  "experimentId": "EXP-001",
+  "eventType": "created",
+  "status": "draft",
+  "title": "Experiment title",
+  "hypothesis": "If we change X for audience Y, metric Z will change because ...",
+  "primaryMetric": "Metric name",
+  "metricSource": "Analytics event, report, or explicit data source.",
+  "guardrailMetrics": [],
+  "baseline": {
+    "value": null,
+    "source": "unknown"
+  },
+  "audience": "Bounded audience or environment.",
+  "stopRule": "Date, sample threshold, safety threshold, or other stop condition.",
+  "decisionRule": "What measured result leads to keep, iterate, stop, or inconclusive.",
+  "ownerAgent": "qarga-product-manager",
+  "risks": [],
+  "relatedDecisionIds": [],
+  "approvedBy": null,
+  "reviewTrigger": {
+    "type": "milestone",
+    "value": "Review when the experiment reaches its stop rule."
+  },
+  "evidence": [],
+  "conclusion": null,
+  "sensitiveDataIncluded": false,
+  "recordedBy": "qarga-coordinator"
+}

@@ -1,0 +1,36 @@
+{
+  "parentTask": {
+    "title": "Feature title",
+    "description": "User/problem outcome, not implementation detail.",
+    "type": "feature",
+    "priority": "medium",
+    "team": "Product + Engineering"
+  },
+  "suggestedSubtasks": [
+    {
+      "title": "Product requirements",
+      "agent": "qarga-product-manager",
+      "reviewer": "qarga-coordinator",
+      "basePoints": 3
+    },
+    {
+      "title": "Architecture / API contract",
+      "agent": "qarga-architect",
+      "reviewer": "qarga-qa-auditor",
+      "basePoints": 4
+    },
+    {
+      "title": "Implementation",
+      "agent": "qarga-backend-engineer",
+      "reviewer": "qarga-qa-auditor",
+      "basePoints": 5
+    },
+    {
+      "title": "Regression verification",
+      "agent": "qarga-test-automator",
+      "reviewer": "qarga-qa-auditor",
+      "basePoints": 4
+    }
+  ],
+  "note": "This is a planning template. The coordinator must adapt ownership, points, dependencies, and acceptance criteria to the actual repository evidence."
+}

@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "status": "ready-to-enable; Playwright dependency is not silently installed",
+  "requiredCoreFlows": [
+    "student discovery to registration success",
+    "provider course create/edit workflow",
+    "admin/provider approval workflow when implemented",
+    "payment success/failure/refund when online payment is approved"
+  ],
+  "rules": [
+    "Use stable roles/labels/test IDs rather than brittle CSS selectors.",
+    "Keep tests deterministic and isolated.",
+    "Do not call external production services.",
+    "Critical flow failures block release once the suite is enabled."
+  ]
+}

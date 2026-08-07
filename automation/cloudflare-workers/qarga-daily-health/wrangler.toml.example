@@ -1,0 +1,10 @@
+name = "qarga-daily-health"
+main = "index.js"
+compatibility_date = "2026-08-01"
+
+[triggers]
+crons = ["15 4 * * *"]
+
+# Configure secrets/vars outside git:
+# QARGA_HEALTH_URLS=https://example.com/health,https://api.example.com/health
+# REPORT_WEBHOOK_URL=...

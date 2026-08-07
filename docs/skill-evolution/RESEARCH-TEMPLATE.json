@@ -1,0 +1,21 @@
+{
+  "researchId": "SKR-0001",
+  "workTaskId": "QW-0000",
+  "researchedBy": "qarga-skill-researcher",
+  "targetAgent": "qarga-backend-engineer",
+  "signals": [],
+  "failurePattern": "",
+  "existingSkillsInspected": [],
+  "previousAttemptsInspected": [],
+  "rootCauseHypotheses": [],
+  "options": [],
+  "recommendedAction": "EDIT_EXISTING_SKILL",
+  "targetSkill": null,
+  "proposedCapability": "",
+  "nonGoals": [],
+  "benchmarkCategories": [],
+  "regressionRisks": [],
+  "validationPlan": "",
+  "rollback": "",
+  "ownerApprovalRequired": false
+}

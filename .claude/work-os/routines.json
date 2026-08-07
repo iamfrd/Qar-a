@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "enabled": false,
+  "note": "Routine templates are planning records only until the project owner explicitly approves recurring automation.",
+  "templates": [
+    {
+      "id": "ROUTINE-DAILY-SYSTEM-HEALTH",
+      "title": "Daily system health review",
+      "cadence": "daily",
+      "taskType": "routine",
+      "priority": "medium",
+      "suggestedAgent": "qarga-devops-engineer",
+      "suggestedReviewer": "qarga-coordinator",
+      "basePoints": 2,
+      "checks": [
+        "CI status",
+        "critical production errors when observability is configured",
+        "failed payment/notification signals when those systems exist",
+        "agent-system health"
+      ]
+    },
+    {
+      "id": "ROUTINE-WEEKLY-OPERATIONS-REVIEW",
+      "title": "Weekly operations and learning review",
+      "cadence": "weekly",
+      "taskType": "routine",
+      "priority": "medium",
+      "suggestedAgent": "qarga-coordinator",
+      "suggestedReviewer": "project-owner",
+      "basePoints": 3,
+      "checks": [
+        "blocked work",
+        "owner decisions",
+        "technical debt",
+        "agent performance trends",
+        "learning and system-evolution signals",
+        "business KPI review when analytics is configured"
+      ]
+    }
+  ]
+}

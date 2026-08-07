@@ -1,0 +1,30 @@
+{
+  "eventId": "TASK-123-CREATE-001",
+  "taskId": "TASK-123",
+  "eventType": "created",
+  "title": "Describe the deliverable",
+  "lane": "standard",
+  "basePoints": 5,
+  "ownerAgent": "qarga-backend-engineer",
+  "reviewerAgent": "qarga-qa-auditor",
+  "allowedFiles": [
+    "server/**"
+  ],
+  "forbiddenFiles": [
+    ".env*"
+  ],
+  "approvalGates": [],
+  "requirements": [
+    {
+      "id": "REQ-1",
+      "text": "Observable requirement",
+      "evidence": "Passing focused test and diff reference"
+    },
+    {
+      "id": "REQ-2",
+      "text": "Regression requirement",
+      "evidence": "Relevant regression command output"
+    }
+  ],
+  "sensitiveDataIncluded": false
+}

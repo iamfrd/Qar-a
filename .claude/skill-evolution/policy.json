@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "systemName": "Qarğa Evidence-Based Skill Evolution",
+  "purpose": "Improve agent capabilities only when reusable changes outperform their baseline without critical regressions or hidden-test leakage.",
+  "roles": {
+    "researcher": "qarga-skill-researcher",
+    "candidateAuthor": "qarga-system-improver",
+    "evaluator": "qarga-evaluation-engineer",
+    "systemReviewer": "qarga-system-reviewer",
+    "owner": "project-owner"
+  },
+  "lifecycle": [
+    "PROPOSED",
+    "RESEARCHED",
+    "CANDIDATE",
+    "BENCHMARKING",
+    "PILOT",
+    "PROVEN",
+    "REJECTED",
+    "DEPRECATED",
+    "REPLACED"
+  ],
+  "interventionOrder": [
+    "NO_CHANGE",
+    "DOCUMENT_OR_CHECKLIST",
+    "EDIT_EXISTING_SKILL",
+    "CREATE_SKILL",
+    "EDIT_AGENT_PROMPT",
+    "ADD_DETERMINISTIC_SCRIPT_OR_TOOL",
+    "ROUTING_OR_REVIEW_CHANGE",
+    "NEW_AGENT"
+  ],
+  "research": {
+    "normalMinimumIndependentSignals": 2,
+    "criticalSingleSignalAllowed": true,
+    "existingSkillInventoryRequired": true,
+    "failedHistoryReviewRequired": true,
+    "minimumOptions": 2,
+    "generalizationQuestion": "Would this remain useful across at least ten materially different tasks in the same capability family?"
+  },
+  "benchmark": {
+    "sets": [
+      "diagnostic",
+      "validation",
+      "holdout"
+    ],
+    "setsMustBeDisjoint": true,
+    "holdoutExpectedAnswersHiddenFromCandidateAuthor": true,
+    "minimumValidationCases": 3,
+    "minimumHoldoutCases": 3,
+    "sameEvaluationConditionsPreferred": true,
+    "criticalCaseFailureBlocksAdvance": true,
+    "minimumValidationDeltaPoints": 3,
+    "minimumHoldoutDeltaPoints": 1,
+    "maximumProtectedCategoryRegressionPoints": 5,
+    "candidateAuthorMayEvaluate": false,
+    "evaluatorMayAuthorCandidate": false
+  },
+  "pilot": {
+    "minimumRelevantRealTasks": 3,
+    "independentReviewRequired": true,
+    "ownerApprovalRequiredForPermanentPromotion": true
+  },
+  "feedback": {
+    "preserveRejectedAttempts": true,
+    "retryRejectedIdeaRequiresNewEvidence": true,
+    "maximumMaterialCandidateIterationsWithoutImprovement": 5
+  },
+  "scorecards": {
+    "trackUsageCount": true,
+    "trackBaselineAndCandidate": true,
+    "trackHoldout": true,
+    "trackRealTaskPilot": true,
+    "trackRegression": true,
+    "trackCostDurationWhenAvailable": true
+  },
+  "guardrails": [
+    "No hidden benchmark answers inside candidate skills or prompts",
+    "No benchmark case deletion merely because a candidate failed",
+    "No promotion from aggregate score when a critical capability regresses",
+    "No global optimization for token cost at the expense of correctness or safety",
+    "No direct mutation of active PROVEN skill without a new candidate lifecycle",
+    "No automatic permanent promotion",
+    "No skill duplication when an existing skill owns the capability"
+  ]
+}

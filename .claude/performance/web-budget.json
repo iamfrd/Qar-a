@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "status": "baseline-needed",
+  "source": "Vite build output and future real-user/browser measurements",
+  "budgets": {
+    "totalJavaScriptBytes": null,
+    "largestJavaScriptChunkBytes": null,
+    "lcpMs": null,
+    "inpMs": null,
+    "cls": null
+  },
+  "policy": "Null thresholds are reported as NOT_CONFIGURED and never treated as pass/fail gates. Set only from measured baseline and approved target."
+}

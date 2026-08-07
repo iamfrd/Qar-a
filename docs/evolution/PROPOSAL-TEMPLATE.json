@@ -1,0 +1,18 @@
+{
+  "eventId": "EVO-P-EVT-001",
+  "proposalId": "EVO-P-001",
+  "researchId": "EVO-R-001",
+  "targetType": "skill",
+  "changeSummary": "Exact proposed persistent change",
+  "status": "draft",
+  "approvedBy": null,
+  "validationPlan": [
+    "validate:claude",
+    "test:claude-system",
+    "security:claude",
+    "system health",
+    "fresh-context evals",
+    "three relevant pilot tasks"
+  ],
+  "sensitiveDataIncluded": false
+}

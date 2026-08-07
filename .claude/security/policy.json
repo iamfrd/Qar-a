@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "protectedFiles": [
+    ".env",
+    ".env.*",
+    "server/.env",
+    "server/.env.*",
+    "secrets/**",
+    "**/*.pem",
+    "**/*.key",
+    "config/credentials.json"
+  ],
+  "protectedBranches": [
+    "main"
+  ],
+  "commitSecretScan": true,
+  "agentConfigScan": true,
+  "externalScannerPolicy": "Optional external scanners require project-owner approval and a pinned version/commit before CI adoption.",
+  "neverPrintDetectedSecretValue": true,
+  "productionWritesRequireApproval": true
+}
