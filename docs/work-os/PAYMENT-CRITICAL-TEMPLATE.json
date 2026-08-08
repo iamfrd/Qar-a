@@ -1,0 +1,53 @@
+{
+  "parentTask": {
+    "title": "Payment-critical change",
+    "description": "Business objective and approved money-flow context.",
+    "type": "payment",
+    "priority": "critical",
+    "team": "Revenue + Product + Engineering + Risk"
+  },
+  "requiredGates": [
+    "Project owner approves material revenue/payment decision",
+    "Legal implications are reviewed when binding terms change",
+    "Security review passes",
+    "Rollback and reconciliation are defined"
+  ],
+  "suggestedSubtasks": [
+    {
+      "title": "Revenue model / value-event analysis",
+      "agent": "qarga-revenue-strategist",
+      "reviewer": "qarga-coordinator",
+      "basePoints": 5
+    },
+    {
+      "title": "Product and support requirements",
+      "agent": "qarga-product-manager",
+      "reviewer": "qarga-customer-support-strategist",
+      "basePoints": 4
+    },
+    {
+      "title": "Payment architecture",
+      "agent": "payment-integration",
+      "reviewer": "security-auditor",
+      "basePoints": 8
+    },
+    {
+      "title": "Backend implementation",
+      "agent": "qarga-backend-engineer",
+      "reviewer": "qarga-qa-auditor",
+      "basePoints": 8
+    },
+    {
+      "title": "Security review",
+      "agent": "security-auditor",
+      "reviewer": "qarga-coordinator",
+      "basePoints": 6
+    },
+    {
+      "title": "Final QA and release evidence",
+      "agent": "qarga-qa-auditor",
+      "reviewer": "qarga-coordinator",
+      "basePoints": 5
+    }
+  ]
+}

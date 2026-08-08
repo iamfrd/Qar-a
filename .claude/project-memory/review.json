@@ -1,0 +1,32 @@
+{
+  "generatedAt": null,
+  "decisions": {
+    "totalEntities": 0,
+    "approved": [],
+    "reviewDue": [],
+    "superseded": [],
+    "manualReviewTriggers": []
+  },
+  "technicalDebt": {
+    "totalEntities": 0,
+    "openCritical": [],
+    "openHigh": [],
+    "reviewDue": [],
+    "resolved": [],
+    "manualReviewTriggers": []
+  },
+  "experiments": {
+    "totalEntities": 0,
+    "draft": [],
+    "approved": [],
+    "running": [],
+    "reviewDue": [],
+    "completed": [],
+    "manualReviewTriggers": []
+  },
+  "crossSignals": {
+    "learningCandidates": [],
+    "teamReviewCandidates": [],
+    "releaseBlockers": []
+  }
+}

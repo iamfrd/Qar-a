@@ -1,0 +1,13 @@
+{
+  "eventId": "EVO-V-EVT-001",
+  "reviewId": "EVO-V-001",
+  "changeId": "EVO-C-001",
+  "reviewedBy": "qarga-system-reviewer",
+  "verdict": "APPROVE_FOR_PILOT",
+  "evidence": [
+    "validator result",
+    "security scan result",
+    "fresh-context eval result"
+  ],
+  "sensitiveDataIncluded": false
+}

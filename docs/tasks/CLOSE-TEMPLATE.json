@@ -1,0 +1,8 @@
+{
+  "eventId": "TASK-123-CLOSE-001",
+  "taskId": "TASK-123",
+  "eventType": "closed",
+  "status": "accepted",
+  "closedBy": "qarga-qa-auditor",
+  "sensitiveDataIncluded": false
+}

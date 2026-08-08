@@ -1,0 +1,14 @@
+{
+  "eventId": "TASK-123-PROGRESS-001",
+  "taskId": "TASK-123",
+  "agent": "qarga-backend-engineer",
+  "iteration": 1,
+  "approachKey": "transactional-ownership-check",
+  "summary": "What changed and what was learned.",
+  "measurableProgress": true,
+  "evidence": [
+    "focused test moved from failing to passing"
+  ],
+  "blockers": [],
+  "sensitiveDataIncluded": false
+}

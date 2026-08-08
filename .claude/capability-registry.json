@@ -1,0 +1,1464 @@
+{
+  "schemaVersion": 9,
+  "project": "Qarğa",
+  "defaultAgent": "qarga-coordinator",
+  "ownerRole": "project-owner",
+  "strategicPriorities": [
+    {
+      "order": 1,
+      "area": "revenue-and-payments",
+      "goal": "Design and validate a sustainable provider/course-transaction revenue model. Do not enable live online payments before product, legal, support and technical gates pass."
+    },
+    {
+      "order": 2,
+      "area": "technical-completion",
+      "goal": "Complete the real-backend migration and deterministic verification required to support the approved revenue and payment model safely."
+    },
+    {
+      "order": 3,
+      "area": "customer-support",
+      "goal": "Design student and provider support operations, especially registration, payment, refund and dispute escalation, before scale."
+    },
+    {
+      "order": 4,
+      "area": "go-to-market-readiness",
+      "goal": "Prepare strategy and product prerequisites; do not run campaigns or spend budget until readiness gates are met."
+    }
+  ],
+  "governance": {
+    "challengeMode": "balanced",
+    "challengeScope": [
+      "product",
+      "marketing",
+      "cost",
+      "scope",
+      "technical",
+      "financial",
+      "legal",
+      "security"
+    ],
+    "newAgentPolicy": "Coordinator may propose a role. It may create and register the agent only after explicit project-owner approval.",
+    "teamReviewTriggers": [
+      "after a major milestone is completed",
+      "when the same capability gap appears in at least two separate tasks or handoffs",
+      "when an existing agent repeatedly operates outside its declared scope",
+      "before entering payment, launch, or scaled support phases"
+    ],
+    "sourcePolicy": "Use AITMPL as a base candidate, verify behaviour against current official Claude Code documentation, then rewrite for Qarğa's actual stack and business model.",
+    "marketingPolicy": "Strategy and readiness planning only until the project owner separately approves execution, publishing, ad spend, or external account access.",
+    "performancePolicy": "Evidence-based, non-zero-sum scorecards. Base points are assigned before execution; agents cannot self-score; proposals earn no points until approved and delivered.",
+    "performanceReviewTriggers": [
+      "after every delegated deliverable that has acceptance criteria and evidence",
+      "at the end of a major milestone",
+      "when rolling quality drops below 70 after at least three tasks",
+      "when the same defect category appears twice"
+    ],
+    "workflowRouting": {
+      "fastLane": "Normally 1-3 points and low risk: focused change, targeted check, diff review.",
+      "standardLane": "Normally 4-6 points or moderate risk: repository research, task contract, test-first work where practical, independent QA review, verification loop.",
+      "criticalLane": "Normally 7-10 points or any payment/auth/PII/legal/migration/production risk: owner gates, architecture and rollback, specialist reviews, full verification and milestone learning review."
+    },
+    "learningPolicy": "Evidence-backed observations may become improvement proposals. No prompt, skill, hook, permission, plugin, agent, or permanent rule changes without coordinator review and the approvals defined in CLAUDE.md.",
+    "learningReviewTriggers": [
+      "after a major milestone",
+      "when the same defect or workflow failure appears twice",
+      "when a task-local workflow is successfully reused",
+      "when an agent enters a three-task improvement cycle",
+      "before payment, launch, or scaled-support stages"
+    ],
+    "projectMemoryPolicy": "Approved decisions, concrete technical debt, and measurable experiments are stored in append-only project-memory registries. Records never override current repository evidence or newer explicit owner decisions.",
+    "projectMemoryReviewTriggers": [
+      "at the start of every substantial coordinator session",
+      "before material product, revenue, payment, architecture, legal, security, or launch decisions",
+      "after a major milestone",
+      "before release readiness",
+      "when repeated performance or learning signals may be explained by project history"
+    ],
+    "systemEvolutionPolicy": "Persistent agent-system changes follow research → owner-approved proposal → qarga-system-improver → qarga-system-reviewer → pilot → KEEP/REVISE/REVERT. No silent self-modification.",
+    "taskContractPolicy": "Every delegated task uses a completion contract; accepted closure requires verified evidence and must not be anti-spin blocked.",
+    "telemetryPolicy": "Lifecycle telemetry is metadata-only and cannot contain prompts, secrets, personal data, or tool payloads.",
+    "automationPolicy": "Recurring 7/24 workers are disabled until project-owner approval, budget, permissions, secret management, kill switch, and no-auto-merge/deploy rules are configured.",
+    "workOsPolicy": "Delegated and multi-step work is represented in Qarğa Work OS as persistent parent tasks and independently reviewable subtasks. The coordinator owns decomposition and assignment; specialists cannot self-assign, self-score, or mark their own work done. Dependencies, owner-decision gates, completion contracts, independent review, performance scoring, and activity history must stay linked.",
+    "workOsReviewTriggers": [
+      "at the start of every substantial coordinator session",
+      "before delegating a multi-step or multi-agent deliverable",
+      "when an owner decision, blocker, or dependency changes",
+      "after independent review closes a subtask",
+      "at milestone and release-readiness review"
+    ],
+    "skillEvolutionPolicy": "Repeated Work OS/performance evidence may trigger read-only skill research. Skill/prompt candidates require existing-skill inventory, failed-attempt review, anti-overfitting analysis, independent baseline-vs-candidate validation and hidden holdout, critical regression gates, and a minimum three-real-task pilot before permanent promotion.",
+    "skillEvolutionTriggers": [
+      "same capability defect appears in at least two independent real-work signals",
+      "an agent enters an improvement cycle and a reusable capability gap is suspected",
+      "a reusable successful pattern has evidence across multiple tasks",
+      "a system change proposes a new or materially edited skill or agent prompt"
+    ]
+  },
+  "agents": [
+    {
+      "name": "qarga-coordinator",
+      "department": "Leadership",
+      "role": "Technical-product orchestrator",
+      "status": "core",
+      "capabilities": [
+        "intent clarification",
+        "delegation",
+        "strategic challenge",
+        "decision framing",
+        "team design",
+        "synthesis",
+        "workflow-lane selection",
+        "independent quality gating",
+        "controlled learning",
+        "evidence-based system evolution",
+        "decision-registry governance",
+        "technical-debt governance",
+        "experiment governance",
+        "durable project-memory review",
+        "persistent Work OS orchestration",
+        "dependency-aware task routing",
+        "owner-decision queue management",
+        "skill-evolution governance",
+        "capability benchmark routing",
+        "hidden-holdout protection",
+        "skill performance governance"
+      ],
+      "invokeWhen": [
+        "default session",
+        "multi-domain work",
+        "business or technical decision"
+      ],
+      "avoidWhen": [
+        "none; route specialist execution rather than doing it all directly"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-executive-advisory",
+        "qarga-organizational-planning",
+        "qarga-performance-governance",
+        "qarga-workflow-routing",
+        "qarga-repository-research",
+        "qarga-verification-loop",
+        "qarga-independent-review",
+        "qarga-controlled-learning",
+        "qarga-system-evaluation",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-devils-advocate",
+        "qarga-human-approval-gates",
+        "qarga-system-evolution",
+        "qarga-agent-telemetry",
+        "qarga-system-health",
+        "qarga-secret-safety",
+        "qarga-product-analytics",
+        "qarga-production-observability",
+        "qarga-ticket-to-draft-pr",
+        "qarga-sandbox-autonomy",
+        "qarga-integration-governance",
+        "qarga-context-budgeting",
+        "qarga-web-performance-budget",
+        "qarga-seo-workspace",
+        "qarga-work-os",
+        "qarga-skill-evolution-governance",
+        "qarga-capability-benchmarking",
+        "qarga-anti-overfitting"
+      ],
+      "reportsTo": "project-owner",
+      "reviewedBy": "project-owner"
+    },
+    {
+      "name": "qarga-product-manager",
+      "department": "Product",
+      "role": "Product manager",
+      "status": "core",
+      "capabilities": [
+        "PRD",
+        "MVP scope",
+        "user journeys",
+        "acceptance criteria",
+        "prioritization",
+        "funnel design",
+        "business-model requirements"
+      ],
+      "invokeWhen": [
+        "new feature",
+        "roadmap",
+        "value proposition",
+        "monetization or support requirements"
+      ],
+      "avoidWhen": [
+        "writing production code",
+        "selecting architecture alone"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-agent-handoff",
+        "qarga-executive-advisory",
+        "qarga-marketplace-monetization",
+        "qarga-support-operating-model",
+        "qarga-go-to-market-readiness",
+        "qarga-repository-research",
+        "qarga-workflow-routing",
+        "qarga-independent-review",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-devils-advocate",
+        "qarga-human-approval-gates",
+        "qarga-product-analytics",
+        "qarga-seo-workspace",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "project-owner"
+    },
+    {
+      "name": "qarga-revenue-strategist",
+      "department": "Revenue",
+      "role": "Marketplace revenue strategist",
+      "status": "core",
+      "capabilities": [
+        "marketplace monetization strategy",
+        "value-event definition",
+        "commission and package option design",
+        "provider incentive analysis",
+        "unit-economics assumption ledger",
+        "manual pilot design",
+        "revenue KPI and experiment planning"
+      ],
+      "invokeWhen": [
+        "commission, fee or subscription strategy",
+        "provider monetization package",
+        "payment business model and settlement options",
+        "revenue pilot or unit-economics decision"
+      ],
+      "avoidWhen": [
+        "writing payment gateway code",
+        "approving final rates or legal terms",
+        "making claims without measured inputs"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-agent-handoff",
+        "qarga-executive-advisory",
+        "qarga-marketplace-monetization",
+        "qarga-go-to-market-readiness",
+        "qarga-support-operating-model",
+        "qarga-repository-research",
+        "qarga-workflow-routing",
+        "qarga-independent-review",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-devils-advocate",
+        "qarga-human-approval-gates",
+        "qarga-product-analytics",
+        "qarga-seo-workspace",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "project-owner,qarga-product-manager,payment-integration,legal-advisor"
+    },
+    {
+      "name": "qarga-architect",
+      "department": "Engineering",
+      "role": "Software architect",
+      "status": "core",
+      "capabilities": [
+        "architecture",
+        "data flow",
+        "ADR",
+        "module boundaries",
+        "migration strategy"
+      ],
+      "invokeWhen": [
+        "cross-module change",
+        "schema or platform decision"
+      ],
+      "avoidWhen": [
+        "routine one-file implementation"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-api-contract-design",
+        "qarga-independent-review",
+        "qarga-verification-loop",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-devils-advocate",
+        "qarga-integration-governance",
+        "qarga-context-budgeting",
+        "qarga-web-performance-budget",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-qa-auditor"
+    },
+    {
+      "name": "qarga-frontend-engineer",
+      "department": "Engineering",
+      "role": "Frontend engineer",
+      "status": "core",
+      "capabilities": [
+        "React",
+        "TypeScript",
+        "Zustand UI state",
+        "Tailwind",
+        "accessibility",
+        "responsive UI"
+      ],
+      "invokeWhen": [
+        "new screen",
+        "frontend behaviour",
+        "client integration"
+      ],
+      "avoidWhen": [
+        "server authority rules",
+        "final UX audit"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-test-first-development",
+        "qarga-verification-loop",
+        "qarga-e2e-testing",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-accessibility-audit",
+        "qarga-product-analytics",
+        "qarga-web-performance-budget",
+        "qarga-context-budgeting",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-qa-auditor,qarga-ui-auditor"
+    },
+    {
+      "name": "qarga-backend-engineer",
+      "department": "Engineering",
+      "role": "Backend engineer",
+      "status": "core",
+      "capabilities": [
+        "Node HTTP API",
+        "SQLite",
+        "SQL",
+        "transactions",
+        "auth and permissions",
+        "audit logs"
+      ],
+      "invokeWhen": [
+        "API",
+        "database",
+        "server invariant"
+      ],
+      "avoidWhen": [
+        "visual design",
+        "pricing policy decisions"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-test-first-development",
+        "qarga-api-contract-design",
+        "qarga-verification-loop",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-secret-safety",
+        "qarga-production-observability",
+        "qarga-load-testing",
+        "qarga-context-budgeting",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-qa-auditor,security-auditor"
+    },
+    {
+      "name": "qarga-integration-engineer",
+      "department": "Engineering",
+      "role": "Frontend-backend integration engineer",
+      "status": "core",
+      "capabilities": [
+        "mock-to-API migration",
+        "typed API adapters",
+        "loading/error states",
+        "server-truth integration"
+      ],
+      "invokeWhen": [
+        "existing UI must connect to existing backend"
+      ],
+      "avoidWhen": [
+        "greenfield architecture",
+        "pure redesign"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-test-first-development",
+        "qarga-api-contract-design",
+        "qarga-verification-loop",
+        "qarga-e2e-testing",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-product-analytics",
+        "qarga-accessibility-audit",
+        "qarga-integration-governance",
+        "qarga-context-budgeting",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-qa-auditor,qarga-ui-auditor"
+    },
+    {
+      "name": "qarga-test-automator",
+      "department": "Quality",
+      "role": "Test automation engineer",
+      "status": "core",
+      "capabilities": [
+        "integration tests",
+        "deterministic fixtures",
+        "concurrency tests",
+        "idempotency tests",
+        "future E2E planning"
+      ],
+      "invokeWhen": [
+        "feature or bug changes behaviour",
+        "regression gap"
+      ],
+      "avoidWhen": [
+        "approving its own implementation"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-test-first-development",
+        "qarga-verification-loop",
+        "qarga-independent-review",
+        "qarga-e2e-testing",
+        "qarga-api-contract-design",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-accessibility-audit",
+        "qarga-load-testing",
+        "qarga-context-budgeting",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-qa-auditor"
+    },
+    {
+      "name": "qarga-qa-auditor",
+      "department": "Quality",
+      "role": "QA and code-review auditor",
+      "status": "core",
+      "capabilities": [
+        "code review",
+        "regression analysis",
+        "verification gate",
+        "severity findings"
+      ],
+      "invokeWhen": [
+        "before milestone done",
+        "before merge"
+      ],
+      "avoidWhen": [
+        "silent implementation unless explicitly assigned a fix pass"
+      ],
+      "skills": [
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-verification-loop",
+        "qarga-independent-review",
+        "qarga-e2e-testing",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-system-evaluation",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-accessibility-audit",
+        "qarga-web-performance-budget",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "project-owner"
+    },
+    {
+      "name": "qarga-ui-auditor",
+      "department": "Design",
+      "role": "UI/UX auditor",
+      "status": "core",
+      "capabilities": [
+        "usability heuristics",
+        "accessibility",
+        "design-system fidelity",
+        "responsive review"
+      ],
+      "invokeWhen": [
+        "UI changed",
+        "flow is being marked done"
+      ],
+      "avoidWhen": [
+        "editing code in audit mode"
+      ],
+      "skills": [
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-independent-review",
+        "qarga-e2e-testing",
+        "qarga-verification-loop",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-accessibility-audit",
+        "qarga-web-performance-budget",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "project-owner"
+    },
+    {
+      "name": "security-auditor",
+      "department": "Security",
+      "role": "Application security auditor",
+      "status": "core",
+      "capabilities": [
+        "auth/session review",
+        "IDOR and ownership",
+        "PII",
+        "payment threat review",
+        "risk findings"
+      ],
+      "invokeWhen": [
+        "auth",
+        "permissions",
+        "PII",
+        "payments",
+        "pre-release"
+      ],
+      "avoidWhen": [
+        "final legal interpretation"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-verification-loop",
+        "qarga-independent-review",
+        "qarga-api-contract-design",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-secret-safety",
+        "qarga-human-approval-gates",
+        "qarga-integration-governance",
+        "qarga-sandbox-autonomy",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "project-owner"
+    },
+    {
+      "name": "qarga-devops-engineer",
+      "department": "Platform",
+      "role": "DevOps/platform engineer",
+      "status": "core",
+      "capabilities": [
+        "CI/CD",
+        "deployment planning",
+        "observability",
+        "backup and restore",
+        "rollback"
+      ],
+      "invokeWhen": [
+        "release",
+        "hosting",
+        "production readiness"
+      ],
+      "avoidWhen": [
+        "deploying without approval"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-verification-loop",
+        "qarga-independent-review",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-secret-safety",
+        "qarga-system-health",
+        "qarga-production-observability",
+        "qarga-ticket-to-draft-pr",
+        "qarga-load-testing",
+        "qarga-sandbox-autonomy",
+        "qarga-integration-governance",
+        "qarga-web-performance-budget",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-qa-auditor,security-auditor"
+    },
+    {
+      "name": "payment-integration",
+      "department": "Revenue",
+      "role": "Payment integration engineer",
+      "status": "conditional",
+      "capabilities": [
+        "gateway architecture",
+        "webhooks",
+        "idempotency",
+        "refunds",
+        "reconciliation",
+        "payment threat model"
+      ],
+      "invokeWhen": [
+        "online payment architecture or implementation",
+        "settlement and reconciliation"
+      ],
+      "avoidWhen": [
+        "choosing commission or legal terms alone",
+        "live credentials without approval"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-marketplace-monetization",
+        "qarga-repository-research",
+        "qarga-test-first-development",
+        "qarga-api-contract-design",
+        "qarga-verification-loop",
+        "qarga-independent-review",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-secret-safety",
+        "qarga-human-approval-gates",
+        "qarga-production-observability",
+        "qarga-devils-advocate",
+        "qarga-integration-governance",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "security-auditor,legal-advisor"
+    },
+    {
+      "name": "legal-advisor",
+      "department": "Legal",
+      "role": "Legal draft specialist",
+      "status": "conditional",
+      "capabilities": [
+        "privacy draft",
+        "terms draft",
+        "provider agreement draft",
+        "refund/cancellation clauses",
+        "implementation checklist"
+      ],
+      "invokeWhen": [
+        "legal text or compliance requirements"
+      ],
+      "avoidWhen": [
+        "final legal advice",
+        "unconfirmed jurisdiction"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-agent-handoff",
+        "qarga-repository-research",
+        "qarga-independent-review",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-human-approval-gates",
+        "qarga-devils-advocate",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qualified-lawyer,project-owner"
+    },
+    {
+      "name": "qarga-system-researcher",
+      "department": "Agent System",
+      "role": "Read-only system-evolution researcher",
+      "status": "core-system",
+      "capabilities": [
+        "system weakness research",
+        "reference comparison",
+        "root-cause analysis",
+        "smallest-change proposals",
+        "compatibility and context-cost analysis"
+      ],
+      "invokeWhen": [
+        "repeated agent-system weakness",
+        "new Claude capability may help",
+        "system evolution research"
+      ],
+      "avoidWhen": [
+        "implementing changes",
+        "approving its own recommendation"
+      ],
+      "skills": [
+        "qarga-repository-research",
+        "qarga-system-evolution",
+        "qarga-system-evaluation",
+        "qarga-agent-telemetry",
+        "qarga-secret-safety",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-integration-governance",
+        "qarga-context-budgeting",
+        "qarga-work-os",
+        "qarga-skill-evolution-governance",
+        "qarga-anti-overfitting"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-system-reviewer"
+    },
+    {
+      "name": "qarga-system-improver",
+      "department": "Agent System",
+      "role": "Controlled agent-system implementer",
+      "status": "core-system",
+      "capabilities": [
+        "approved agent-system changes",
+        "skills/commands/hooks/settings/validator updates",
+        "system regression tests",
+        "rollback implementation"
+      ],
+      "invokeWhen": [
+        "approved system-evolution proposal exists"
+      ],
+      "avoidWhen": [
+        "deciding whether a change is needed",
+        "reviewing its own change",
+        "unapproved production app work"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-definition-of-done",
+        "qarga-agent-handoff",
+        "qarga-completion-contract",
+        "qarga-anti-spin",
+        "qarga-system-evolution",
+        "qarga-verification-loop",
+        "qarga-secret-safety",
+        "qarga-agent-telemetry",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-context-budgeting",
+        "qarga-work-os",
+        "qarga-skill-authoring",
+        "qarga-skill-evolution-governance",
+        "qarga-anti-overfitting"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-system-reviewer"
+    },
+    {
+      "name": "qarga-system-reviewer",
+      "department": "Agent System",
+      "role": "Independent agent-system reviewer",
+      "status": "core-system",
+      "capabilities": [
+        "agent-system diff review",
+        "permission/hook security review",
+        "routing/context-cost review",
+        "English-internal-file review",
+        "system regression verification"
+      ],
+      "invokeWhen": [
+        "agent-system change is implemented",
+        "before pilot/promotion"
+      ],
+      "avoidWhen": [
+        "reviewing a change it authored",
+        "writing production code"
+      ],
+      "skills": [
+        "qarga-definition-of-done",
+        "qarga-independent-review",
+        "qarga-verification-loop",
+        "qarga-system-evaluation",
+        "qarga-system-evolution",
+        "qarga-system-health",
+        "qarga-secret-safety",
+        "qarga-agent-telemetry",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-integration-governance",
+        "qarga-context-budgeting",
+        "qarga-work-os",
+        "qarga-skill-evolution-governance",
+        "qarga-capability-benchmarking",
+        "qarga-anti-overfitting"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "project-owner"
+    },
+    {
+      "name": "qarga-customer-support-strategist",
+      "department": "Operations",
+      "role": "Customer support strategy and operations specialist",
+      "status": "core",
+      "capabilities": [
+        "support ticket taxonomy",
+        "triage and escalation design",
+        "knowledge-base strategy",
+        "support analytics",
+        "payment/refund handoffs",
+        "staffing trigger design"
+      ],
+      "invokeWhen": [
+        "support operating model",
+        "registration/payment/refund support",
+        "provider/student escalation design"
+      ],
+      "avoidWhen": [
+        "executing refunds",
+        "final legal decisions",
+        "external support-account writes"
+      ],
+      "skills": [
+        "qarga-planning",
+        "qarga-agent-handoff",
+        "qarga-executive-advisory",
+        "qarga-support-operating-model",
+        "qarga-product-analytics",
+        "qarga-human-approval-gates",
+        "qarga-repository-research",
+        "qarga-independent-review",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance",
+        "qarga-work-os"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-product-manager,payment-integration,legal-advisor,security-auditor"
+    },
+    {
+      "name": "qarga-skill-researcher",
+      "department": "AI Operations",
+      "role": "Read-only skill and capability researcher",
+      "status": "core",
+      "capabilities": [
+        "failure-driven capability research",
+        "existing-skill inventory",
+        "root-cause analysis",
+        "anti-overfitting analysis",
+        "reference research",
+        "smallest-intervention recommendation",
+        "benchmark-plan design"
+      ],
+      "invokeWhen": [
+        "same capability defect appears repeatedly",
+        "a reusable skill or prompt improvement is proposed",
+        "an agent improvement cycle needs root-cause research"
+      ],
+      "avoidWhen": [
+        "implementing a candidate skill",
+        "independently evaluating its own proposal",
+        "one-off local bug with no reusable capability gap"
+      ],
+      "skills": [
+        "qarga-repository-research",
+        "qarga-skill-evolution-governance",
+        "qarga-capability-benchmarking",
+        "qarga-anti-overfitting",
+        "qarga-context-budgeting",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-system-evaluation",
+        "qarga-work-os",
+        "qarga-project-memory-governance"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-system-reviewer"
+    },
+    {
+      "name": "qarga-evaluation-engineer",
+      "department": "AI Operations",
+      "role": "Independent agent and skill evaluation engineer",
+      "status": "core",
+      "capabilities": [
+        "capability benchmark design",
+        "diagnostic/validation/holdout separation",
+        "hidden-holdout protection",
+        "rubric design",
+        "baseline-candidate comparison",
+        "critical regression detection",
+        "cost-duration evaluation",
+        "promotion evidence"
+      ],
+      "invokeWhen": [
+        "skill candidate reaches benchmark stage",
+        "agent prompt/routing candidate needs capability evaluation",
+        "regression benchmark must be designed or refreshed"
+      ],
+      "avoidWhen": [
+        "authoring the candidate under evaluation",
+        "permanently approving its own evaluation",
+        "changing product code"
+      ],
+      "skills": [
+        "qarga-capability-benchmarking",
+        "qarga-skill-evolution-governance",
+        "qarga-anti-overfitting",
+        "qarga-system-evaluation",
+        "qarga-independent-review",
+        "qarga-verification-loop",
+        "qarga-context-budgeting",
+        "qarga-work-os",
+        "qarga-performance-governance",
+        "qarga-controlled-learning",
+        "qarga-project-memory-governance"
+      ],
+      "reportsTo": "qarga-coordinator",
+      "reviewedBy": "qarga-system-reviewer"
+    }
+  ],
+  "skills": [
+    {
+      "name": "qarga-planning",
+      "purpose": "Persistent plans, ownership, dependencies, risks and verification for multi-file work."
+    },
+    {
+      "name": "qarga-definition-of-done",
+      "purpose": "Evidence-based completion gate for implementation, tests, reviews and documentation."
+    },
+    {
+      "name": "qarga-agent-handoff",
+      "purpose": "Self-contained delegation and result handoff contract between coordinator and specialists."
+    },
+    {
+      "name": "qarga-executive-advisory",
+      "purpose": "Challenge weak decisions and present benefits, alternatives, costs, risks and an explicit recommendation."
+    },
+    {
+      "name": "qarga-organizational-planning",
+      "purpose": "Detect capability gaps, run milestone team reviews and propose or hire agents under owner approval."
+    },
+    {
+      "name": "qarga-marketplace-monetization",
+      "purpose": "Design course-marketplace revenue hypotheses, commission mechanics and validation without inventing rates."
+    },
+    {
+      "name": "qarga-support-operating-model",
+      "purpose": "Design student/provider support taxonomy, escalation, SLAs, knowledge base and sensitive-case handling."
+    },
+    {
+      "name": "qarga-go-to-market-readiness",
+      "purpose": "Prepare positioning, launch prerequisites and channel hypotheses without campaign execution or spend."
+    },
+    {
+      "name": "qarga-performance-governance",
+      "purpose": "Assign task difficulty before execution, score delivered quality with evidence, route work by reliability and trigger prompt/skill improvement without unsafe competition."
+    },
+    {
+      "name": "qarga-workflow-routing",
+      "purpose": "Select Fast, Standard, or Critical execution lanes from difficulty, risk, reversibility, and evidence needs."
+    },
+    {
+      "name": "qarga-repository-research",
+      "purpose": "Search the current repository and official options progressively before creating code, dependencies, or abstractions."
+    },
+    {
+      "name": "qarga-test-first-development",
+      "purpose": "Use failing tests or explicit executable invariants before implementation and preserve regression evidence."
+    },
+    {
+      "name": "qarga-verification-loop",
+      "purpose": "Produce layered targeted, project-wide, diff, and independent-review evidence before completion claims."
+    },
+    {
+      "name": "qarga-independent-review",
+      "purpose": "Require a fresh-context reviewer so the implementer is not the final judge of quality or safety."
+    },
+    {
+      "name": "qarga-e2e-testing",
+      "purpose": "Design stable end-to-end coverage for Qarğa student, provider, admin, and future payment journeys."
+    },
+    {
+      "name": "qarga-api-contract-design",
+      "purpose": "Design typed, server-authoritative, idempotent, permission-aware API contracts and migration paths."
+    },
+    {
+      "name": "qarga-controlled-learning",
+      "purpose": "Convert repeated evidence into owner-approved, reversible system improvements and evaluate them over future tasks."
+    },
+    {
+      "name": "qarga-system-evaluation",
+      "purpose": "Regression-test coordinator, prompt, skill, policy, hook, and workflow changes with deterministic checks and fresh-context scenarios before permanent promotion."
+    },
+    {
+      "name": "qarga-project-memory-governance",
+      "purpose": "Preserve approved decisions, concrete technical debt, and measurable experiments as append-only durable project history with review triggers and evidence."
+    },
+    {
+      "name": "qarga-completion-contract",
+      "purpose": "Predeclare verifiable task requirements and evidence before implementation; accepted completion requires verified contract evidence."
+    },
+    {
+      "name": "qarga-anti-spin",
+      "purpose": "Stop repeated/no-progress/flip-flopping agent loops and escalate instead of weakening tests or consuming unbounded budget."
+    },
+    {
+      "name": "qarga-devils-advocate",
+      "purpose": "Stress-test material product, revenue, payment, architecture, operations, and go-to-market decisions with structured counterarguments."
+    },
+    {
+      "name": "qarga-human-approval-gates",
+      "purpose": "Require explicit project-owner approval for high-impact financial, legal, security, production, external-account, agent, tool, and autonomy changes."
+    },
+    {
+      "name": "qarga-system-evolution",
+      "purpose": "Run the controlled research → proposal → approval → improve → independent review → pilot → KEEP/REVISE/REVERT pipeline."
+    },
+    {
+      "name": "qarga-agent-telemetry",
+      "purpose": "Use privacy-minimized lifecycle metadata plus task/performance evidence for agent operations and routing analysis."
+    },
+    {
+      "name": "qarga-secret-safety",
+      "purpose": "Prevent secrets and sensitive environment material from prompts, commits, logs, memory, telemetry, and generated artifacts."
+    },
+    {
+      "name": "qarga-system-health",
+      "purpose": "Score core agent-system health and report optional integration readiness without false production-ready claims."
+    },
+    {
+      "name": "qarga-accessibility-audit",
+      "purpose": "Audit WCAG-oriented keyboard, focus, semantics, forms, responsive, touch, motion, and assistive-technology risks."
+    },
+    {
+      "name": "qarga-product-analytics",
+      "purpose": "Design decision-driven analytics events, funnels, metric sources, instrumentation validation, and privacy-minimized properties."
+    },
+    {
+      "name": "qarga-production-observability",
+      "purpose": "Design production errors/logs/health/alerts and monitoring-driven Draft PR workflows without automatic production mutation."
+    },
+    {
+      "name": "qarga-seo-workspace",
+      "purpose": "Maintain a persistent evidence-based SEO audit/strategy/brief workspace without unapproved publishing or thin page generation."
+    },
+    {
+      "name": "qarga-load-testing",
+      "purpose": "Plan safe bounded k6 load tests against explicitly approved non-production targets."
+    },
+    {
+      "name": "qarga-ticket-to-draft-pr",
+      "purpose": "Convert approved AI-ready tickets into completion contracts, bounded implementation, independent review, and Draft PR only."
+    },
+    {
+      "name": "qarga-sandbox-autonomy",
+      "purpose": "Design disposable isolated autonomous coding workers with budgets, minimum permissions, Draft PR output, kill switches, and human gates."
+    },
+    {
+      "name": "qarga-integration-governance",
+      "purpose": "Govern MCPs/plugins/APIs/services by necessity, permissions, data, secrets, cost, maintenance, and rollback."
+    },
+    {
+      "name": "qarga-context-budgeting",
+      "purpose": "Load only task-relevant repository, memory, decision, skill, and evidence context to reduce pollution and token waste without omitting risk."
+    },
+    {
+      "name": "qarga-web-performance-budget",
+      "purpose": "Measure and gate web performance only against real baselines and approved thresholds; never invent budgets."
+    },
+    {
+      "name": "qarga-work-os",
+      "purpose": "Persistent visual task orchestration: parent tasks, agent subtasks, dependencies, owner decisions, evidence, independent review, KPI scoring, comments and activity history."
+    },
+    {
+      "name": "qarga-skill-evolution-governance",
+      "purpose": "Govern reusable skill/capability changes through research, candidate, independent benchmark, real-task pilot, and proven/rejected/deprecated lifecycle states."
+    },
+    {
+      "name": "qarga-capability-benchmarking",
+      "purpose": "Measure baseline versus candidate on disjoint diagnostic, validation, and hidden-holdout cases with category and critical-regression gates."
+    },
+    {
+      "name": "qarga-anti-overfitting",
+      "purpose": "Prevent skills, prompts, and evals from hard-coding one incident, benchmark answer, file, or narrow known case."
+    },
+    {
+      "name": "qarga-skill-authoring",
+      "purpose": "Author concise project skills with progressive disclosure into references, deterministic scripts, and reusable assets after an approved proposal."
+    }
+  ],
+  "commands": [
+    {
+      "name": "qarga-team",
+      "purpose": "Create a managed Agent Team for parallel work."
+    },
+    {
+      "name": "qarga-audit",
+      "purpose": "Run a read-only multi-agent audit."
+    },
+    {
+      "name": "qarga-feature",
+      "purpose": "Run plan, implementation, test and review workflow."
+    },
+    {
+      "name": "qarga-release-check",
+      "purpose": "Evaluate release gates without deploying."
+    },
+    {
+      "name": "qarga-team-review",
+      "purpose": "Review capability gaps and propose role/skill/process changes."
+    },
+    {
+      "name": "qarga-hire-agent",
+      "purpose": "After explicit approval, create a project-specific agent and update the registry and allowlist."
+    },
+    {
+      "name": "qarga-performance-review",
+      "purpose": "Evaluate closed tasks, record evidence-based scores and create improvement plans when rolling quality is weak."
+    },
+    {
+      "name": "qarga-quality-gate",
+      "purpose": "Run lane-appropriate verification and independent review without merging or deploying."
+    },
+    {
+      "name": "qarga-evolve",
+      "purpose": "Turn recurring performance and learning signals into the smallest safe improvement proposal."
+    },
+    {
+      "name": "qarga-checkpoint",
+      "purpose": "Write a durable task checkpoint with evidence, decisions, blockers, and safe resume instructions."
+    },
+    {
+      "name": "qarga-system-eval",
+      "purpose": "Run deterministic and fresh-context regression evaluation for Qarğa agent-system changes."
+    },
+    {
+      "name": "qarga-decision",
+      "purpose": "Create, review, supersede, or retire durable project decisions with evidence and owner approval."
+    },
+    {
+      "name": "qarga-debt",
+      "purpose": "Record, review, prioritize, accept, or resolve concrete technical debt with evidence and review triggers."
+    },
+    {
+      "name": "qarga-experiment",
+      "purpose": "Design, approve, run, and close bounded evidence-based experiments without invented metrics."
+    },
+    {
+      "name": "qarga-memory-review",
+      "purpose": "Review project decisions, debt, and experiments for stale assumptions, blockers, learning signals, and team needs."
+    },
+    {
+      "name": "qarga-system-health",
+      "purpose": "Run core agent-system health and optional integration readiness checks."
+    },
+    {
+      "name": "qarga-agent-ops",
+      "purpose": "Generate the local agent operations dashboard from telemetry, task, performance, learning, memory, and evolution data."
+    },
+    {
+      "name": "qarga-security-scan",
+      "purpose": "Run deterministic agent configuration and staged-secret safety scans."
+    },
+    {
+      "name": "qarga-system-research",
+      "purpose": "Research a suspected agent-system weakness without modifying the system."
+    },
+    {
+      "name": "qarga-production-error",
+      "purpose": "Triage monitoring evidence, reproduce safely, add regression coverage, and stop at Draft PR/approval gates."
+    },
+    {
+      "name": "qarga-ticket-to-pr",
+      "purpose": "Convert an approved AI-ready issue into a completion-contract and Draft PR workflow."
+    },
+    {
+      "name": "qarga-load-test",
+      "purpose": "Plan or run a bounded approved non-production k6 load test."
+    },
+    {
+      "name": "qarga-seo-review",
+      "purpose": "Review/update the persistent SEO workspace without publishing."
+    },
+    {
+      "name": "qarga-analytics-plan",
+      "purpose": "Review the analytics event contract for a current decision and propose minimal instrumentation."
+    },
+    {
+      "name": "qarga-integrations-review",
+      "purpose": "Review candidate integrations and permission/cost/rollback implications before approval."
+    },
+    {
+      "name": "qarga-performance-budget",
+      "purpose": "Measure built assets against approved web performance budgets without invented thresholds."
+    },
+    {
+      "name": "qarga-board",
+      "purpose": "Summarize or open the persistent Work OS board."
+    },
+    {
+      "name": "qarga-task-create",
+      "purpose": "Create and decompose a persistent parent task into independently reviewed agent subtasks."
+    },
+    {
+      "name": "qarga-my-work",
+      "purpose": "Show one agent only the READY subtasks already assigned to it."
+    },
+    {
+      "name": "qarga-work-review",
+      "purpose": "Audit board integrity, stalled dependencies, owner decisions, review state and scoring linkage."
+    },
+    {
+      "name": "qarga-skill-research",
+      "purpose": "Research a repeated capability gap and choose no change, existing-skill edit, new skill, prompt/tool/routing change, or new role."
+    },
+    {
+      "name": "qarga-skill-candidate",
+      "purpose": "Build one approved skill candidate without promoting it, then hand it to independent evaluation."
+    },
+    {
+      "name": "qarga-skill-eval",
+      "purpose": "Independently compare baseline and candidate across validation and hidden-holdout cases with regression-aware scoring."
+    },
+    {
+      "name": "qarga-skill-evolution-review",
+      "purpose": "Review active skill candidates, benchmark evidence, failed attempts, frontier state, pilots, and promotion blockers."
+    }
+  ],
+  "automation": {
+    "settings": ".claude/settings.json selects qarga-coordinator and enables Agent Teams.",
+    "hooks": [
+      "PreToolUse Bash guard blocks destructive git/database/deployment commands."
+    ],
+    "ci": "validate:claude, lint, build, database setup and integration tests run in GitHub Actions.",
+    "performanceTracking": {
+      "policy": ".claude/performance/policy.json",
+      "ledger": ".claude/performance/ledger.jsonl",
+      "scorecards": ".claude/performance/scorecards.json",
+      "recordCommand": "npm run performance:record -- <evaluation.json>",
+      "ownerEvaluationRequiredFor": "qarga-coordinator"
+    },
+    "learningTracking": {
+      "policy": ".claude/learning/policy.json",
+      "observations": ".claude/learning/observations.jsonl",
+      "review": ".claude/learning/review.json",
+      "proposals": ".claude/learning/proposals.json",
+      "recordCommand": "npm run learning:record -- <observation.json>",
+      "reviewCommand": "npm run learning:review",
+      "promotionPolicy": "Persistent changes require evidence, coordinator review, required specialist review, and explicit project-owner approval where defined."
+    },
+    "optionalSecurityScan": "AgentShield may be run manually with npx -y ecc-agentshield scan --path . after the project owner approves the network/package action. It is not a default CI dependency.",
+    "systemEvaluation": {
+      "scenarios": ".claude/evals/coordinator-scenarios.json",
+      "results": ".claude/evals/results.json",
+      "deterministicTest": "npm run test:claude-system",
+      "policy": "Agent-system changes require deterministic checks, fresh-context regression review, and the approvals defined in CLAUDE.md."
+    },
+    "projectMemory": {
+      "policy": ".claude/project-memory/policy.json",
+      "decisions": ".claude/project-memory/decisions.jsonl",
+      "technicalDebt": ".claude/project-memory/technical-debt.jsonl",
+      "experiments": ".claude/project-memory/experiments.jsonl",
+      "review": ".claude/project-memory/review.json",
+      "decisionRecordCommand": "npm run decision:record -- <decision-event.json>",
+      "debtRecordCommand": "npm run debt:record -- <debt-event.json>",
+      "experimentRecordCommand": "npm run experiment:record -- <experiment-event.json>",
+      "reviewCommand": "npm run project-memory:review",
+      "authority": "Project memory never overrides current repository evidence, CLAUDE.md, or newer explicit project-owner decisions."
+    },
+    "taskSystem": {
+      "policy": ".claude/tasks/policy.json",
+      "contracts": ".claude/tasks/contracts.jsonl",
+      "progress": ".claude/tasks/progress.jsonl",
+      "review": ".claude/tasks/review.json",
+      "recordCommand": "npm run task:record -- <task-event.json>",
+      "progressCommand": "npm run task:progress -- <progress.json>",
+      "reviewCommand": "npm run task:review"
+    },
+    "systemEvolution": {
+      "policy": ".claude/evolution/policy.json",
+      "research": ".claude/evolution/research.jsonl",
+      "proposals": ".claude/evolution/proposals.jsonl",
+      "changes": ".claude/evolution/changes.jsonl",
+      "reviews": ".claude/evolution/reviews.jsonl",
+      "pilots": ".claude/evolution/pilots.jsonl",
+      "recordCommand": "npm run evolution:record -- <kind> <event.json>",
+      "reviewCommand": "npm run evolution:review"
+    },
+    "telemetry": {
+      "policy": ".claude/telemetry/policy.json",
+      "events": ".claude/telemetry/agent-events.jsonl",
+      "agentOps": ".claude/ops/agent-ops.json",
+      "dashboard": "docs/agent-ops/dashboard.html",
+      "reportCommand": "npm run agent-ops:report"
+    },
+    "security": {
+      "policy": ".claude/security/policy.json",
+      "configScan": "npm run security:claude",
+      "stagedSecretScan": "npm run security:secrets",
+      "commitHook": ".claude/hooks/scan-staged-secrets.mjs"
+    },
+    "systemHealth": {
+      "report": ".claude/ops/system-health.json",
+      "command": "npm run system:health",
+      "ciCommand": "npm run system:health -- --ci"
+    },
+    "optionalIntegrations": {
+      "playwright": "ready-to-enable; dependency not silently installed",
+      "k6": "manual external binary; non-production only",
+      "sentry": "provider-neutral policy; credentials not configured",
+      "cloudflareWorkers": "daily-health and weekly-pulse templates; not deployed",
+      "ticketToDraftPr": "reference workflow only; autonomous GitHub writes disabled"
+    },
+    "integrationCatalog": {
+      "catalog": ".claude/integrations/catalog.json",
+      "policySkill": "qarga-integration-governance"
+    },
+    "sandboxAutonomy": {
+      "policy": ".claude/automation/sandbox-policy.json",
+      "status": "disabled",
+      "outputBoundary": "Draft PR and evidence only"
+    },
+    "webPerformanceBudget": {
+      "policy": ".claude/performance/web-budget.json",
+      "command": "npm run web:budget",
+      "default": "baseline-needed"
+    },
+    "workOS": {
+      "policy": ".claude/work-os/policy.json",
+      "state": ".claude/work-os/state.json",
+      "events": ".claude/work-os/events.jsonl",
+      "routineTemplates": ".claude/work-os/routines.json",
+      "savedViews": ".claude/work-os/views.json",
+      "cli": "npm run work-os -- <command>",
+      "validate": "npm run work-os:validate",
+      "summary": "npm run work-os:summary",
+      "visualBoard": "npm run work-os:serve",
+      "localUrl": "http://127.0.0.1:4177",
+      "authority": "Operational source of truth only. Repository evidence, completion contracts, performance, and project-memory registries remain authoritative for their own domains."
+    }
+  },
+  "futureRoles": [
+    {
+      "name": "qarga-data-analyst",
+      "priority": "medium-candidate",
+      "trigger": "Analytics event contract exists and product/revenue/support decisions require measured funnels and cohorts.",
+      "initialMode": "analysis-only",
+      "sourceBasis": [
+        "AITMPL data-analyst/product-manager patterns",
+        "Qarğa KPI requirements"
+      ]
+    },
+    {
+      "name": "qarga-growth-strategist",
+      "priority": "deferred",
+      "trigger": "Core flows are stable, provider supply exists, analytics and support readiness gates pass, and the owner approves go-to-market execution planning.",
+      "initialMode": "strategy-only",
+      "sourceBasis": [
+        "AITMPL content-marketer",
+        "AITMPL competitive-analyst",
+        "AITMPL product-manager"
+      ]
+    },
+    {
+      "name": "qarga-provider-success-manager",
+      "priority": "future",
+      "trigger": "Provider onboarding, course quality and retention become recurring operational work.",
+      "initialMode": "strategy-and-process-design",
+      "sourceBasis": [
+        "AITMPL customer-success-manager",
+        "Qarğa provider marketplace model"
+      ]
+    },
+    {
+      "name": "qarga-observability-engineer",
+      "priority": "medium-candidate",
+      "trigger": "Sentry/monitoring is configured and incident/alert ownership becomes recurring engineering work.",
+      "initialMode": "read-only monitoring and runbook design",
+      "sourceBasis": [
+        "Qarğa production observability policy",
+        "claude-code-templates production-error patterns"
+      ]
+    },
+    {
+      "name": "qarga-seo-strategist",
+      "priority": "deferred",
+      "trigger": "SEO becomes an active acquisition channel with Search Console/keyword evidence and a recurring content/technical roadmap.",
+      "initialMode": "strategy-and-audit-only",
+      "sourceBasis": [
+        "Qarğa SEO workspace",
+        "claude-code-templates SEOAgent/seo-audit patterns"
+      ]
+    }
+  ],
+  "sourceReferences": [
+    "https://www.aitmpl.com/component/skills/business-marketing/pricing-strategy",
+    "https://www.aitmpl.com/component/agents/business-marketing/customer-success-manager",
+    "https://www.aitmpl.com/component/agents/business-marketing/product-manager",
+    "https://www.aitmpl.com/component/agents/business-marketing/content-marketer",
+    "https://www.aitmpl.com/component/agents/business-marketing/competitive-analyst",
+    "https://code.claude.com/docs/en/sub-agents",
+    "https://code.claude.com/docs/en/agent-teams",
+    "https://code.claude.com/docs/en/hooks",
+    "https://github.com/affaan-m/ECC",
+    "ECC skills: search-first, iterative-retrieval, dynamic-workflow-mode, tdd-workflow, verification-loop, e2e-testing, api-design, continuous-learning-v2, eval-harness",
+    "claude-code-templates: completion-contract-loop",
+    "claude-code-templates: anti-spin-build-loop",
+    "claude-code-templates: builder-reviewer-loop",
+    "claude-code-templates: devils-advocate-loop",
+    "claude-code-templates: human-approval-loop",
+    "claude-code-templates: subagent-lifecycle-logger",
+    "claude-code-templates: secret-scanner",
+    "claude-code-templates: Playwright E2E, k6, Sentry, analytics, SEO, pricing, customer-support patterns",
+    "EvoSkill: failure-driven skill proposer, independent evaluation, feedback-history, frontier, anti-overfitting, and skill-creator patterns adapted from the user-provided EvoSkill repository snapshot"
+  ],
+  "runtimeRequirements": {
+    "node": ">=22.5.0",
+    "claudeCode": ">=2.1.63 recommended because the coordinator uses the current Agent(...) allowlist syntax; Agent Teams require >=2.1.32 and remain experimental.",
+    "git": "Required for repository state, branches, diffs, checkpoints, and installer safety.",
+    "skillEvolution": "Deterministic scoring scripts validate evaluation evidence locally; running actual model benchmark cases still requires Claude Code/Agent execution and must preserve evaluator/candidate-author separation."
+  }
+}

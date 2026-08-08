@@ -32,6 +32,18 @@ function areaIdFor(areaName, areas) {
   return a ? a.id : null;
 }
 
+// Mock trial dates are authored as fixed calendar dates and drift into the
+// past as real time passes. Roll a stale date forward in whole weeks so it
+// keeps the same time-of-day and weekday, and lands in the future relative
+// to the seed run.
+function futureSlotStart(dateStr, timeStr, refIso) {
+  const week = 7 * 24 * 60 * 60 * 1000;
+  const ref = new Date(refIso).getTime();
+  let dt = new Date(`${dateStr}T${timeStr}:00.000Z`);
+  while (dt.getTime() <= ref) dt = new Date(dt.getTime() + week);
+  return dt.toISOString();
+}
+
 async function main() {
   const fresh = process.argv.includes('--fresh');
   if (fresh) {
@@ -119,7 +131,7 @@ async function main() {
                  (id,offering_id,starts_at,duration_min,capacity,booked,status,created_at)
                  VALUES (?,?,?,?,?,?,?,?)`,
               [`slot-${courseId}-${s.date}-${time.replace(':', '')}`, offeringId,
-               `${s.date}T${time}:00.000Z`, 60, 4, 0, 'open', t]);
+               futureSlotStart(s.date, time, t), 60, 4, 0, 'open', t]);
             c.slots++;
           }
         }

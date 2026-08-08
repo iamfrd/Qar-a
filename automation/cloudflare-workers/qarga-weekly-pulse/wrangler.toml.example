@@ -1,0 +1,11 @@
+name = "qarga-weekly-pulse"
+main = "index.js"
+compatibility_date = "2026-08-01"
+
+[triggers]
+crons = ["30 5 * * 1"]
+
+# Configure outside git:
+# QARGA_METRICS_URL=https://example.com/internal/weekly-metrics
+# METRICS_BEARER_TOKEN=...
+# REPORT_WEBHOOK_URL=...

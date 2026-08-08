@@ -1,0 +1,80 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Preserve durable, evidence-backed project decisions, technical debt, and experiments so future sessions can reason from current project history instead of stale conversational memory.",
+  "authorityOrder": [
+    "current repository and executable evidence",
+    "CLAUDE.md and explicit project-owner decisions",
+    "approved project-memory records",
+    "official documentation",
+    "agent prompts and skills",
+    "learning observations and unapproved proposals"
+  ],
+  "recordTypes": {
+    "decision": {
+      "ledger": ".claude/project-memory/decisions.jsonl",
+      "idPrefix": "DEC-",
+      "finalStatuses": [
+        "approved",
+        "rejected",
+        "superseded",
+        "retired"
+      ],
+      "ownerApprovalRequiredFor": [
+        "approved"
+      ],
+      "reviewRules": [
+        "Every material product, revenue, payment, legal, security, architecture, scope, or operating-model decision should have a durable record once approved.",
+        "A prior approved decision may be reopened only when new evidence, a review trigger, or an explicit owner request exists.",
+        "Superseding a decision requires a new decision record that references the prior decision ID."
+      ]
+    },
+    "technicalDebt": {
+      "ledger": ".claude/project-memory/technical-debt.jsonl",
+      "idPrefix": "DEBT-",
+      "finalStatuses": [
+        "resolved",
+        "accepted-risk",
+        "obsolete"
+      ],
+      "reviewRules": [
+        "Record deliberate shortcuts, known design limitations, missing tests, migration remnants, unsafe temporary assumptions, or maintainability liabilities that remain after a task.",
+        "Do not record ordinary backlog ideas as technical debt unless there is a concrete existing liability.",
+        "A debt item may be marked resolved only with resolution evidence."
+      ]
+    },
+    "experiment": {
+      "ledger": ".claude/project-memory/experiments.jsonl",
+      "idPrefix": "EXP-",
+      "finalStatuses": [
+        "completed",
+        "cancelled"
+      ],
+      "ownerApprovalRequiredFor": [
+        "approved",
+        "running"
+      ],
+      "reviewRules": [
+        "Use an experiment when an important product, revenue, support, or growth choice is uncertain and can be validated with a bounded test.",
+        "Define the hypothesis, primary metric, evidence source, decision rule, guardrails, audience, and stop condition before execution.",
+        "Do not fabricate a baseline, target, result, conversion rate, or market metric. Unknown values must remain explicitly unknown until measured.",
+        "A completed experiment requires evidence and a conclusion of keep, iterate, stop, or inconclusive."
+      ]
+    }
+  },
+  "globalRules": {
+    "appendOnly": true,
+    "noSecretsOrPersonalData": true,
+    "noPerformancePointsForCreatingRecords": true,
+    "hiddenDebtIsAQualityFailure": true,
+    "unverifiedMetricsAreForbidden": true,
+    "permanentAgentSystemChangesStillRequireControlledLearning": true,
+    "projectOwnerMayOverrideWithExplicitDecision": true
+  },
+  "reviewCadence": [
+    "at the start of every substantial new coordinator session",
+    "before a material product, revenue, payment, architecture, legal, security, or launch decision",
+    "at the end of every major milestone",
+    "before release readiness is declared",
+    "when repeated learning or performance signals may be explained by an old decision, recurring debt, or a failed experiment"
+  ]
+}

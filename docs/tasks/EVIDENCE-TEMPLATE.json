@@ -1,0 +1,12 @@
+{
+  "eventId": "TASK-123-EVIDENCE-001",
+  "taskId": "TASK-123",
+  "eventType": "evidence",
+  "requirementId": "REQ-1",
+  "verifiedBy": "qarga-qa-auditor",
+  "evidence": [
+    "test command + result reference",
+    "diff/file reference"
+  ],
+  "sensitiveDataIncluded": false
+}

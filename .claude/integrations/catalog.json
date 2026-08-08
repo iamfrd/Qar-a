@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "rule": "No entry contains credentials. Status changes to configured-write or recurring automation require explicit project-owner approval.",
+  "integrations": [
+    {
+      "name": "GitHub",
+      "type": "source-control",
+      "status": "candidate",
+      "recommendedUse": "issues, pull requests, CI status, Draft PR automation",
+      "writeRisk": "high",
+      "approvalRequired": true
+    },
+    {
+      "name": "Playwright",
+      "type": "browser-automation",
+      "status": "approved-not-configured",
+      "recommendedUse": "local/CI E2E testing against safe targets",
+      "writeRisk": "low-local-browser",
+      "approvalRequired": true
+    },
+    {
+      "name": "Sentry",
+      "type": "observability",
+      "status": "candidate",
+      "recommendedUse": "production error monitoring and incident evidence",
+      "writeRisk": "read-mostly",
+      "approvalRequired": true
+    },
+    {
+      "name": "Context7",
+      "type": "documentation",
+      "status": "candidate",
+      "recommendedUse": "current framework/library documentation when useful",
+      "writeRisk": "read-only",
+      "approvalRequired": true
+    },
+    {
+      "name": "Payment provider",
+      "type": "payments",
+      "status": "candidate",
+      "recommendedUse": "future approved online payment implementation",
+      "writeRisk": "critical-financial",
+      "approvalRequired": true
+    },
+    {
+      "name": "Google Analytics or equivalent",
+      "type": "analytics",
+      "status": "candidate",
+      "recommendedUse": "product funnel measurement after event contract/privacy approval",
+      "writeRisk": "data-collection",
+      "approvalRequired": true
+    },
+    {
+      "name": "Google Ads / Meta / TikTok",
+      "type": "marketing",
+      "status": "candidate",
+      "recommendedUse": "future campaign planning/execution after go-to-market approval",
+      "writeRisk": "external-spend-and-publish",
+      "approvalRequired": true
+    }
+  ]
+}

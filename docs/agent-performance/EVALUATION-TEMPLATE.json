@@ -1,0 +1,27 @@
+{
+  "taskId": "TASK-001",
+  "taskTitle": "Example delegated deliverable",
+  "agent": "qarga-backend-engineer",
+  "reviewer": "qarga-coordinator",
+  "basePoints": 5,
+  "status": "accepted",
+  "dimensions": {
+    "correctness": 90,
+    "verification": 100,
+    "scopeAdherence": 95,
+    "safety": 100,
+    "collaboration": 85,
+    "clarity": 90
+  },
+  "evidence": [
+    "npm test passed",
+    "QA review found no HIGH or BLOCK issue"
+  ],
+  "strengths": [
+    "Server invariant preserved"
+  ],
+  "improvementAreas": [
+    "Handoff could link exact file lines"
+  ],
+  "notes": "Example only; replace with real evidence."
+}

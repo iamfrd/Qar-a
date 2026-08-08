@@ -1,0 +1,63 @@
+{
+  "type": "skill_evolution",
+  "title": "Capability improvement: <capability>",
+  "priority": "medium",
+  "team": "AI Operations",
+  "description": "Evidence-driven reusable capability improvement. Do not promote a candidate directly from research or authoring.",
+  "subtasks": [
+    {
+      "title": "Research capability gap",
+      "agent": "qarga-skill-researcher",
+      "reviewer": "qarga-system-reviewer",
+      "points": 2,
+      "dependsOn": [],
+      "acceptance": [
+        "Existing skills and failed prior attempts inspected",
+        "At least two alternatives compared",
+        "Benchmark and rollback plan defined"
+      ]
+    },
+    {
+      "title": "Author approved candidate",
+      "agent": "qarga-system-improver",
+      "reviewer": "qarga-system-reviewer",
+      "points": 3,
+      "dependsOn": [
+        "research"
+      ],
+      "acceptance": [
+        "Only approved candidate scope changed",
+        "Skill structure audit and Claude validator pass",
+        "No holdout answers embedded"
+      ]
+    },
+    {
+      "title": "Independent capability benchmark",
+      "agent": "qarga-evaluation-engineer",
+      "reviewer": "qarga-system-reviewer",
+      "points": 4,
+      "dependsOn": [
+        "candidate"
+      ],
+      "acceptance": [
+        "Validation and holdout sets are disjoint",
+        "Baseline and candidate compared under equivalent conditions",
+        "Critical and category regressions reported"
+      ]
+    },
+    {
+      "title": "Real-task pilot review",
+      "agent": "qarga-system-reviewer",
+      "reviewer": "qarga-qa-auditor",
+      "points": 3,
+      "dependsOn": [
+        "evaluation"
+      ],
+      "acceptance": [
+        "At least three relevant real tasks reviewed",
+        "Pilot outcome KEEP, REVISE, or REJECT recorded",
+        "Permanent promotion remains owner-gated"
+      ]
+    }
+  ]
+}

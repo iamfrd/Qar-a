@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Registry of reusable agent capability benchmark suites. Case fixtures live beside this catalog and must not expose hidden expected answers to candidate authors.",
+  "suites": [
+    {
+      "id": "backend-core-safety-v1",
+      "agent": "qarga-backend-engineer",
+      "status": "scaffolded",
+      "categories": {
+        "authorization": 20,
+        "transactions": 20,
+        "validation": 15,
+        "errorHandling": 10,
+        "concurrency": 15,
+        "apiContracts": 10,
+        "databaseInvariants": 10
+      },
+      "sets": {
+        "diagnostic": [],
+        "validation": [],
+        "holdout": []
+      },
+      "notes": "Populate from generalized Qarğa backend failure classes before using for promotion."
+    },
+    {
+      "id": "coordinator-decision-quality-v1",
+      "agent": "qarga-coordinator",
+      "status": "scaffolded",
+      "categories": {
+        "decisionFraming": 25,
+        "delegation": 20,
+        "ownerGates": 20,
+        "evidenceDiscipline": 15,
+        "riskChallenge": 10,
+        "synthesis": 10
+      },
+      "sets": {
+        "diagnostic": [],
+        "validation": [],
+        "holdout": []
+      },
+      "notes": "Coordinator permanent evaluation remains project-owner controlled."
+    }
+  ]
+}

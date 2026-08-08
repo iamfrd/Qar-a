@@ -1,0 +1,17 @@
+{
+  "eventId": "EVO-PL-EVT-001",
+  "pilotId": "EVO-PL-001",
+  "proposalId": "EVO-P-001",
+  "changeId": "EVO-C-001",
+  "outcome": "KEEP",
+  "taskIds": [
+    "TASK-1",
+    "TASK-2",
+    "TASK-3"
+  ],
+  "evidence": [
+    "measured pilot comparison"
+  ],
+  "approvedBy": "project-owner",
+  "sensitiveDataIncluded": false
+}

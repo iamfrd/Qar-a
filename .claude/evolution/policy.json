@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Controlled self-improvement for the Qarğa agent operating system.",
+  "principles": [
+    "Evidence before change",
+    "Smallest reversible change",
+    "Separation of researcher, implementer, and reviewer",
+    "No silent self-modification",
+    "Project-owner control over permanent or high-risk change"
+  ],
+  "roles": {
+    "researcher": "qarga-system-researcher",
+    "improver": "qarga-system-improver",
+    "reviewer": "qarga-system-reviewer",
+    "owner": "project-owner"
+  },
+  "changeOrder": [
+    "documentation",
+    "checklist",
+    "skill",
+    "command-or-routing",
+    "tests-or-evals",
+    "hook-or-tool",
+    "agent-prompt",
+    "integration",
+    "new-agent"
+  ],
+  "repetitionThreshold": 2,
+  "pilot": {
+    "defaultRelevantTasks": 3,
+    "requiredFor": [
+      "agent-prompt",
+      "skill",
+      "routing",
+      "hook",
+      "permission",
+      "new-agent",
+      "integration"
+    ]
+  },
+  "ownerApprovalRequiredFor": [
+    "new-agent",
+    "retire-agent",
+    "new-plugin",
+    "new-mcp",
+    "external-write-integration",
+    "permission-expansion",
+    "hook-behavior-change",
+    "permanent-promotion",
+    "recurring-autonomous-worker",
+    "production-automation"
+  ],
+  "specialistReviewRequiredFor": {
+    "security-or-permission": "security-auditor",
+    "payment-or-money": "payment-integration",
+    "legal": "legal-advisor",
+    "ci-or-deployment": "qarga-devops-engineer"
+  },
+  "separationOfDuties": {
+    "researcherMayImplement": false,
+    "improverMayApproveOwnChange": false,
+    "reviewerMayAuthorReviewedChange": false
+  },
+  "outcomes": [
+    "KEEP",
+    "REVISE",
+    "REVERT",
+    "NO_CHANGE"
+  ],
+  "privacy": {
+    "noSecrets": true,
+    "noPersonalData": true
+  }
+}

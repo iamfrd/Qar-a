@@ -1,0 +1,35 @@
+{
+  "eventId": "DEC-EVT-YYYYMMDD-001",
+  "decisionId": "DEC-001",
+  "eventType": "approved",
+  "status": "approved",
+  "title": "Decision title",
+  "context": "What problem requires a durable decision?",
+  "options": [
+    {
+      "name": "Option A",
+      "benefits": [],
+      "costs": [],
+      "risks": []
+    }
+  ],
+  "chosenOption": "Option A",
+  "rationale": "Why this option was approved.",
+  "evidence": [
+    "Repository, research, test, or owner-decision reference."
+  ],
+  "assumptions": [],
+  "unknowns": [],
+  "affectedAreas": [
+    "product"
+  ],
+  "relatedTaskIds": [],
+  "approvedBy": "project-owner",
+  "reviewTrigger": {
+    "type": "milestone",
+    "value": "Review before public payment launch."
+  },
+  "supersedes": null,
+  "sensitiveDataIncluded": false,
+  "recordedBy": "qarga-coordinator"
+}

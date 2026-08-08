@@ -1,0 +1,302 @@
+{
+  "generatedAt": "2026-08-07T18:57:38.197Z",
+  "coreHealthScore": 100,
+  "coreStatus": "PASS",
+  "optionalCapabilities": {
+    "total": 10,
+    "scaffolded": 10,
+    "configured": 0
+  },
+  "checks": [
+    {
+      "name": "CLAUDE",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": "CLAUDE.md",
+      "weight": 3
+    },
+    {
+      "name": "settings",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/settings.json",
+      "weight": 3
+    },
+    {
+      "name": "registry",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/capability-registry.json",
+      "weight": 3
+    },
+    {
+      "name": "task policy",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/tasks/policy.json",
+      "weight": 3
+    },
+    {
+      "name": "evolution policy",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/evolution/policy.json",
+      "weight": 3
+    },
+    {
+      "name": "telemetry policy",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/telemetry/policy.json",
+      "weight": 3
+    },
+    {
+      "name": "security policy",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/security/policy.json",
+      "weight": 3
+    },
+    {
+      "name": "Work OS policy",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/work-os/policy.json",
+      "weight": 3
+    },
+    {
+      "name": "Work OS state",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/work-os/state.json",
+      "weight": 3
+    },
+    {
+      "name": "skill evolution policy",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/skill-evolution/policy.json",
+      "weight": 3
+    },
+    {
+      "name": "skill evolution state",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/skill-evolution/candidates.json",
+      "weight": 3
+    },
+    {
+      "name": "configuration validator",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": "Claude configuration valid: 20 agents, 42 skills, 34 commands, 5 future roles, 25 system scenarios, 0 warning(s).",
+      "weight": 6
+    },
+    {
+      "name": "agent security scan",
+      "category": "security",
+      "core": true,
+      "status": "PASS",
+      "detail": "deterministic scan passed",
+      "weight": 5
+    },
+    {
+      "name": "Work OS validation",
+      "category": "operations",
+      "core": true,
+      "status": "PASS",
+      "detail": "Work OS valid: 0 task(s), 0 warning(s).",
+      "weight": 4
+    },
+    {
+      "name": "Work OS integrity review",
+      "category": "operations",
+      "core": true,
+      "status": "PASS",
+      "detail": "Work OS review: HEALTHY. 0 blocker(s), 0 review item(s), 0 stale item(s), 0 learning candidate(s).",
+      "weight": 3
+    },
+    {
+      "name": "skill structure audit",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": "Skill structure audit: 0 error(s), 0 warning(s).",
+      "weight": 3
+    },
+    {
+      "name": "skill evolution review",
+      "category": "agent-system",
+      "core": true,
+      "status": "PASS",
+      "detail": "Skill evolution: 0 active, 0 proven, 0 rejected, 0 blocked.",
+      "weight": 3
+    },
+    {
+      "name": "CI npm run validate:claude",
+      "category": "ci",
+      "core": true,
+      "status": "PASS",
+      "detail": "npm run validate:claude",
+      "weight": 2
+    },
+    {
+      "name": "CI npm run skill:audit",
+      "category": "ci",
+      "core": true,
+      "status": "PASS",
+      "detail": "npm run skill:audit",
+      "weight": 2
+    },
+    {
+      "name": "CI npm run skill-evolution:review",
+      "category": "ci",
+      "core": true,
+      "status": "PASS",
+      "detail": "npm run skill-evolution:review",
+      "weight": 2
+    },
+    {
+      "name": "CI npm run work-os:validate",
+      "category": "ci",
+      "core": true,
+      "status": "PASS",
+      "detail": "npm run work-os:validate",
+      "weight": 2
+    },
+    {
+      "name": "CI npm run work-os:review",
+      "category": "ci",
+      "core": true,
+      "status": "PASS",
+      "detail": "npm run work-os:review",
+      "weight": 2
+    },
+    {
+      "name": "CI npm run test:claude-system",
+      "category": "ci",
+      "core": true,
+      "status": "PASS",
+      "detail": "npm run test:claude-system",
+      "weight": 2
+    },
+    {
+      "name": "CI npm run security:claude",
+      "category": "ci",
+      "core": true,
+      "status": "PASS",
+      "detail": "npm run security:claude",
+      "weight": 2
+    },
+    {
+      "name": "agent lifecycle hook",
+      "category": "telemetry",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/hooks/agent-lifecycle-logger.mjs",
+      "weight": 2
+    },
+    {
+      "name": "staged secret hook",
+      "category": "security",
+      "core": true,
+      "status": "PASS",
+      "detail": ".claude/hooks/scan-staged-secrets.mjs",
+      "weight": 3
+    },
+    {
+      "name": "analytics contract",
+      "category": "product-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "planning contract only",
+      "weight": 1
+    },
+    {
+      "name": "SEO workspace",
+      "category": "growth-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": ".qarga-seo/",
+      "weight": 1
+    },
+    {
+      "name": "Playwright structure",
+      "category": "e2e-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "dependency may still be unconfigured",
+      "weight": 1
+    },
+    {
+      "name": "k6 load template",
+      "category": "load-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "k6 binary is external",
+      "weight": 1
+    },
+    {
+      "name": "observability policy",
+      "category": "production-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "external monitoring remains opt-in",
+      "weight": 1
+    },
+    {
+      "name": "daily health worker template",
+      "category": "automation-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "not deployed by this package",
+      "weight": 1
+    },
+    {
+      "name": "weekly KPI worker template",
+      "category": "automation-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "not deployed by this package",
+      "weight": 1
+    },
+    {
+      "name": "integration catalog",
+      "category": "integration-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "catalog only; credentials are never stored here",
+      "weight": 1
+    },
+    {
+      "name": "sandbox autonomy policy",
+      "category": "automation-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "autonomous workers remain disabled",
+      "weight": 1
+    },
+    {
+      "name": "web performance budget",
+      "category": "performance-readiness",
+      "core": false,
+      "status": "SCAFFOLDED",
+      "detail": "thresholds may still be null until baseline approval",
+      "weight": 1
+    }
+  ],
+  "coreFailures": [],
+  "note": "Core health and optional capability readiness are separate. SCAFFOLDED means files/policies exist; it does not mean the external dependency/service is configured or production-safe."
+}

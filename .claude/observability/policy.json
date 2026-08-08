@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "status": "provider-neutral-design; external monitoring not enabled by this package",
+  "signals": [
+    "frontend-crash",
+    "backend-exception",
+    "health-check",
+    "slow-endpoint",
+    "failed-payment",
+    "failed-refund",
+    "failed-notification-or-job",
+    "backup-restore-status",
+    "deployment-version"
+  ],
+  "severity": [
+    "info",
+    "warning",
+    "high",
+    "critical"
+  ],
+  "rules": [
+    "Every alert needs an owner and runbook.",
+    "Production errors may trigger investigation and Draft PR only.",
+    "No automatic deploy, merge, refund, or production-data mutation.",
+    "Never store monitoring credentials in the repository."
+  ],
+  "sentry": "Optional after project-owner approval and secure DSN/token configuration."
+}

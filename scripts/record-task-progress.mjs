@@ -1,0 +1,26 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import process from 'node:process';
+const root=process.cwd();
+const inputPath=process.argv[2];
+if(!inputPath){console.error('Usage: npm run task:progress -- <progress.json>');process.exit(1)}
+const resolve=(p)=>path.resolve(root,p); const fail=(m)=>{console.error(`Task progress rejected: ${m}`);process.exit(1)};
+const readj=(p)=>JSON.parse(fs.readFileSync(p,'utf8')); const readl=(p)=>fs.readFileSync(p,'utf8').split(/\r?\n/).filter(Boolean).map(JSON.parse);
+const input=resolve(inputPath), contracts=resolve('.claude/tasks/contracts.jsonl'), progress=resolve('.claude/tasks/progress.jsonl'), registryPath=resolve('.claude/capability-registry.json');
+for(const p of [input,contracts,progress,registryPath]) if(!fs.existsSync(p)) fail(`file not found: ${path.relative(root,p)}`);
+const event=readj(input), contractRows=readl(contracts), rows=readl(progress), registry=readj(registryPath);
+if(!event.eventId||!event.taskId) fail('eventId and taskId are required');
+if(rows.some((r)=>r.eventId===event.eventId)) fail(`duplicate eventId: ${event.eventId}`);
+const created=contractRows.find((r)=>r.taskId===event.taskId&&r.eventType==='created'); if(!created) fail('task contract does not exist');
+if(contractRows.some((r)=>r.taskId===event.taskId&&r.eventType==='closed')) fail('task is already closed');
+if(event.agent!==created.ownerAgent) fail(`progress agent must match contract ownerAgent: ${created.ownerAgent}`);
+if(!registry.agents.some((a)=>a.name===event.agent)) fail(`agent is not registered: ${event.agent}`);
+if(!Number.isInteger(event.iteration)||event.iteration<1) fail('iteration must be a positive integer');
+if(rows.some((r)=>r.taskId===event.taskId&&r.iteration===event.iteration)) fail(`iteration already exists: ${event.iteration}`);
+if(!event.approachKey||typeof event.approachKey!=='string') fail('approachKey is required');
+if(typeof event.summary!=='string'||!event.summary.trim()) fail('summary is required');
+if(typeof event.measurableProgress!=='boolean') fail('measurableProgress must be boolean');
+if(!Array.isArray(event.evidence)) fail('evidence must be an array');
+if(event.sensitiveDataIncluded===true) fail('progress ledger must not contain secrets or personal data');
+fs.appendFileSync(progress,`${JSON.stringify({...event,schemaVersion:1,recordedAt:new Date().toISOString()})}\n`);
+console.log(`Recorded task progress ${event.taskId} iteration ${event.iteration}: ${event.measurableProgress?'progress':'no progress'}.`);

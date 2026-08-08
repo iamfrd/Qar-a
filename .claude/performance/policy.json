@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "systemName": "Qarga Evidence-Based Agent Performance",
+  "purpose": "Route work better, detect recurring capability gaps and improve prompts/skills without encouraging task hoarding or unsafe competition.",
+  "taskPoints": {
+    "min": 1,
+    "max": 10,
+    "assignedBeforeExecution": true,
+    "bands": [
+      {
+        "range": "1-2",
+        "meaning": "Small, local, low-risk task"
+      },
+      {
+        "range": "3-4",
+        "meaning": "Focused fix, feature slice or analysis"
+      },
+      {
+        "range": "5-6",
+        "meaning": "Multi-file or medium business impact"
+      },
+      {
+        "range": "7-8",
+        "meaning": "Cross-domain, high-risk or milestone work"
+      },
+      {
+        "range": "9-10",
+        "meaning": "Critical payment, auth, migration, release or strategic work"
+      }
+    ]
+  },
+  "qualityWeights": {
+    "correctness": 30,
+    "verification": 20,
+    "scopeAdherence": 15,
+    "safety": 15,
+    "collaboration": 10,
+    "clarity": 10
+  },
+  "earnedPointsFormula": "status=rejected ? 0 : round(basePoints * qualityScore / 100, 2)",
+  "rollingWindow": 10,
+  "levels": [
+    {
+      "name": "unrated",
+      "minimumTasks": 0,
+      "maximumTasks": 2,
+      "reward": "No routing preference; collect more evidence."
+    },
+    {
+      "name": "developing",
+      "minimumTasks": 3,
+      "minimumRollingQuality": 0,
+      "maximumRollingQuality": 69.99,
+      "reward": "Narrower scope, paired work and an improvement plan."
+    },
+    {
+      "name": "reliable",
+      "minimumTasks": 3,
+      "minimumRollingQuality": 70,
+      "maximumRollingQuality": 84.99,
+      "reward": "Normal routing for matching tasks."
+    },
+    {
+      "name": "strong",
+      "minimumTasks": 3,
+      "minimumRollingQuality": 85,
+      "maximumRollingQuality": 92.99,
+      "reward": "First consideration for matching complex tasks and peer-review work."
+    },
+    {
+      "name": "trusted",
+      "minimumTasks": 10,
+      "minimumRollingQuality": 93,
+      "maximumRollingQuality": 100,
+      "reward": "Mentor or scoped lead candidate and may propose reusable skills; never bypasses approvals or reviews."
+    }
+  ],
+  "evaluationRules": {
+    "selfEvaluationCounts": false,
+    "minimumEvidenceItems": 1,
+    "proposalPoints": "No points for proposing work. An approved proposal may become a separately scored task after measurable delivery.",
+    "microTaskLogging": "Log delegated deliverables and milestone tasks, not every tool call or message.",
+    "rejectedTaskEarnedPoints": 0,
+    "negativePoints": false,
+    "completionContractRequired": true,
+    "contractMustBeClosedBeforeScoring": true,
+    "acceptedScoreRequiresAcceptedContract": true
+  },
+  "improvementTriggers": [
+    "Rolling quality below 70 after at least 3 tasks",
+    "Same defect category appears twice",
+    "Repeated work outside declared scope",
+    "Unsupported completion claim",
+    "Safety, privacy, payment or server-invariant failure"
+  ],
+  "guardrails": [
+    "No global leaderboard across unrelated roles",
+    "No reward for task volume, verbosity or unapproved scope",
+    "No score may bypass human approval, QA, security or permission controls",
+    "Hard tasks must not be avoided to protect a score",
+    "Coordinator must preserve failed-task evidence instead of hiding it",
+    "Project owner is the only evaluator for qarga-coordinator",
+    "No performance points for creating decision, technical-debt, experiment, or learning records",
+    "Hiding concrete technical debt or inventing experiment metrics is a quality and safety failure"
+  ]
+}

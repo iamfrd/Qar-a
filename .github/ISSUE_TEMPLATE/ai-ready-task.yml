@@ -1,0 +1,47 @@
+name: AI-ready implementation task
+description: Structured Qarğa task that may be routed to the coordinator after product decisions are settled.
+title: "[AI-ready] "
+labels: []
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Objective
+      description: What user/business/technical outcome is required?
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria and evidence
+      description: List each requirement and how it can be proven.
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Expected risk lane
+      options: [Fast, Standard, Critical, Coordinator must decide]
+    validations:
+      required: true
+  - type: textarea
+    id: decisions
+    attributes:
+      label: Decisions already approved
+      description: Link decision IDs or state that no material product/financial/legal/security decision remains.
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope boundaries
+      description: Files/areas allowed or explicitly out of scope.
+    validations:
+      required: true
+  - type: checkboxes
+    id: gate
+    attributes:
+      label: Human gate
+      options:
+        - label: I understand this issue does not authorize auto-merge, production deploy, financial action, or external-account writes.
+          required: true

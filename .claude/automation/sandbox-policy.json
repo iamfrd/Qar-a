@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "status": "not-enabled",
+  "preferredModel": "disposable isolated sandbox per autonomous coding job",
+  "requirements": [
+    "project-owner approval",
+    "bounded time/token/cost budget",
+    "minimum repository permissions",
+    "no production secrets",
+    "network/dependency policy",
+    "task completion contract",
+    "independent review",
+    "Draft PR only",
+    "kill switch",
+    "audit logs",
+    "sandbox destruction after job"
+  ],
+  "forbidden": [
+    "auto-merge main",
+    "auto-deploy production",
+    "financial actions",
+    "pricing/refund changes",
+    "legal finalization",
+    "production database mutation",
+    "external-account writes without explicit approval"
+  ]
+}
