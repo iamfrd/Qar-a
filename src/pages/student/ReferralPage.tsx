@@ -40,7 +40,8 @@ export function ReferralPage() {
         <div className="bg-ink-900 text-white rounded-3xl p-5 text-center mt-2">
           <CrowMascot size={56} mood="waving" className="mx-auto" />
           <h1 className="font-bold text-lg mt-2">Dostunu dəvət et, ikiniz də qazanın!</h1>
-          <p className="text-xs text-ink-300 mt-1">Dostun sənin kodunla qeydiyyatdan keçib kursa yazılanda hər ikiniz 30 Lələk qazanırsınız.</p>
+          {/* Lələk mükafatı hələ serverdə qeydə alınmır — vəd kimi deyil, plan kimi yazılır. */}
+          <p className="text-xs text-ink-300 mt-1">Dostun sənin kodunla qeydiyyatdan keçib kursa yazılanda hər ikinizə 30 Lələk yazılacaq. Lələk proqramı hazırlanır — xallar hazırda istifadə edilə bilmir.</p>
           <div className="bg-white/10 rounded-xl mt-4 px-4 py-3 flex items-center justify-between">
             <span className="font-mono font-bold tracking-wider">{code}</span>
             <button onClick={copyLink} className="text-xs font-semibold bg-gold-500 text-ink-950 px-3 py-1.5 rounded-full">Kopyala</button>

@@ -28,7 +28,6 @@ export function RegistrationFlow() {
   const { show } = useToast();
   const courses = useAppStore((s) => s.courses);
   const currentUser = useAppStore((s) => s.currentUser);
-  const lelekBalance = useAppStore((s) => s.lelekBalance);
   const createRegistration = useAppStore((s) => s.createRegistration);
 
   const course = courses.find((c) => c.id === courseId);
@@ -37,7 +36,6 @@ export function RegistrationFlow() {
   const [phone, setPhone] = useState(currentUser?.phone ?? '');
   const [age, setAge] = useState('');
   const [promo, setPromo] = useState('');
-  const [lelekUse, setLelekUse] = useState(0);
   const [agreed, setAgreed] = useState(false);
   const [payment, setPayment] = useState('pay_at_center');
   const [reg, setReg] = useState<Registration | null>(null);
@@ -46,16 +44,15 @@ export function RegistrationFlow() {
   const branch = getBranch(course.branchId);
   const provider = getProvider(course.providerId);
   const basePrice = course.discountPrice ?? course.price;
-  const balance = lelekBalance();
   const promoValid = promo.trim().toUpperCase() === 'QARGA10';
   const promoDiscount = promoValid ? Math.round(basePrice * 0.1) : 0;
-  const finalPrice = Math.max(0, basePrice - promoDiscount - lelekUse);
+  const finalPrice = Math.max(0, basePrice - promoDiscount);
 
   const submit = () => {
     const r = createRegistration({
       courseId: course.id, branchId: course.branchId, format: course.format, mode: course.mode,
       studentName: name, studentPhone: phone, studentAge: age, promoCode: promo || undefined,
-      lelekUsed: lelekUse, paymentMethod: payment,
+      lelekUsed: 0, paymentMethod: payment,
     });
     setReg(r);
     setStep(5);
@@ -79,7 +76,6 @@ export function RegistrationFlow() {
             {reg.discount > 0 && <Row label="Endirim" value={`-${formatAZN(reg.discount)}`} />}
             <Row label="Yekun ödəniş" value={formatAZN(reg.finalPrice)} />
             <Row label="Ödəniş statusu" value="Kursda ödəniləcək" />
-            <Row label="Qazanılan Lələk" value={`+${reg.lelekEarned} 🪶`} />
             <Row label="Provayder əlaqəsi" value={provider?.phone ?? ''} />
           </div>
 
@@ -129,18 +125,17 @@ export function RegistrationFlow() {
         {step === 2 && (
           <div>
             <TextInput label="Promo kod (istəyə bağlı)" value={promo} onChange={(e) => setPromo(e.target.value)} placeholder="Məs: QARGA10" hint="QARGA10 kodu ilə 10% əlavə endirim qazanın" />
-            <p className="text-sm font-semibold text-ink-800 mt-3 mb-1">Lələk xallarından istifadə et (balans: {balance} 🪶)</p>
-            <input
-              type="range" min={0} max={Math.min(balance, basePrice)} value={lelekUse}
-              onChange={(e) => setLelekUse(Number(e.target.value))} className="w-full accent-gold-500"
-            />
-            <p className="text-xs text-ink-500 mb-3">{lelekUse} Lələk istifadə ediləcək (-{formatAZN(lelekUse)})</p>
-            <div className="bg-ink-50 rounded-xl p-3 text-sm mb-3">
+            {/*
+              Lələk xallarını burada xərcləmək mümkün deyil: balans yalnız brauzerdə saxlanılır,
+              serverdə heç bir Lələk qeydi aparılmır. Sürüşdürücü istifadəçiyə real olmayan
+              endirim göstərirdi — mərkəzdə ödəniləcək məbləğ isə dəyişmirdi.
+            */}
+            <div className="bg-ink-50 rounded-xl p-3 text-sm mb-3 mt-3">
               <div className="flex justify-between"><span>Əsas qiymət</span><span>{formatAZN(basePrice)}</span></div>
               {promoDiscount > 0 && <div className="flex justify-between text-teal-600"><span>Promo endirim</span><span>-{formatAZN(promoDiscount)}</span></div>}
-              {lelekUse > 0 && <div className="flex justify-between text-teal-600"><span>Lələk endirimi</span><span>-{formatAZN(lelekUse)}</span></div>}
               <div className="flex justify-between font-bold border-t border-ink-200 mt-1 pt-1"><span>Yekun</span><span>{formatAZN(finalPrice)}</span></div>
             </div>
+            <p className="text-xs text-ink-500 mb-3">🪶 Lələk xalları ilə endirim hazırlanır — hazırda qeydiyyatda istifadə edilə bilmir.</p>
             <Button fullWidth onClick={() => setStep(3)}>Davam et</Button>
           </div>
         )}
