@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-07T14:17:28.346Z",
+  "generatedAt": "2026-08-08T17:14:47.493Z",
   "agents": {
     "qarga-coordinator": {
       "department": "Leadership",
@@ -56,24 +56,38 @@
       "role": "Marketplace revenue strategist",
       "status": "core",
       "level": "unrated",
-      "tasksEvaluated": 0,
-      "totalEarnedPoints": 0,
-      "averageQuality": null,
-      "rollingQuality": null,
-      "recentImprovementAreas": [],
+      "tasksEvaluated": 1,
+      "totalEarnedPoints": 4.27,
+      "averageQuality": 85.35,
+      "rollingQuality": 85.35,
+      "recentImprovementAreas": [
+        "Did not follow imports from src/lib/api.ts to callers",
+        "so missed that shipped registration/auth UI never calls the backend"
+      ],
       "lifecycle": {
         "starts": 0,
         "stops": 0,
         "lastSeen": null
       },
-      "recentTaskIds": [],
+      "recentTaskIds": [
+        "QW-0002-S01"
+      ],
       "workload": {
         "ready": 0,
         "inProgress": 0,
         "inReview": 0,
-        "blocked": 0,
-        "waiting": 0,
-        "current": []
+        "blocked": 1,
+        "waiting": 1,
+        "current": [
+          {
+            "taskId": "QW-0002",
+            "subtaskId": "QW-0002-S01",
+            "title": "Course-marketplace revenue model option matrix",
+            "status": "blocked",
+            "priority": "high",
+            "basePoints": 5
+          }
+        ]
       }
     },
     "qarga-architect": {
@@ -106,24 +120,45 @@
       "role": "Frontend engineer",
       "status": "core",
       "level": "unrated",
-      "tasksEvaluated": 0,
-      "totalEarnedPoints": 0,
-      "averageQuality": null,
-      "rollingQuality": null,
-      "recentImprovementAreas": [],
+      "tasksEvaluated": 1,
+      "totalEarnedPoints": 2.5,
+      "averageQuality": 83.45,
+      "rollingQuality": 83.45,
+      "recentImprovementAreas": [
+        "The title-based accessible name is likely ineffective because Leaflet sets role=button and name-from-content wins over the title attribute"
+      ],
       "lifecycle": {
-        "starts": 0,
-        "stops": 0,
-        "lastSeen": null
+        "starts": 1,
+        "stops": 1,
+        "lastSeen": "2026-08-08T16:45:34.643Z"
       },
-      "recentTaskIds": [],
+      "recentTaskIds": [
+        "QW-0004-S01"
+      ],
       "workload": {
-        "ready": 0,
+        "ready": 1,
         "inProgress": 0,
         "inReview": 0,
-        "blocked": 0,
+        "blocked": 1,
         "waiting": 0,
-        "current": []
+        "current": [
+          {
+            "taskId": "QW-0004",
+            "subtaskId": "QW-0004-S01",
+            "title": "Label sponsored offerings on the map",
+            "status": "blocked",
+            "priority": "high",
+            "basePoints": 3
+          },
+          {
+            "taskId": "QW-0004",
+            "subtaskId": "QW-0004-S08",
+            "title": "Harden the sponsored-disclosure accessibility on the map",
+            "status": "ready",
+            "priority": "high",
+            "basePoints": 2
+          }
+        ]
       }
     },
     "qarga-backend-engineer": {
@@ -131,17 +166,22 @@
       "role": "Backend engineer",
       "status": "core",
       "level": "unrated",
-      "tasksEvaluated": 0,
-      "totalEarnedPoints": 0,
-      "averageQuality": null,
-      "rollingQuality": null,
-      "recentImprovementAreas": [],
+      "tasksEvaluated": 1,
+      "totalEarnedPoints": 3.4,
+      "averageQuality": 85.1,
+      "rollingQuality": 85.1,
+      "recentImprovementAreas": [
+        "server/db.mjs",
+        "server/schema.sql and src/lib/api.ts were outside the recorded contract allowedFiles and no amendment event was recorded before implementation"
+      ],
       "lifecycle": {
-        "starts": 0,
-        "stops": 0,
-        "lastSeen": null
+        "starts": 1,
+        "stops": 1,
+        "lastSeen": "2026-08-08T16:29:53.738Z"
       },
-      "recentTaskIds": [],
+      "recentTaskIds": [
+        "QW-0004-S02"
+      ],
       "workload": {
         "ready": 0,
         "inProgress": 0,
@@ -156,24 +196,45 @@
       "role": "Frontend-backend integration engineer",
       "status": "core",
       "level": "unrated",
-      "tasksEvaluated": 0,
-      "totalEarnedPoints": 0,
-      "averageQuality": null,
-      "rollingQuality": null,
-      "recentImprovementAreas": [],
+      "tasksEvaluated": 1,
+      "totalEarnedPoints": 3.7,
+      "averageQuality": 92.55,
+      "rollingQuality": 92.55,
+      "recentImprovementAreas": [
+        "Implementer summary did not disclose that the touched registration screen never reaches the server"
+      ],
       "lifecycle": {
-        "starts": 0,
-        "stops": 0,
-        "lastSeen": null
+        "starts": 1,
+        "stops": 1,
+        "lastSeen": "2026-08-08T16:51:11.374Z"
       },
-      "recentTaskIds": [],
+      "recentTaskIds": [
+        "QW-0004-S03"
+      ],
       "workload": {
-        "ready": 0,
-        "inProgress": 0,
+        "ready": 1,
+        "inProgress": 1,
         "inReview": 0,
         "blocked": 0,
-        "waiting": 0,
-        "current": []
+        "waiting": 2,
+        "current": [
+          {
+            "taskId": "QW-0004",
+            "subtaskId": "QW-0004-S04",
+            "title": "Wire RegistrationFlow to the server-authoritative registration API",
+            "status": "rework",
+            "priority": "high",
+            "basePoints": 7
+          },
+          {
+            "taskId": "QW-0004",
+            "subtaskId": "QW-0004-S05",
+            "title": "Migrate Login to the real OTP session API",
+            "status": "ready",
+            "priority": "high",
+            "basePoints": 6
+          }
+        ]
       }
     },
     "qarga-test-automator": {
@@ -212,9 +273,9 @@
       "rollingQuality": null,
       "recentImprovementAreas": [],
       "lifecycle": {
-        "starts": 0,
-        "stops": 0,
-        "lastSeen": null
+        "starts": 2,
+        "stops": 2,
+        "lastSeen": "2026-08-08T17:07:25.961Z"
       },
       "recentTaskIds": [],
       "workload": {
@@ -237,9 +298,9 @@
       "rollingQuality": null,
       "recentImprovementAreas": [],
       "lifecycle": {
-        "starts": 0,
-        "stops": 0,
-        "lastSeen": null
+        "starts": 2,
+        "stops": 2,
+        "lastSeen": "2026-08-08T17:08:11.497Z"
       },
       "recentTaskIds": [],
       "workload": {
@@ -297,7 +358,7 @@
         "inProgress": 0,
         "inReview": 0,
         "blocked": 0,
-        "waiting": 0,
+        "waiting": 1,
         "current": []
       }
     },
@@ -362,9 +423,9 @@
       "rollingQuality": null,
       "recentImprovementAreas": [],
       "lifecycle": {
-        "starts": 0,
-        "stops": 0,
-        "lastSeen": null
+        "starts": 1,
+        "stops": 1,
+        "lastSeen": "2026-08-08T16:45:16.656Z"
       },
       "recentTaskIds": [],
       "workload": {
@@ -381,24 +442,64 @@
       "role": "Controlled agent-system implementer",
       "status": "core-system",
       "level": "unrated",
-      "tasksEvaluated": 0,
-      "totalEarnedPoints": 0,
-      "averageQuality": null,
-      "rollingQuality": null,
-      "recentImprovementAreas": [],
+      "tasksEvaluated": 2,
+      "totalEarnedPoints": 6.41,
+      "averageQuality": 91.23,
+      "rollingQuality": 91.23,
+      "recentImprovementAreas": [
+        "Pristine seeding does not cover learning",
+        "project-memory",
+        "evolution or skill-evolution ledgers"
+      ],
       "lifecycle": {
         "starts": 0,
         "stops": 0,
         "lastSeen": null
       },
-      "recentTaskIds": [],
+      "recentTaskIds": [
+        "QW-0001-S01",
+        "QW-0003-S01"
+      ],
       "workload": {
-        "ready": 0,
+        "ready": 3,
         "inProgress": 0,
-        "inReview": 0,
+        "inReview": 1,
         "blocked": 0,
         "waiting": 0,
-        "current": []
+        "current": [
+          {
+            "taskId": "QW-0001",
+            "subtaskId": "QW-0001-S01",
+            "title": "Make agent-system parsers CRLF-tolerant and normalize repo line endings",
+            "status": "review",
+            "priority": "critical",
+            "basePoints": 4
+          },
+          {
+            "taskId": "QW-0005",
+            "subtaskId": "QW-0005-S01",
+            "title": "Block git stash and git checkout path-restore in the safety hook",
+            "status": "ready",
+            "priority": "high",
+            "basePoints": 3
+          },
+          {
+            "taskId": "QW-0005",
+            "subtaskId": "QW-0005-S02",
+            "title": "Bring settings.local.json under security scanning and reduce its permissions",
+            "status": "ready",
+            "priority": "high",
+            "basePoints": 4
+          },
+          {
+            "taskId": "QW-0005",
+            "subtaskId": "QW-0005-S03",
+            "title": "Exclude nested git checkouts and operational ledgers from the English-only walk",
+            "status": "ready",
+            "priority": "high",
+            "basePoints": 4
+          }
+        ]
       }
     },
     "qarga-system-reviewer": {
@@ -412,9 +513,9 @@
       "rollingQuality": null,
       "recentImprovementAreas": [],
       "lifecycle": {
-        "starts": 0,
-        "stops": 0,
-        "lastSeen": null
+        "starts": 1,
+        "stops": 1,
+        "lastSeen": "2026-08-08T16:34:01.938Z"
       },
       "recentTaskIds": [],
       "workload": {
@@ -502,15 +603,214 @@
       }
     }
   },
-  "recentLifecycle": [],
+  "recentLifecycle": [
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T15:33:16.920Z",
+      "sessionId": "9f73cbed-635b-4f7d-9895-0e18a06c786a",
+      "agentId": "a1c22a51479a94a46",
+      "agentName": "unknown",
+      "agentType": "",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T15:37:30.855Z",
+      "sessionId": "9f73cbed-635b-4f7d-9895-0e18a06c786a",
+      "agentId": "a78699f8dbb91644f",
+      "agentName": "unknown",
+      "agentType": "",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T15:39:03.828Z",
+      "sessionId": "9f73cbed-635b-4f7d-9895-0e18a06c786a",
+      "agentId": "ae49b61e204174660",
+      "agentName": "unknown",
+      "agentType": "",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T15:52:24.381Z",
+      "sessionId": "5ce960c2-3230-4d61-8d1b-0591a9ec6029",
+      "agentId": "aef75545152e447bf",
+      "agentName": "unknown",
+      "agentType": "",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T16:19:59.782Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a83c4c2e550f94bd2",
+      "agentName": "qarga-backend-engineer",
+      "agentType": "qarga-backend-engineer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T16:20:18.152Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a31a3a8b7e4fd8d18",
+      "agentName": "qarga-system-reviewer",
+      "agentType": "qarga-system-reviewer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T16:20:37.642Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a6a16d918cb3a92af",
+      "agentName": "qarga-qa-auditor",
+      "agentType": "qarga-qa-auditor",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T16:20:50.333Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a449ca75238eff09e",
+      "agentName": "qarga-ui-auditor",
+      "agentType": "qarga-ui-auditor",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T16:27:33.795Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a449ca75238eff09e",
+      "agentName": "qarga-ui-auditor",
+      "agentType": "qarga-ui-auditor",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T16:29:09.592Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a6a16d918cb3a92af",
+      "agentName": "qarga-qa-auditor",
+      "agentType": "qarga-qa-auditor",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T16:29:53.738Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a83c4c2e550f94bd2",
+      "agentName": "qarga-backend-engineer",
+      "agentType": "qarga-backend-engineer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T16:34:01.938Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a31a3a8b7e4fd8d18",
+      "agentName": "qarga-system-reviewer",
+      "agentType": "qarga-system-reviewer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T16:36:23.375Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a6c89478def0d3d64",
+      "agentName": "qarga-integration-engineer",
+      "agentType": "qarga-integration-engineer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T16:36:50.802Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a62653e1af231fd96",
+      "agentName": "qarga-frontend-engineer",
+      "agentType": "qarga-frontend-engineer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T16:37:17.503Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a6f3ff3d628b6d772",
+      "agentName": "qarga-system-researcher",
+      "agentType": "qarga-system-researcher",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T16:45:16.656Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a6f3ff3d628b6d772",
+      "agentName": "qarga-system-researcher",
+      "agentType": "qarga-system-researcher",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T16:45:34.643Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a62653e1af231fd96",
+      "agentName": "qarga-frontend-engineer",
+      "agentType": "qarga-frontend-engineer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T16:51:11.374Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a6c89478def0d3d64",
+      "agentName": "qarga-integration-engineer",
+      "agentType": "qarga-integration-engineer",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T17:01:34.423Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a3beddd55d86938ca",
+      "agentName": "qarga-qa-auditor",
+      "agentType": "qarga-qa-auditor",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStart",
+      "timestamp": "2026-08-08T17:01:58.784Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a8fb03d5e3d88ebde",
+      "agentName": "qarga-ui-auditor",
+      "agentType": "qarga-ui-auditor",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T17:07:25.961Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a3beddd55d86938ca",
+      "agentName": "qarga-qa-auditor",
+      "agentType": "qarga-qa-auditor",
+      "source": "claude-hook"
+    },
+    {
+      "event": "SubagentStop",
+      "timestamp": "2026-08-08T17:08:11.497Z",
+      "sessionId": "090eb5e4-a703-4bc8-97e3-a3588f3cc0bc",
+      "agentId": "a8fb03d5e3d88ebde",
+      "agentName": "qarga-ui-auditor",
+      "agentType": "qarga-ui-auditor",
+      "source": "claude-hook"
+    }
+  ],
   "workOs": {
-    "tasks": 0,
-    "active": 0,
+    "tasks": 5,
+    "active": 4,
     "ownerDecisions": 0,
-    "done": 0
+    "done": 1
   },
   "taskSummary": {
-    "tracked": 0,
+    "tracked": 7,
     "blocked": 0,
     "readyToClose": 0
   },
@@ -528,8 +828,8 @@
     "scorecards": {}
   },
   "projectMemory": {
-    "releaseBlockers": 0,
-    "learningCandidates": 0
+    "releaseBlockers": 1,
+    "learningCandidates": 1
   },
   "notes": [
     "Do not compare unrelated roles by raw task count or points.",
