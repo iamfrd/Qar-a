@@ -182,6 +182,71 @@ test('qiymət serverdə hesablanır, brauzerin göndərdiyi məbləğ nəzərə 
     'server öz qiymətini işlətməlidir');
 });
 
+// Qeydiyyat haqqı kursun səhifəsində elan olunur (CourseDetail.tsx), amma server onu
+// SELECT edib istifadə etmədən atır: qeydə alınan məbləğ yalnız baza qiymətidir.
+// Haqqın ümumi məbləğə əlavə olunub-olunmaması BİZNES qərarıdır və layihə sahibinin
+// qərarını gözləyir — ona görə burada mövcud davranış uydurulmadan, olduğu kimi
+// kilidlənir. Qərar verildikdən sonra bu test qəsdən yenilənməlidir.
+test('qeydiyyat haqqı elan olunur, lakin qeydə alınan məbləğə daxil edilmir', async () => {
+  const cookie = await login('+994500000210');
+  const det = await api('/api/offerings/off-c-english-general-genclik');
+  assert.ok(det.json.registrationFeeMinor > 0, 'bu fixture haqqı olan bir təklif olmalıdır');
+
+  const r = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: { cohortId: det.json.cohortId, studentName: 'T', studentPhone: '+994500000210' },
+  });
+  const reg = r.json.registration;
+
+  assert.equal(reg.final_price_minor, det.json.effectivePriceMinor,
+    'qeydə alınan məbləğ baza qiymətidir');
+  assert.equal(reg.final_price_minor, reg.price_minor - reg.discount_minor,
+    'final = qiymət - endirim invariantı pozulmamalıdır');
+  assert.notEqual(reg.final_price_minor, det.json.effectivePriceMinor + det.json.registrationFeeMinor,
+    'AÇIQ QƏRAR: haqq hazırda əlavə OLUNMUR — dəyişdirilərsə, bu sətir qəsdən yenilənməlidir');
+});
+
+// QARGA10 10% endirim verir. Endirimi kimin maliyyələşdirdiyi (Qarğa, yoxsa provayder)
+// heç yerdə qeyd olunmur — sxemdə belə bir sahə yoxdur. Bu, layihə sahibinə eskalasiya
+// edilmiş açıq sualdır; burada yalnız arifmetika və qeyd olunan sahələr yoxlanılır.
+test('QARGA10 arifmetikası açıqdır və maliyyələşdirmə qeydə alınmır', async () => {
+  const cookie = await login('+994500000211');
+  const det = await api('/api/offerings/off-c-english-general-genclik');
+  const base = det.json.effectivePriceMinor;
+
+  const r = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: {
+      cohortId: det.json.cohortId, studentName: 'T', studentPhone: '+994500000211',
+      promoCode: 'qarga10', // kiçik hərflə — normallaşdırma yoxlanılır
+    },
+  });
+  const reg = r.json.registration;
+
+  assert.equal(reg.discount_minor, Math.round(base * 0.1), 'endirim bazanın 10%-i olmalıdır');
+  assert.equal(reg.final_price_minor, base - reg.discount_minor, 'final = baza - endirim');
+  assert.equal(reg.promo_code, 'qarga10', 'işlənən promo kod qeydə alınmalıdır');
+  assert.equal(reg.final_price_minor % 1, 0, 'məbləğ qəpiklə tam ədəd qalmalıdır');
+  assert.equal('discount_funded_by' in reg, false,
+    'AÇIQ QƏRAR: endirimin maliyyə mənbəyi qeydə alınmır — sahib qərarı gözlənilir');
+});
+
+test('etibarsız promo kod endirim yaratmır', async () => {
+  const cookie = await login('+994500000212');
+  const det = await api('/api/offerings/off-c-english-general-genclik');
+  const r = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: {
+      cohortId: det.json.cohortId, studentName: 'T', studentPhone: '+994500000212',
+      promoCode: 'QARGA99',
+    },
+  });
+  const reg = r.json.registration;
+  assert.equal(reg.discount_minor, 0, 'naməlum kod endirim verməməlidir');
+  assert.equal(reg.final_price_minor, det.json.effectivePriceMinor);
+  assert.equal(reg.promo_code, null, 'etibarsız kod qeydə alınmamalıdır');
+});
+
 test('rəy yalnız iştirakdan sonra yazıla bilər', async () => {
   const cookie = await login('+994500000203');
   const r = await api('/api/reviews', {

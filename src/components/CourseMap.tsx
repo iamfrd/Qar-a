@@ -7,23 +7,41 @@ import { formatMinor } from '../lib/api';
 import { BAKU_CENTER } from '../data/areas';
 import { formatDistance } from '../lib/utils';
 import { RatingStars } from './RatingStars';
-import { Badge } from './Badge';
+import { Badge, SponsoredBadge } from './Badge';
 import { Button } from './Button';
 import { useAppStore } from '../store/useAppStore';
 
+const SPONSORED_LABEL = 'Sponsorlu';
+const SPONSORED_LABEL_HEIGHT = 17;
+
 function categoryIcon(color: string, icon: string, promoted: boolean) {
+  const pinSize = promoted ? 40 : 34;
+  // Sponsorlu pin daha böyük və qızılı haşiyəlidir, amma ölçü/rəng fərqi etiket deyil:
+  // yerləşdirmənin ödənişli olduğu yazı ilə bildirilməlidir. Etiket pinin üstündə dayanır
+  // ki, pinin ucu koordinatın üzərində qalsın.
+  const label = promoted
+    ? `<span style="
+        display:inline-block;height:${SPONSORED_LABEL_HEIGHT}px;line-height:${SPONSORED_LABEL_HEIGHT}px;
+        padding:0 6px;margin-bottom:2px;border-radius:999px;
+        background:#fdf3d7;color:#8a6100;border:1px solid #d4a017;
+        font-size:9px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;
+        white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.25);
+      ">${SPONSORED_LABEL}</span>`
+    : '';
+  const width = promoted ? 72 : pinSize;
+  const height = pinSize + (promoted ? SPONSORED_LABEL_HEIGHT + 2 : 0);
   return L.divIcon({
     className: '',
-    html: `<div style="
-      width:${promoted ? 40 : 34}px;height:${promoted ? 40 : 34}px;
+    html: `<div style="width:${width}px;height:${height}px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">${label}<div style="
+      width:${pinSize}px;height:${pinSize}px;
       background:${color};border-radius:50% 50% 50% 0;
       transform:rotate(-45deg);
       display:flex;align-items:center;justify-content:center;
       box-shadow:0 2px 6px rgba(0,0,0,0.35);
       border:${promoted ? '3px solid #d4a017' : '2px solid white'};
-    "><span style="transform:rotate(45deg);font-size:${promoted ? 18 : 15}px;">${icon}</span></div>`,
-    iconSize: [promoted ? 40 : 34, promoted ? 40 : 34],
-    iconAnchor: [promoted ? 20 : 17, promoted ? 40 : 34],
+    "><span style="transform:rotate(45deg);font-size:${promoted ? 18 : 15}px;">${icon}</span></div></div>`,
+    iconSize: [width, height],
+    iconAnchor: [width / 2, height],
     popupAnchor: [0, -30],
   });
 }
@@ -106,6 +124,9 @@ export function CourseMap({
               key={branchId}
               position={[primary.branch.lat, primary.branch.lng]}
               icon={categoryIcon(category?.color ?? '#111827', category?.icon ?? '📍', primary.promoted)}
+              // Leaflet `title`-i istənilən pin elementinə tətbiq edir və o, əlçatanlıq adı
+              // kimi oxunur; `alt` yalnız <img> ikonlarda işləyir, divIcon-da yox.
+              title={primary.promoted ? `${primary.branch.name} — ${SPONSORED_LABEL}` : primary.branch.name}
               eventHandlers={{ click: () => setSelectedBranchId(branchId) }}
             />
           );
@@ -145,7 +166,10 @@ export function CourseMap({
               <div className="flex flex-col gap-2">
                 {selectedCourses.map((c) => (
                   <button key={c.offeringId} onClick={() => navigate(`/app/course/${c.offeringId}`)} className="flex items-center justify-between text-left px-3 py-2 rounded-xl bg-ink-50 hover:bg-ink-100">
-                    <span className="text-sm font-semibold text-ink-800 truncate">{c.title}</span>
+                    <span className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-sm font-semibold text-ink-800 truncate">{c.title}</span>
+                      {c.promoted && <SponsoredBadge />}
+                    </span>
                     <span className="text-xs font-bold text-ink-900 shrink-0 ml-2">{formatMinor(c.effectivePriceMinor)}</span>
                   </button>
                 ))}
@@ -181,6 +205,7 @@ function CoursePreviewCard({ course, category, onClose }: { course: OfferingSumm
             {distance !== null && distance !== undefined && <span className="text-xs text-ink-400">• {formatDistance(distance)}</span>}
           </div>
           <div className="flex gap-1 mt-1 flex-wrap">
+            {course.promoted && <SponsoredBadge />}
             {course.qargaExclusive && <Badge tone="gold">Endirim</Badge>}
             {course.freeTrial && <Badge tone="teal">Pulsuz sınaq</Badge>}
             <Badge tone="neutral">{course.seatsAvailable} yer</Badge>
