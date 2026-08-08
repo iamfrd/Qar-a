@@ -36,3 +36,6 @@ server/data/
 
 # Yerli arxiv — komputerdəki köhnə/dublikat Qarğa qovluqları, layihənin hissəsi deyil
 /_archive/
+
+# Maşına xas debug/başlatma konfiqi — port və əmrlər developerdən asılıdır
+.claude/launch.json
