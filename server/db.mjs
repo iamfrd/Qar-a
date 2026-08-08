@@ -19,9 +19,36 @@ export function getDb() {
   return db;
 }
 
+/**
+ * `schema.sql` yalnız `CREATE TABLE IF NOT EXISTS` işlədir, ona görə də
+ * artıq mövcud olan cədvəllərə yeni sütun əlavə etmir. Köhnə bazalarda
+ * geriyə uyğun tələb olunan sütunları burada, ideal olaraq tranzaksiyasız
+ * və təkrar-işlədilə bilən şəkildə əlavə edirik. Hər çağırış mövcud
+ * sütunları yoxlayır və yalnız çatışmayanı əlavə edir — məlumat itkisi
+ * yoxdur, defolt dəyər mövcud sətirlərə tətbiq olunur.
+ */
+const COLUMN_MIGRATIONS = [
+  {
+    table: 'registrations',
+    column: 'registration_fee_minor',
+    // DEC-0001: qeydiyyat haqqı yekun məbləğə daxil edilir. Köhnə sətirlər
+    // faktiki ödənilməmiş haqqı geriyə əlavə etməməlidir, ona görə defolt 0.
+    ddl: 'ALTER TABLE registrations ADD COLUMN registration_fee_minor INTEGER NOT NULL DEFAULT 0 CHECK (registration_fee_minor >= 0)',
+  },
+];
+
+function applyColumnMigrations(d) {
+  for (const m of COLUMN_MIGRATIONS) {
+    const cols = d.prepare(`PRAGMA table_info(${m.table})`).all();
+    if (cols.some((c) => c.name === m.column)) continue;
+    d.exec(m.ddl);
+  }
+}
+
 export function migrate() {
   const d = getDb();
   d.exec(readFileSync(join(here, 'schema.sql'), 'utf8'));
+  applyColumnMigrations(d);
   return d;
 }
 

@@ -221,6 +221,10 @@ CREATE TABLE IF NOT EXISTS registrations (
   student_age        TEXT NOT NULL DEFAULT '',
   price_minor        INTEGER NOT NULL CHECK (price_minor >= 0),
   discount_minor     INTEGER NOT NULL DEFAULT 0 CHECK (discount_minor >= 0),
+  -- Təklifin qeydiyyat haqqı, qeydiyyat zamanı təklifdən köçürülüb burada
+  -- donduraraq saxlanılır (DEC-0001) — təklifin gələcək qiymət dəyişikliyi
+  -- artıq yaradılmış qeydiyyatın məbləğinə təsir etməməlidir.
+  registration_fee_minor INTEGER NOT NULL DEFAULT 0 CHECK (registration_fee_minor >= 0),
   final_price_minor  INTEGER NOT NULL CHECK (final_price_minor >= 0),
   promo_code         TEXT,
   lelek_used         INTEGER NOT NULL DEFAULT 0 CHECK (lelek_used >= 0),

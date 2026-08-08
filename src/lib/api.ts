@@ -169,6 +169,79 @@ export interface AreaInfo {
   lng: number;
 }
 
+/**
+ * Serverin `registrations` sətri. Sahə adları verilənlər bazası sütunları
+ * ilə eynidir (snake_case) — server bu formanı `/api/registrations`
+ * cavablarında olduğu kimi qaytarır.
+ *
+ * Qiymət komponentləri (DEC-0001, qeydiyyat №QW-0004-S02):
+ *   final_price_minor = price_minor - discount_minor + registration_fee_minor
+ * `price_minor` təklifin baza qiymətidir (offering-səviyyəli kampaniya
+ * endirimindən SONRA, yəni `discountPriceMinor ?? priceMinor`).
+ * `registration_fee_minor` qeydiyyat anında donub qeyddə saxlanılır —
+ * təklifin sonrakı qiymət dəyişikliyi artıq yaradılmış qeydiyyata təsir etmir.
+ *
+ * Promo (DEC-0002): QARGA10 kodu maliyyələşdirmə modeli təsdiqlənənə qədər
+ * DAYANDIRILIB. `discount_minor` promo mənbəyindən həmişə 0-dır.
+ * `promo_applied` UI-ya kodun faktiki tətbiq olunub-olunmadığını bildirir
+ * (hazırda həmişə `false`), `promo_message` isə istifadəçiyə göstərilməli
+ * izahdır (kod tanınıbsa, lakin dayandırılıbsa doldurulur).
+ */
+export interface Registration {
+  id: string;
+  ref: string;
+  user_id: string;
+  cohort_id: string;
+  student_name: string;
+  student_phone: string;
+  student_age: string;
+  /** Baza qiymət (təklif-səviyyəli endirimdən sonra), qəpiklə. */
+  price_minor: number;
+  /** Promo endirimi, qəpiklə. DEC-0002 səbəbiylə hazırda həmişə 0. */
+  discount_minor: number;
+  /** Qeydiyyat haqqı, qəpiklə — yekun məbləğə daxildir və qeyd zamanı dondurulur. */
+  registration_fee_minor: number;
+  /** Yekun məbləğ = price_minor - discount_minor + registration_fee_minor, qəpiklə. */
+  final_price_minor: number;
+  promo_code: string | null;
+  /** Promo kodu faktiki tətbiq olunubmu. DEC-0002 aktiv olduqca həmişə false. */
+  promo_applied: boolean;
+  /** İstifadəçiyə göstərilməli mesaj (məs. "promo kodu aktiv deyil"), yoxdursa null. */
+  promo_message: string | null;
+  lelek_used: number;
+  payment_method: 'pay_at_center';
+  payment_status: 'pay_at_center' | 'pending' | 'paid' | 'refunded';
+  status: string;
+  idempotency_key: string | null;
+  created_at: string;
+}
+
+export interface CreateRegistrationResult {
+  registration: Registration;
+  replayed: boolean;
+}
+
+/**
+ * `/api/registrations` (GET) siyahı sətri — tələbənin "mənim qeydiyyatlarım"
+ * görünüşü üçün qısaldılmış proyeksiyadır (camelCase), tam `Registration`
+ * sətri deyil. Qiymət komponentləri eyni DEC-0001 düsturuna tabedir:
+ *   finalPriceMinor = priceMinor - discountMinor + registrationFeeMinor
+ */
+export interface RegistrationListItem {
+  id: string;
+  ref: string;
+  status: string;
+  paymentStatus: 'pay_at_center' | 'pending' | 'paid' | 'refunded';
+  priceMinor: number;
+  discountMinor: number;
+  registrationFeeMinor: number;
+  finalPriceMinor: number;
+  createdAt: string;
+  title: string;
+  branchName: string;
+  lessonTime: string;
+}
+
 export interface SessionUser {
   id: string;
   phone: string;
@@ -214,8 +287,8 @@ export const api = {
 
   // qeydiyyat
   createRegistration: (input: { cohortId: string; studentName: string; studentPhone: string; studentAge?: string; promoCode?: string; idempotencyKey?: string }) =>
-    request<{ registration: Record<string, unknown>; replayed: boolean }>('/registrations', { method: 'POST', body: JSON.stringify(input) }),
-  myRegistrations: () => request<{ registrations: Array<Record<string, unknown>> }>('/registrations'),
+    request<CreateRegistrationResult>('/registrations', { method: 'POST', body: JSON.stringify(input) }),
+  myRegistrations: () => request<{ registrations: RegistrationListItem[] }>('/registrations'),
   registrationHistory: (id: string) => request<{ history: Array<{ status: string; note: string; at: string }> }>(`/registrations/${encodeURIComponent(id)}/history`),
   setRegistrationStatus: (id: string, status: string, note = '') =>
     request<Record<string, unknown>>(`/registrations/${encodeURIComponent(id)}/status`, { method: 'POST', body: JSON.stringify({ status, note }) }),

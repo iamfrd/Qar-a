@@ -206,6 +206,92 @@ test('status keçidləri qaydaya tabedir', async () => {
   assert.ok(bad.status === 409 || bad.status === 403, 'qanunsuz keçid rədd olunmalıdır');
 });
 
+// ---- DEC-0001 / DEC-0002: qeydiyyat haqqı və QARGA10 promosunun dayandırılması ----
+
+test('qeydiyyat haqqı olan təklifdə yekun məbləğ = endirimli qiymət + haqq (DEC-0001)', async () => {
+  const cookie = await login('+994500000300');
+  const det = await api('/api/offerings/off-c-english-general-genclik');
+  assert.ok(det.json.registrationFeeMinor > 0, 'test təklifi sıfırdan fərqli qeydiyyat haqqı ilə seçilməlidir');
+
+  const r = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: { cohortId: det.json.cohortId, studentName: 'Fee Test', studentPhone: '+994500000300' },
+  });
+  assert.equal(r.status, 200);
+  const reg = r.json.registration;
+  assert.equal(reg.registration_fee_minor, det.json.registrationFeeMinor,
+    'qeydiyyat qeydində haqq təklifdəki ilə eyni olmalıdır');
+  assert.equal(reg.price_minor, det.json.discountPriceMinor ?? det.json.priceMinor,
+    'baza qiymət təklif-səviyyəli endirimdən sonrakı qiymət olmalıdır');
+  assert.equal(
+    reg.final_price_minor,
+    (det.json.discountPriceMinor ?? det.json.priceMinor) + det.json.registrationFeeMinor,
+    'yekun məbləğ = baza qiymət + qeydiyyat haqqı olmalıdır',
+  );
+});
+
+test('qeydiyyat haqqı sıfır olan təklifdə yekun məbləğ dəyişmir', async () => {
+  const cookie = await login('+994500000301');
+  // off-c-guitar-genclik digər testlərdə artıq dolur, ona görə istifadə olunmamış
+  // sıfır-haqqlı təklif seçilir.
+  const det = await api('/api/offerings/off-c-english-speaking-nizami');
+  assert.equal(det.json.registrationFeeMinor, 0, 'test təklifi sıfır qeydiyyat haqqı ilə seçilməlidir');
+
+  const r = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: { cohortId: det.json.cohortId, studentName: 'No Fee Test', studentPhone: '+994500000301' },
+  });
+  assert.equal(r.status, 200);
+  const reg = r.json.registration;
+  assert.equal(reg.registration_fee_minor, 0);
+  assert.equal(reg.final_price_minor, det.json.effectivePriceMinor,
+    'haqq sıfır olduqda yekun məbləğ dəyişməməlidir');
+});
+
+test('QARGA10 promo kodu artıq endirim vermir (DEC-0002)', async () => {
+  const cookie = await login('+994500000302');
+  const det = await api('/api/offerings/off-c-english-general-genclik');
+
+  const r = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: {
+      cohortId: det.json.cohortId, studentName: 'Promo Test', studentPhone: '+994500000302',
+      promoCode: 'QARGA10',
+    },
+  });
+  assert.equal(r.status, 200);
+  const reg = r.json.registration;
+  assert.equal(reg.discount_minor, 0, 'promo dayandırılıb — endirim sıfır olmalıdır');
+  assert.equal(
+    reg.final_price_minor,
+    (det.json.discountPriceMinor ?? det.json.priceMinor) + det.json.registrationFeeMinor,
+    'promo kodu yekun məbləği azaltmamalıdır',
+  );
+  assert.equal(reg.promo_applied, false, 'API promo tətbiq olunmadığını açıq bildirməlidir');
+  assert.ok(reg.promo_message, 'API promonun aktiv olmadığını izah edən mesaj qaytarmalıdır');
+});
+
+test('eyni idempotency açarı ilə təkrar sorğu haqqı ikiqat almır', async () => {
+  const cookie = await login('+994500000303');
+  const det = await api('/api/offerings/off-c-english-general-genclik');
+  const key = 'test-idem-fee-1';
+
+  const a = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: { cohortId: det.json.cohortId, studentName: 'Idem Fee', studentPhone: '+994500000303', idempotencyKey: key },
+  });
+  const b = await api('/api/registrations', {
+    method: 'POST', cookie,
+    body: { cohortId: det.json.cohortId, studentName: 'Idem Fee', studentPhone: '+994500000303', idempotencyKey: key },
+  });
+  assert.equal(a.status, 200);
+  assert.equal(b.status, 200);
+  assert.equal(b.json.replayed, true);
+  assert.equal(a.json.registration.id, b.json.registration.id);
+  assert.equal(a.json.registration.final_price_minor, b.json.registration.final_price_minor,
+    'təkrar sorğu eyni yekun məbləği qaytarmalıdır, haqq ikiqat əlavə olunmamalıdır');
+});
+
 test('həssas əməliyyatlar audit log-a düşür', async () => {
   const cookie = await login('+994500000205');
   const det = await api('/api/offerings/off-c-latin-narimanov');

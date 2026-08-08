@@ -164,12 +164,32 @@ export function trialHistory(user, reservationId) {
 
 // ------------------------------------------------------------- qeydiyyat
 
+// DEC-0002: QARGA10 promo kodu maliyyələşdirmə modeli təsdiqlənənə qədər
+// dayandırılıb. Promo çərçivəsi qurulmur, sütun silinmir — yalnız real
+// endirim vermə funksiyası bağlanır. `PROMO_KNOWN_CODES` yalnız "istifadəçi
+// tanınan kodu göndərdi" faktını qeyd etmək üçündür, endirimə təsir etmir.
+const PROMO_SUSPENDED = true;
+const PROMO_KNOWN_CODES = new Set(['QARGA10']);
+const PROMO_SUSPENDED_MESSAGE = 'QARGA10 promo kodu hazırda aktiv deyil (maliyyələşdirmə modeli təsdiqlənməyib).';
+
+/** Saxlanmış `promo_code` sütununa əsasən istifadəçiyə göstəriləcək promo vəziyyətini törədir. */
+function derivePromoInfo(promoCodeStored) {
+  const applied = !PROMO_SUSPENDED && !!promoCodeStored;
+  const message = promoCodeStored ? PROMO_SUSPENDED_MESSAGE : null;
+  return { promo_applied: applied, promo_message: message };
+}
+
+function withPromoInfo(row) {
+  if (!row) return row;
+  return { ...row, ...derivePromoInfo(row.promo_code) };
+}
+
 export function createRegistration(user, { cohortId, studentName, studentPhone, studentAge = '', promoCode, idempotencyKey }) {
   requireUser(user);
 
   if (idempotencyKey) {
     const existing = get1('SELECT * FROM registrations WHERE idempotency_key = ?', [idempotencyKey]);
-    if (existing) return { registration: existing, replayed: true };
+    if (existing) return { registration: withPromoInfo(existing), replayed: true };
   }
   if (!studentName?.trim()) throw new HttpError(400, 'name_required', 'Tələbənin adı tələb olunur.');
   if (!studentPhone?.trim()) throw new HttpError(400, 'phone_required', 'Telefon nömrəsi tələb olunur.');
@@ -187,20 +207,25 @@ export function createRegistration(user, { cohortId, studentName, studentPhone, 
     if (upd.changes !== 1) throw new HttpError(409, 'cohort_full', 'Təəssüf, bu qrupda yer qalmadı.');
 
     // Qiymət SERVERDƏ hesablanır. Brauzerdən gələn məbləğ nəzərə alınmır.
+    // DEC-0001: qeydiyyat haqqı yekun məbləğə daxildir və qeyd zamanı
+    // donduraraq saxlanılır. DEC-0002: QARGA10 dayandırılıb, endirim həmişə 0-dır.
     const baseMinor = coh.discount_price_minor ?? coh.price_minor;
-    const promoValid = String(promoCode ?? '').trim().toUpperCase() === 'QARGA10';
-    const discountMinor = promoValid ? Math.round(baseMinor * 0.1) : 0;
-    const finalMinor = Math.max(0, baseMinor - discountMinor);
+    const registrationFeeMinor = coh.registration_fee_minor ?? 0;
+    const promoSubmitted = String(promoCode ?? '').trim().toUpperCase();
+    const promoRecognized = PROMO_KNOWN_CODES.has(promoSubmitted);
+    const discountMinor = 0; // DEC-0002 — promo dayandırılıb, endirim funksiyası bağlıdır
+    const finalMinor = Math.max(0, baseMinor - discountMinor) + registrationFeeMinor;
+    const promoCodeToStore = promoRecognized ? promoSubmitted : null;
 
     const id = uid();
     const reference = ref('QR');
     run(`INSERT INTO registrations
          (id, ref, user_id, cohort_id, student_name, student_phone, student_age,
-          price_minor, discount_minor, final_price_minor, promo_code,
+          price_minor, discount_minor, registration_fee_minor, final_price_minor, promo_code,
           payment_method, payment_status, status, idempotency_key, created_at)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,'pay_at_center','pay_at_center','submitted',?,?)`,
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,'pay_at_center','pay_at_center','submitted',?,?)`,
       [id, reference, user.id, cohortId, studentName.trim(), studentPhone.trim(), studentAge,
-       baseMinor, discountMinor, finalMinor, promoValid ? promoCode : null,
+       baseMinor, discountMinor, registrationFeeMinor, finalMinor, promoCodeToStore,
        idempotencyKey ?? null, now()]);
 
     run('INSERT INTO registration_status_history (id, registration_id, status, actor_user_id, at) VALUES (?,?,?,?,?)',
@@ -211,7 +236,7 @@ export function createRegistration(user, { cohortId, studentName, studentPhone, 
       run("UPDATE cohorts SET status = 'full' WHERE id = ?", [cohortId]);
     }
 
-    return { registration: get1('SELECT * FROM registrations WHERE id = ?', [id]), replayed: false };
+    return { registration: withPromoInfo(get1('SELECT * FROM registrations WHERE id = ?', [id])), replayed: false };
   });
 }
 
@@ -268,7 +293,9 @@ export function listRegistrationsForUser(user) {
   requireUser(user);
   return all(
     `SELECT rg.id, rg.ref, rg.status, rg.payment_status AS paymentStatus,
-            rg.final_price_minor AS finalPriceMinor, rg.created_at AS createdAt,
+            rg.price_minor AS priceMinor, rg.discount_minor AS discountMinor,
+            rg.registration_fee_minor AS registrationFeeMinor, rg.final_price_minor AS finalPriceMinor,
+            rg.created_at AS createdAt,
             c.title, b.name AS branchName, coh.lesson_time AS lessonTime
      FROM registrations rg
      JOIN cohorts coh ON coh.id = rg.cohort_id

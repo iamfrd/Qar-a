@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware';
 import type {
   AppUser, Course, Provider, Branch, Category, Review, TrialReservation, TrialStatus,
   Registration, LelekTransaction, ReferralRecord, NotificationItem, SupportRequest,
-  SavedSearch, MessageThread, ChatMessage, UserRole, FilterState, CourseFormat, LessonMode,
+  SavedSearch, MessageThread, ChatMessage, UserRole, FilterState,
 } from '../types';
 import { courses as seedCourses, providers as seedProviders, branches as seedBranches, reviews as seedReviews } from '../data/mockData';
 import { categories as seedCategories } from '../data/categories';
@@ -73,11 +73,11 @@ interface AppState {
   rescheduleTrial: (id: string, date: string, time: string) => void;
 
   // registration
-  createRegistration: (input: {
-    courseId: string; branchId: string; format: CourseFormat; mode: LessonMode;
-    studentName: string; studentPhone: string; studentAge: string;
-    promoCode?: string; lelekUsed: number; paymentMethod: string;
-  }) => Registration;
+  // Qeydiyyat yaratma serverin özündə baş verir (bax `api.createRegistration`,
+  // `src/pages/student/RegistrationFlow.tsx`). Qiymət, endirim, qeydiyyat
+  // haqqı və Lələk kimi pul dəyərlərini brauzerdə hesablayan bir metod
+  // BURADA QƏSDƏN YOXDUR — server-authoritative qayda pozulmasın deyə,
+  // bu store-da belə bir funksiya yenidən yaradılmamalıdır (DEC-0001, DEC-0002).
   updateRegistrationStatus: (id: string, status: Registration['status']) => void;
 
   // reviews
@@ -225,34 +225,6 @@ export const useAppStore = create<AppState>()(
         get().addNotification('student', 'Sınaq dərsi təxirə salındı', `Yeni tarix: ${date}, saat ${time}.`, 'info');
       },
 
-      createRegistration: (input) => {
-        const course = get().courses.find((c) => c.id === input.courseId);
-        const basePrice = course?.discountPrice ?? course?.price ?? 0;
-        const promoDiscount = input.promoCode?.trim().toUpperCase() === 'QARGA10' ? Math.round(basePrice * 0.1) : 0;
-        const lelekDiscount = Math.min(input.lelekUsed, basePrice - promoDiscount, get().lelekBalance());
-        const discount = promoDiscount + lelekDiscount;
-        const finalPrice = Math.max(0, basePrice - discount);
-        const lelekEarned = Math.round(finalPrice * 0.05);
-        const reg: Registration = {
-          id: uid(), regNumber: randomRef('QR'), userId: get().currentUser?.id ?? 'guest', courseId: input.courseId,
-          branchId: input.branchId, format: input.format, mode: input.mode, studentName: input.studentName,
-          studentPhone: input.studentPhone, studentAge: input.studentAge, promoCode: input.promoCode, lelekUsed: lelekDiscount,
-          price: basePrice, discount, finalPrice, paymentMethod: input.paymentMethod,
-          // Brauzer heç vaxt ödənişi "paid" kimi işarələmir. Real ödəniş yalnız
-          // server tərəfdə təsdiqlənmiş webhook-dan sonra bu statusu ala bilər.
-          paymentStatus: 'pay_at_center',
-          lelekEarned, status: 'confirmed', createdAt: new Date().toISOString(),
-        };
-        set((s) => ({
-          registrations: [reg, ...s.registrations],
-          courses: s.courses.map((c) => (c.id === input.courseId ? { ...c, seatsAvailable: Math.max(0, c.seatsAvailable - 1) } : c)),
-        }));
-        if (lelekDiscount > 0) get().addLelek('spend', lelekDiscount, `${course?.title ?? 'Kurs'} qeydiyyatında endirim`);
-        get().addLelek('earn', lelekEarned, `${course?.title ?? 'Kurs'} qeydiyyatı üçün bonus`);
-        get().addNotification('student', 'Qeydiyyat təsdiqləndi', `${course?.title ?? ''} kursuna qeydiyyatınız qəbul edildi. Qeydiyyat №${reg.regNumber}`, 'success');
-        if (course) get().addNotification('provider', 'Yeni qeydiyyat', `${course.title} üçün yeni tələbə qeydiyyatı: ${input.studentName}`, 'info');
-        return reg;
-      },
       updateRegistrationStatus: (id, status) => {
         set((s) => ({ registrations: s.registrations.map((r) => (r.id === id ? { ...r, status } : r)) }));
       },
