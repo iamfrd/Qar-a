@@ -7,23 +7,45 @@ import { formatMinor } from '../lib/api';
 import { BAKU_CENTER } from '../data/areas';
 import { formatDistance } from '../lib/utils';
 import { RatingStars } from './RatingStars';
-import { Badge } from './Badge';
+import { Badge, SponsoredBadge, SPONSORED_LABEL } from './Badge';
 import { Button } from './Button';
 import { useAppStore } from '../store/useAppStore';
 
+const SPONSORED_LABEL_HEIGHT = 17;
+
 function categoryIcon(color: string, icon: string, promoted: boolean) {
+  const pinSize = promoted ? 40 : 34;
+  // Sponsorlu pin daha böyük və qızılı haşiyəlidir, amma ölçü/rəng fərqi etiket deyil:
+  // yerləşdirmənin ödənişli olduğu yazı ilə bildirilməlidir. Etiket pinin üstündə dayanır
+  // ki, pinin ucu koordinatın üzərində qalsın.
+  // Leaflet divIcon html is inserted straight into the live document (no iframe/shadow
+  // DOM boundary), and Tailwind v4 compiles `@theme` tokens onto `:root, :host`
+  // (see dist build output), so `var(--color-gold-*)` inherits into this markup the
+  // same way it would into any other DOM node. Confirmed via compiled CSS inspection;
+  // pixel rendering was not visually confirmed in a live browser session.
+  const label = promoted
+    ? `<span style="
+        display:inline-block;height:${SPONSORED_LABEL_HEIGHT}px;line-height:${SPONSORED_LABEL_HEIGHT}px;
+        padding:0 6px;margin-bottom:2px;border-radius:999px;
+        background:var(--color-gold-100);color:var(--color-gold-600);border:1px solid #d4a017;
+        font-size:9px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;
+        white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.25);
+      ">${SPONSORED_LABEL}</span>`
+    : '';
+  const width = promoted ? 72 : pinSize;
+  const height = pinSize + (promoted ? SPONSORED_LABEL_HEIGHT + 2 : 0);
   return L.divIcon({
     className: '',
-    html: `<div style="
-      width:${promoted ? 40 : 34}px;height:${promoted ? 40 : 34}px;
+    html: `<div style="width:${width}px;height:${height}px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;">${label}<div style="
+      width:${pinSize}px;height:${pinSize}px;
       background:${color};border-radius:50% 50% 50% 0;
       transform:rotate(-45deg);
       display:flex;align-items:center;justify-content:center;
       box-shadow:0 2px 6px rgba(0,0,0,0.35);
       border:${promoted ? '3px solid #d4a017' : '2px solid white'};
-    "><span style="transform:rotate(45deg);font-size:${promoted ? 18 : 15}px;">${icon}</span></div>`,
-    iconSize: [promoted ? 40 : 34, promoted ? 40 : 34],
-    iconAnchor: [promoted ? 20 : 17, promoted ? 40 : 34],
+    "><span style="transform:rotate(45deg);font-size:${promoted ? 18 : 15}px;">${icon}</span></div></div>`,
+    iconSize: [width, height],
+    iconAnchor: [width / 2, height],
     popupAnchor: [0, -30],
   });
 }
@@ -99,13 +121,27 @@ export function CourseMap({
         {userCoords && <FlyToUser coords={userCoords} />}
         {userCoords && <Marker position={userCoords} icon={userIcon} />}
         {[...byBranch.entries()].map(([branchId, list]) => {
-          const primary = list.slice().sort((a, b) => Number(b.promoted) - Number(a.promoted))[0];
+          // A branch marker represents every offering at that location. Labelling the
+          // pin "Sponsorlu" is only honest when the disclosure holds for the whole
+          // marker, i.e. every offering grouped under it is actually promoted — not
+          // merely because at least one of several offerings happens to be. A mixed
+          // branch (some promoted, some not) renders with the same neutral pin as a
+          // fully non-promoted branch; the true per-course status is still disclosed
+          // via `SponsoredBadge` in the popup/branch list below.
+          const primary = list[0];
+          const allPromoted = list.every((c) => c.promoted);
           const category = categoryById.get(primary.categoryId);
+          // branches.provider_id is 1:1 (server/schema.sql), so every offering sharing
+          // this branch.id shares the same provider — safe to attribute the provider
+          // name to the whole marker.
           return (
             <Marker
               key={branchId}
               position={[primary.branch.lat, primary.branch.lng]}
-              icon={categoryIcon(category?.color ?? '#111827', category?.icon ?? '📍', primary.promoted)}
+              icon={categoryIcon(category?.color ?? '#111827', category?.icon ?? '📍', allPromoted)}
+              // Leaflet `title`-i istənilən pin elementinə tətbiq edir və o, əlçatanlıq adı
+              // kimi oxunur; `alt` yalnız <img> ikonlarda işləyir, divIcon-da yox.
+              title={allPromoted ? `${primary.provider.name} — ${primary.branch.name} — ${SPONSORED_LABEL}` : primary.branch.name}
               eventHandlers={{ click: () => setSelectedBranchId(branchId) }}
             />
           );
@@ -145,7 +181,10 @@ export function CourseMap({
               <div className="flex flex-col gap-2">
                 {selectedCourses.map((c) => (
                   <button key={c.offeringId} onClick={() => navigate(`/app/course/${c.offeringId}`)} className="flex items-center justify-between text-left px-3 py-2 rounded-xl bg-ink-50 hover:bg-ink-100">
-                    <span className="text-sm font-semibold text-ink-800 truncate">{c.title}</span>
+                    <span className="flex items-center gap-1.5 min-w-0">
+                      <span className="text-sm font-semibold text-ink-800 truncate">{c.title}</span>
+                      {c.promoted && <SponsoredBadge />}
+                    </span>
                     <span className="text-xs font-bold text-ink-900 shrink-0 ml-2">{formatMinor(c.effectivePriceMinor)}</span>
                   </button>
                 ))}
@@ -181,6 +220,7 @@ function CoursePreviewCard({ course, category, onClose }: { course: OfferingSumm
             {distance !== null && distance !== undefined && <span className="text-xs text-ink-400">• {formatDistance(distance)}</span>}
           </div>
           <div className="flex gap-1 mt-1 flex-wrap">
+            {course.promoted && <SponsoredBadge />}
             {course.qargaExclusive && <Badge tone="gold">Endirim</Badge>}
             {course.freeTrial && <Badge tone="teal">Pulsuz sınaq</Badge>}
             <Badge tone="neutral">{course.seatsAvailable} yer</Badge>
