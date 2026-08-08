@@ -25,7 +25,11 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22.5.0
+          # Must stay >=22.12.0: oxlint's platform bindings declare that engines range, and
+          # npm silently skips an optional dependency whose engines do not match, which made
+          # every Lint run fail with "Cannot find native binding" on the old 22.5.0 pin.
+          # Pinned to the version the project is developed against so CI and local agree.
+          node-version: 24.16.0
           cache: npm
 
       - name: Install dependencies
