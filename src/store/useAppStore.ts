@@ -229,7 +229,10 @@ export const useAppStore = create<AppState>()(
         const course = get().courses.find((c) => c.id === input.courseId);
         const basePrice = course?.discountPrice ?? course?.price ?? 0;
         const promoDiscount = input.promoCode?.trim().toUpperCase() === 'QARGA10' ? Math.round(basePrice * 0.1) : 0;
-        const lelekDiscount = Math.min(input.lelekUsed, basePrice - promoDiscount, get().lelekBalance());
+        // Lələk xalları qiyməti azalda bilməz: balans yalnız brauzerdə mövcuddur və server
+        // heç bir Lələk qeydi aparmır. `input.lelekUsed` qəsdən nəzərə alınmır ki, başqa bir
+        // çağırış nöqtəsi mərkəzdə ödəniləcək məbləği dəyişməyən saxta endirim yarada bilməsin.
+        const lelekDiscount = 0;
         const discount = promoDiscount + lelekDiscount;
         const finalPrice = Math.max(0, basePrice - discount);
         const lelekEarned = Math.round(finalPrice * 0.05);

@@ -26,7 +26,7 @@ export function LelekWallet() {
         <div className="bg-gradient-to-br from-ink-900 to-ink-700 text-white rounded-3xl p-5 mt-2">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-xs text-ink-300">Cari balans</p>
+              <p className="text-xs text-ink-300">Toplanan xal (hələ istifadə edilə bilmir)</p>
               <p className="text-3xl font-bold flex items-center gap-1">{lelekBalance()} <span className="text-lg">🪶</span></p>
             </div>
             <CrowMascot size={48} mood="happy" />
@@ -38,13 +38,27 @@ export function LelekWallet() {
           {nextExpiry && <p className="text-[11px] text-ink-300 mt-2">Ən yaxın bitmə tarixi: {formatDateAz(nextExpiry)}</p>}
         </div>
 
-        <h2 className="font-bold text-ink-900 mt-5 mb-2">Mövcud mükafatlar</h2>
+        {/*
+          Lələk balansı yalnız bu brauzerdə saxlanılır — serverdə heç bir Lələk qeydi
+          aparılmır, ona görə xallar nə xərclənə, nə də mükafata dəyişdirilə bilər.
+          Vəziyyət gizlədilmir, açıq yazılır; mükafat siyahısı isə plan kimi göstərilir.
+        */}
+        <div className="mt-4 rounded-2xl border border-gold-200 bg-gold-50 p-3">
+          <p className="text-sm font-bold text-gold-700">🪶 Lələk proqramı hazırlanır</p>
+          <p className="text-xs text-ink-600 mt-1 leading-relaxed">
+            Xallar hazırda yalnız bu cihazda toplanır və hələ heç bir endirimə və ya mükafata
+            çevrilə bilmir. Proqram hazır olanda balansınız rəsmi olaraq hesabınıza bağlanacaq.
+          </p>
+        </div>
+
+        <h2 className="font-bold text-ink-900 mt-5 mb-1">Planlaşdırılan mükafatlar</h2>
+        <p className="text-xs text-ink-400 mb-2">Bunlar gələcək plandır — hazırda alına bilmir.</p>
         <div className="grid grid-cols-2 gap-2">
           {rewards.map((r) => (
-            <div key={r.title} className="bg-white rounded-xl border border-ink-100 p-3">
+            <div key={r.title} className="bg-white rounded-xl border border-ink-100 p-3 opacity-60">
               <span className="text-xl">{r.icon}</span>
               <p className="text-xs font-semibold text-ink-800 mt-1 leading-snug">{r.title}</p>
-              <p className="text-xs text-gold-600 font-bold mt-1">{r.cost} 🪶</p>
+              <p className="text-xs text-ink-400 font-bold mt-1">{r.cost} 🪶 • hazır deyil</p>
             </div>
           ))}
         </div>

@@ -37,8 +37,10 @@ export function Profile() {
           <div className="flex items-center gap-2">
             <span className="text-2xl">🪶</span>
             <div className="text-left">
-              <p className="text-xs text-ink-400">Lələk balansı</p>
+              <p className="text-xs text-ink-400">Lələk xalları</p>
               <p className="font-bold text-ink-900">{lelekBalance()} xal</p>
+              {/* Balans server tərəfindən dəstəklənmir — istifadəyə hazır kimi göstərilməməlidir. */}
+              <p className="text-[11px] text-ink-400">hazırlanır — hələ istifadə edilə bilmir</p>
             </div>
           </div>
           <span className="text-ink-300">→</span>
