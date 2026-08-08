@@ -1,0 +1,25 @@
+{
+  "eventId": "DECEV-REPLACE",
+  "decisionId": "DEC-REPLACE",
+  "eventType": "created",
+  "status": "approved",
+  "title": "REPLACE_one line naming the choice, not the problem",
+  "recordedBy": "qarga-coordinator",
+  "approvedBy": "project-owner",
+  "sensitiveDataIncluded": false,
+  "context": "REPLACE_what is true in the repository right now, with file and line references, and why a choice is unavoidable",
+  "options": [
+    "REPLACE_option A as it was actually put to the owner",
+    "REPLACE_option B",
+    "REPLACE_option C"
+  ],
+  "chosenOption": "REPLACE_must match one option string above",
+  "rationale": "REPLACE_why this option and why each rejected option was worse, including the cost the owner accepted",
+  "evidence": [
+    "REPLACE_file:line or command output that the coordinator verified directly"
+  ],
+  "affectedAreas": ["REPLACE_path or area"],
+  "assumptions": ["REPLACE_what must stay true for this decision to remain valid"],
+  "reviewTrigger": { "type": "event", "value": "REPLACE_what future event forces a revisit" },
+  "workOsTask": "REPLACE_QW-0000"
+}

@@ -1,0 +1,16 @@
+{
+  "eventId": "DEBTEV-REPLACE",
+  "debtId": "DEBT-REPLACE",
+  "eventType": "created",
+  "status": "open",
+  "severity": "high",
+  "title": "REPLACE_the liability, stated as a current fact not a wish",
+  "recordedBy": "qarga-coordinator",
+  "sensitiveDataIncluded": false,
+  "impact": "REPLACE_what breaks today, for whom, and why the normal gates do not catch it",
+  "evidence": ["REPLACE_file:line, command output, or an independent review finding"],
+  "affectedAreas": ["REPLACE_path"],
+  "remediation": "REPLACE_the concrete fix and the Work OS id that owns it",
+  "ownerAgent": "REPLACE_registered agent name",
+  "reviewTrigger": { "type": "event", "value": "REPLACE_what forces this to be reconsidered" }
+}

@@ -1,0 +1,15 @@
+{
+  "observationId": "OBS-REPLACE",
+  "taskId": "REPLACE_QW-0000-S00",
+  "recordedBy": "qarga-coordinator",
+  "agent": "REPLACE_registered agent name, or omit this field entirely",
+  "category": "verification-gap",
+  "capability": "REPLACE_short-kebab-case-capability-name",
+  "summary": "REPLACE_at least twelve characters describing the repeatable pattern, not the one incident",
+  "impact": "REPLACE_what it cost, with the concrete instances that make it a pattern rather than a one-off",
+  "sensitiveDataIncluded": false,
+  "evidence": [
+    { "type": "review-finding", "reference": "REPLACE_who found what, and where" }
+  ],
+  "proposedDirection": "REPLACE_route to a researcher first; do not pre-decide that a new skill or agent is the answer"
+}
