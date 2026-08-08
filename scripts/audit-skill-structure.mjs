@@ -17,7 +17,9 @@ for (const entry of fs.readdirSync(base, { withFileTypes: true }).filter((item) 
     errors += 1;
     continue;
   }
-  const text = fs.readFileSync(skill, 'utf8');
+  // Normalize CRLF to LF once at the read boundary so a Windows checkout parses
+  // identically to an LF checkout. Structural assertions below are unchanged.
+  const text = fs.readFileSync(skill, 'utf8').replace(/\r\n/g, '\n');
   if (!text.startsWith('---\n')) {
     console.error(`${entry.name}: missing frontmatter`);
     errors += 1;

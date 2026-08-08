@@ -8,7 +8,10 @@ const errors = [];
 const warnings = [];
 const join = (relativePath) => path.join(root, relativePath);
 const exists = (relativePath) => fs.existsSync(join(relativePath));
-const read = (relativePath) => fs.readFileSync(join(relativePath), 'utf8');
+// Normalize CRLF to LF once at the read boundary. Windows checkouts produce CRLF,
+// and the frontmatter/section parsers below assume LF. This only affects line-ending
+// tolerance; it never changes what is asserted.
+const read = (relativePath) => fs.readFileSync(join(relativePath), 'utf8').replace(/\r\n/g, '\n');
 
 function walk(relativePath, predicate) {
   const base = join(relativePath);
