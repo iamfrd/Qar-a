@@ -33,3 +33,6 @@ server/data/
 *.njsproj
 *.sln
 *.sw?
+
+# Yerli arxiv — komputerdəki köhnə/dublikat Qarğa qovluqları, layihənin hissəsi deyil
+/_archive/
