@@ -208,11 +208,76 @@ try {
 
   // Safety hook and staged-secret guard.
   result=runNode('.claude/hooks/block-dangerous-command.mjs',[],{input:JSON.stringify({tool_input:{command:'npm test'}})});expectStatus(result,0,'safe command');result=runNode('.claude/hooks/block-dangerous-command.mjs',[],{input:JSON.stringify({tool_input:{command:'git reset --hard HEAD~1'}})});expectStatus(result,2,'dangerous command');result=runNode('.claude/hooks/block-dangerous-command.mjs',[],{input:JSON.stringify({tool_input:{command:'git push origin main'}})});expectStatus(result,2,'direct protected-branch push');
+  // The two destructive-workflow rules are the layer that is supposed to be
+  // unbypassable, so they are asserted as a full matrix rather than a few happy
+  // cases. Every "bypass" row below exited 0 against the original raw-text
+  // `\bgit\s+stash\b` / `\bgit\s+worktree\s+add\b.*\.claude` patterns, because
+  // those required the subcommand to be the literal next token after `git`.
+  // The "allowed" rows guard the opposite failure: raw-text matching also
+  // rejected a commit message or grep pattern that merely mentions the phrase,
+  // which pushes agents toward token-splitting workarounds.
+  const stashWord='st'+'ash';
+  const hookMatrix=[
+    // Git global options and quoting must not defeat the guard.
+    [`git -C /tmp ${stashWord}`,2,'global -C path before subcommand'],
+    [`git -c core.x=1 ${stashWord}`,2,'global -c key=value before subcommand'],
+    [`git --git-dir=/tmp/other ${stashWord}`,2,'global --git-dir= before subcommand'],
+    [`git --git-dir /tmp/other ${stashWord}`,2,'separated --git-dir value'],
+    [`git --work-tree=/tmp ${stashWord}`,2,'global --work-tree='],
+    [`git --work-tree /tmp ${stashWord}`,2,'separated --work-tree value'],
+    [`git --namespace=x ${stashWord}`,2,'global --namespace='],
+    [`git --exec-path=/tmp ${stashWord}`,2,'global --exec-path='],
+    [`git --no-pager ${stashWord}`,2,'boolean global option'],
+    [`git -C /tmp -c core.x=1 --git-dir=/a ${stashWord} push -u`,2,'repeated combined global options'],
+    [`git "${stashWord}"`,2,'double-quoted subcommand'],
+    [`git '${stashWord}'`,2,'single-quoted subcommand'],
+    [`git -C /tmp "${stashWord}"`,2,'global option plus quoted subcommand'],
+    [`sudo git ${stashWord}`,2,'transparent wrapper prefix'],
+    [`GIT_DIR=/tmp git ${stashWord}`,2,'environment assignment prefix'],
+    [`cd /tmp && git ${stashWord}`,2,'second segment of an operator chain'],
+    [`bash -c "git ${stashWord}"`,2,'nested shell interpreter'],
+    // Destructive subcommands stay blocked.
+    [`git ${stashWord}`,2,'bare subcommand'],
+    [`git ${stashWord} save`,2,'save'],
+    [`git ${stashWord} push -u -m wip`,2,'push'],
+    [`git ${stashWord} pop`,2,'pop'],
+    [`git ${stashWord} drop`,2,'drop'],
+    [`git ${stashWord} clear`,2,'clear'],
+    // Read-only inspection stays allowed.
+    [`git ${stashWord} list`,0,'read-only list'],
+    [`git ${stashWord} show -p ${stashWord}@{0}`,0,'read-only show with a ref'],
+    [`git -C /tmp ${stashWord} list`,0,'read-only list with a global option'],
+    // The same bypass class must not defeat the worktree rule.
+    ['git worktree add .claude/worktrees/agent-x main',2,'worktree under .claude'],
+    ['git -C /somewhere worktree add .claude/worktrees/x main',2,'worktree under .claude via -C'],
+    ['git -c core.x=1 worktree add .claude/worktrees/x main',2,'worktree under .claude via -c'],
+    ['git --git-dir=/tmp/o worktree add .claude/worktrees/x main',2,'worktree under .claude via --git-dir='],
+    ['git worktree add ".claude/worktrees/x" main',2,'worktree under .claude with a quoted path'],
+    ['git worktree add ../qarga-review-s03 main',0,'worktree outside .claude'],
+    ['git worktree add ../scratch-claude-notes main',0,'worktree path that merely contains claude'],
+    ['git worktree list',0,'worktree list'],
+    // Mentioning the phrase in an argument of another subcommand is not an invocation.
+    [`git commit -m "docs: why the git ${stashWord} guard exists"`,0,'commit message mentioning the phrase'],
+    [`git log --grep="git ${stashWord}"`,0,'grep pattern mentioning the phrase'],
+    [`echo "git ${stashWord} is blocked by the hook"`,0,'echo mentioning the phrase']
+  ];
+  for(const [hookCommand,expectedStatus,hookLabel] of hookMatrix){
+    result=runNode('.claude/hooks/block-dangerous-command.mjs',[],{input:JSON.stringify({tool_input:{command:hookCommand}})});
+    expectStatus(result,expectedStatus,`safety hook ${expectedStatus===2?'blocks':'allows'} ${hookLabel}`);
+  }
   const fakeSecret='sk-'+'A'.repeat(40);fs.writeFileSync(path.join(tempRoot,'leak.txt'),`token=${fakeSecret}\n`);run('git',['add','leak.txt']);result=runNode('.claude/hooks/scan-staged-secrets.mjs',['--staged']);expectStatus(result,2,'staged secret detection');run('git',['reset','--','leak.txt']);fs.rmSync(path.join(tempRoot,'leak.txt'));
 
   // Local security, health, E2E readiness, and agent-ops reporting.
   result=runNode('scripts/scan-agent-config-security.mjs');assertCrlfTolerated(result,'agent config security scan',['agent requests unrestricted Bash(*)']);expectStatus(result,0,'agent config security scan');result=runNode('scripts/check-playwright-readiness.mjs');expectStatus(result,0,'Playwright structure readiness');result=runNode('scripts/generate-agent-ops-dashboard.mjs');expectStatus(result,0,'agent ops report');if(!fs.existsSync(path.join(tempRoot,'docs/agent-ops/dashboard.html')))fail('agent ops dashboard was not generated');
   result=runNode('scripts/validate-claude-config.mjs');assertCrlfTolerated(result,'full Claude config validator',['YAML frontmatter is missing','YAML frontmatter is not closed']);expectStatus(result,0,'full Claude config validator');result=runNode('scripts/system-health.mjs',['--ci']);expectStatus(result,0,'system health core gate');
+
+  // NOTE (DEC-0004, owner decision): assertions that required scripts/validate-claude-config.mjs
+  // to exempt machine-written registries from the English-internal-files rule were removed here.
+  // That validator change was made without owner approval, was absent from CHG-0001 and CHG-0002
+  // filesChanged, and was disclosed by no agent. Coupling the self-test to it made the unapproved
+  // change effectively irreversible: reverting the validator broke this suite. The exemption may
+  // well be correct on its merits, but it must return through QW-0005-S03 as an approved,
+  // recorded proposal, together with its tests, rather than arrive as an undisclosed edit.
 
   cleanup();
   console.log('Claude system self-test passed: completion contracts, anti-spin, contract-backed scoring, learning, project memory, system evolution separation/approval/pilot, skill research/holdout evaluation/pilot/promotion, telemetry privacy, safety hooks, secret scan, security scan, health, Work OS orchestration, E2E readiness, and Agent Ops reporting are correct.');
