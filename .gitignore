@@ -36,3 +36,15 @@ server/data/
 
 # Yerli arxiv — komputerdəki köhnə/dublikat Qarğa qovluqları, layihənin hissəsi deyil
 /_archive/
+
+# Agent iş qalıqları — müvəqqətidir, repozitoriyanın hissəsi deyil.
+# `.claude/tmp/` qeyd əmrlərinə (decision/debt/learning/evolution) verilən
+# birdəfəlik JSON payload-larını və backup patch-ləri saxlayır; həqiqi qeyd
+# artıq `.claude/**/*.jsonl` registrlərinə yazılıb.
+#
+# `.claude/worktrees/` QƏSDƏN burada YOXDUR. Onu ignore etmək `git status`-dakı
+# `??` siqnalını itirir və məhz o siqnal sayəsində qalıq worktree aşkarlanmışdı.
+# Worktree qovluğu görünən qalmalıdır ki, yoxa çıxması və ya unudulması nəzərə
+# çarpsın. Worktree-lər onsuz da `.claude/` altında yaradılmamalıdır —
+# bunu `.claude/hooks/block-dangerous-command.mjs` bloklayır.
+.claude/tmp/
