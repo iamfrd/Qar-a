@@ -40,6 +40,12 @@ export function VerifiedBadge({ size = 'sm' }: { size?: 'sm' | 'md' }) {
 }
 
 /**
+ * Sponsorlu yerləşdirmənin tək mənbə etiketi. Bu literalı təkrarlamaq əvəzinə
+ * hər yerdə (badge, xəritə pin başlığı və s.) import edin ki, mətn vahid qalsın.
+ */
+export const SPONSORED_LABEL = 'Sponsorlu';
+
+/**
  * Sponsorlu yerləşdirmə etiketi. `OfferingSummary.promoted` istifadəçiyə göstərilən
  * hər səthdə mütləq görünən etiketlə müşayiət olunmalıdır (src/lib/api.ts müqaviləsi) —
  * yalnız ölçü və ya rəng fərqi kifayət deyil.
@@ -47,7 +53,7 @@ export function VerifiedBadge({ size = 'sm' }: { size?: 'sm' | 'md' }) {
 export function SponsoredBadge({ size = 'sm' }: { size?: 'sm' | 'md' }) {
   return (
     <Badge tone="gold" size={size}>
-      Sponsorlu
+      {SPONSORED_LABEL}
     </Badge>
   );
 }

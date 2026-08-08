@@ -7,11 +7,10 @@ import { formatMinor } from '../lib/api';
 import { BAKU_CENTER } from '../data/areas';
 import { formatDistance } from '../lib/utils';
 import { RatingStars } from './RatingStars';
-import { Badge, SponsoredBadge } from './Badge';
+import { Badge, SponsoredBadge, SPONSORED_LABEL } from './Badge';
 import { Button } from './Button';
 import { useAppStore } from '../store/useAppStore';
 
-const SPONSORED_LABEL = 'Sponsorlu';
 const SPONSORED_LABEL_HEIGHT = 17;
 
 function categoryIcon(color: string, icon: string, promoted: boolean) {
@@ -19,11 +18,16 @@ function categoryIcon(color: string, icon: string, promoted: boolean) {
   // Sponsorlu pin daha böyük və qızılı haşiyəlidir, amma ölçü/rəng fərqi etiket deyil:
   // yerləşdirmənin ödənişli olduğu yazı ilə bildirilməlidir. Etiket pinin üstündə dayanır
   // ki, pinin ucu koordinatın üzərində qalsın.
+  // Leaflet divIcon html is inserted straight into the live document (no iframe/shadow
+  // DOM boundary), and Tailwind v4 compiles `@theme` tokens onto `:root, :host`
+  // (see dist build output), so `var(--color-gold-*)` inherits into this markup the
+  // same way it would into any other DOM node. Confirmed via compiled CSS inspection;
+  // pixel rendering was not visually confirmed in a live browser session.
   const label = promoted
     ? `<span style="
         display:inline-block;height:${SPONSORED_LABEL_HEIGHT}px;line-height:${SPONSORED_LABEL_HEIGHT}px;
         padding:0 6px;margin-bottom:2px;border-radius:999px;
-        background:#fdf3d7;color:#8a6100;border:1px solid #d4a017;
+        background:var(--color-gold-100);color:var(--color-gold-600);border:1px solid #d4a017;
         font-size:9px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;
         white-space:nowrap;box-shadow:0 1px 3px rgba(0,0,0,0.25);
       ">${SPONSORED_LABEL}</span>`
@@ -117,16 +121,27 @@ export function CourseMap({
         {userCoords && <FlyToUser coords={userCoords} />}
         {userCoords && <Marker position={userCoords} icon={userIcon} />}
         {[...byBranch.entries()].map(([branchId, list]) => {
-          const primary = list.slice().sort((a, b) => Number(b.promoted) - Number(a.promoted))[0];
+          // A branch marker represents every offering at that location. Labelling the
+          // pin "Sponsorlu" is only honest when the disclosure holds for the whole
+          // marker, i.e. every offering grouped under it is actually promoted — not
+          // merely because at least one of several offerings happens to be. A mixed
+          // branch (some promoted, some not) renders with the same neutral pin as a
+          // fully non-promoted branch; the true per-course status is still disclosed
+          // via `SponsoredBadge` in the popup/branch list below.
+          const primary = list[0];
+          const allPromoted = list.every((c) => c.promoted);
           const category = categoryById.get(primary.categoryId);
+          // branches.provider_id is 1:1 (server/schema.sql), so every offering sharing
+          // this branch.id shares the same provider — safe to attribute the provider
+          // name to the whole marker.
           return (
             <Marker
               key={branchId}
               position={[primary.branch.lat, primary.branch.lng]}
-              icon={categoryIcon(category?.color ?? '#111827', category?.icon ?? '📍', primary.promoted)}
+              icon={categoryIcon(category?.color ?? '#111827', category?.icon ?? '📍', allPromoted)}
               // Leaflet `title`-i istənilən pin elementinə tətbiq edir və o, əlçatanlıq adı
               // kimi oxunur; `alt` yalnız <img> ikonlarda işləyir, divIcon-da yox.
-              title={primary.promoted ? `${primary.branch.name} — ${SPONSORED_LABEL}` : primary.branch.name}
+              title={allPromoted ? `${primary.provider.name} — ${primary.branch.name} — ${SPONSORED_LABEL}` : primary.branch.name}
               eventHandlers={{ click: () => setSelectedBranchId(branchId) }}
             />
           );
