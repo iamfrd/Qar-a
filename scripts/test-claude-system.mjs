@@ -21,6 +21,93 @@ function runNode(script, args = [], options = {}) {
     env: { ...process.env, CLAUDE_PROJECT_DIR: tempRoot, CLAUDE_SESSION_ID: 'SELFTEST-SESSION' }
   });
 }
+const overlayPath = (relativePath) => path.join(tempRoot, relativePath);
+const readOverlay = (relativePath) => fs.readFileSync(overlayPath(relativePath), 'utf8');
+const readOverlayJson = (relativePath) => JSON.parse(readOverlay(relativePath));
+function writeOverlay(relativePath, text) {
+  fs.mkdirSync(path.dirname(overlayPath(relativePath)), { recursive: true });
+  fs.writeFileSync(overlayPath(relativePath), text);
+}
+const writeOverlayJson = (relativePath, value) => writeOverlay(relativePath, `${JSON.stringify(value, null, 2)}\n`);
+
+// copyOverlay duplicates the working tree, so the live Work OS board and its linked ledgers
+// would otherwise decide the outcome of this fixture: create-task would continue the live
+// counter instead of allocating QW-0001, add-subtask would mutate a real card, the real
+// completion contract for that subtask already exists ("task already has a created contract"),
+// the performance ledger already holds reviewed subtask ids, and work-os validate /
+// review-work-os / export-snapshot assert across every real row.
+// Seeding pristine ledgers is preferred over deriving the new task id from CLI output:
+// deriving an id would fix only the id collision, while board-wide validation, review, KPI
+// rollup, snapshot export, and contract/performance duplicate detection would still read live
+// rows. Seeding removes the whole coupling in one place. The files are rewritten rather than
+// deleted because scripts/validate-claude-config.mjs requires every one of them to exist.
+function seedPristineOperationalState() {
+  const epoch = '2000-01-01T00:00:00.000Z';
+  const liveState = readOverlayJson('.claude/work-os/state.json');
+  writeOverlayJson('.claude/work-os/state.json', { schemaVersion: liveState.schemaVersion, project: liveState.project, updatedAt: epoch, counters: { task: 0, comment: 0 }, tasks: [] });
+  writeOverlay('.claude/work-os/events.jsonl', '');
+  writeOverlay('.claude/tasks/contracts.jsonl', '');
+  writeOverlay('.claude/tasks/progress.jsonl', '');
+  writeOverlay('.claude/performance/ledger.jsonl', '');
+  // Reset every scorecard to its unrated state but keep the agent keys: the config validator
+  // requires exactly one scorecard per registered agent, so dropping the keys would trade the
+  // live-data coupling for a "Performance scorecard is missing" failure.
+  const scorecards = readOverlayJson('.claude/performance/scorecards.json');
+  const pristineScorecard = () => ({ tasksEvaluated: 0, totalBasePoints: 0, totalEarnedPoints: 0, averageQuality: null, rollingQuality: null, rollingTaskIds: [], level: 'unrated', lastEvaluationAt: null, recentStrengths: [], recentImprovementAreas: [] });
+  writeOverlayJson('.claude/performance/scorecards.json', { ...scorecards, updatedAt: epoch, agents: Object.fromEntries(Object.keys(scorecards.agents ?? {}).map((agent) => [agent, pristineScorecard()])) });
+  // Regenerate the derived review files with the real generators so their schema stays valid.
+  expectStatus(runNode('scripts/review-work-os.mjs'), 0, 'pristine Work OS review seed');
+  expectStatus(runNode('scripts/review-task-system.mjs'), 0, 'pristine task review seed');
+  const seeded = readOverlayJson('.claude/work-os/state.json');
+  if (seeded.tasks.length !== 0 || Number(seeded.counters.task) !== 0) fail('Work OS fixture did not start from a pristine board');
+  if (readOverlay('.claude/tasks/contracts.jsonl').trim()) fail('completion-contract fixture did not start from a pristine ledger');
+  if (readOverlay('.claude/performance/ledger.jsonl').trim()) fail('performance fixture did not start from a pristine ledger');
+}
+
+// CRLF regression fixture. A Windows checkout stores agent prompts and SKILL.md with CRLF
+// terminators. Parsers that test startsWith('---\n') or split on '\n---\n' then report
+// "frontmatter is missing" (config validator, skill audit) or silently widen a
+// frontmatter-scoped security check into the whole prompt body (agent config security scan).
+// Rewriting already-registered files keeps this failure class observable on any host OS:
+// the config validator cross-checks agent and skill names against
+// .claude/capability-registry.json, so an invented fixture agent would fail on registration
+// instead of on line-ending parsing.
+const crlfFixture = { agentPath: null, agentName: null, skillPath: null, skillName: null };
+// Frontmatter-scoped patterns must never be matched from the prompt body. Keep this line in
+// the body; it is the honeypot that proves the security scan still isolates frontmatter.
+const crlfBodyHoneypot = 'CRLF fixture body line; a frontmatter-scoped scan must not read this as tools: Bash(*)';
+
+function installCrlfFixture() {
+  const agentsDir = overlayPath('.claude/agents');
+  const skillsDir = overlayPath('.claude/skills');
+  const agentFile = fs.readdirSync(agentsDir, { withFileTypes: true }).filter((entry) => entry.isFile() && entry.name.endsWith('.md')).map((entry) => entry.name).sort()[0];
+  const skillDir = fs.readdirSync(skillsDir, { withFileTypes: true }).filter((entry) => entry.isDirectory() && fs.existsSync(path.join(skillsDir, entry.name, 'SKILL.md'))).map((entry) => entry.name).sort()[0];
+  if (!agentFile || !skillDir) fail('CRLF fixture needs one registered agent prompt and one registered skill file');
+  const toCrlf = (relativePath, extraBodyLine) => {
+    const lf = readOverlay(relativePath).replace(/\r\n/g, '\n');
+    const withBody = extraBodyLine ? `${lf.replace(/\n+$/, '')}\n\n${extraBodyLine}\n` : lf;
+    writeOverlay(relativePath, withBody.replace(/\n/g, '\r\n'));
+    const written = readOverlay(relativePath);
+    if (!written.startsWith('---\r\n') || written.indexOf('\r\n---\r\n', 4) < 0) fail(`CRLF fixture ${relativePath} was not written with CRLF frontmatter delimiters`);
+    if (/(?<!\r)\n/.test(written)) fail(`CRLF fixture ${relativePath} still contains bare LF terminators`);
+    return withBody;
+  };
+  crlfFixture.agentPath = `.claude/agents/${agentFile}`;
+  crlfFixture.skillPath = `.claude/skills/${skillDir}/SKILL.md`;
+  crlfFixture.skillName = skillDir;
+  crlfFixture.agentName = /^name:\s*(.+)$/m.exec(toCrlf(crlfFixture.agentPath, crlfBodyHoneypot))?.[1]?.trim() ?? '';
+  toCrlf(crlfFixture.skillPath);
+  if (!crlfFixture.agentName) fail('CRLF fixture could not read the agent name from the overlay prompt');
+}
+
+// Windows parsers emit backslash paths, so normalize separators before matching markers.
+const parserOutput = (result) => `${result.stdout ?? ''}\n${result.stderr ?? ''}`.split('\\').join('/');
+function assertCrlfTolerated(result, label, markers) {
+  const output = parserOutput(result);
+  for (const marker of markers) {
+    if (output.includes(marker)) fail(`CRLF regression (${label}): "${marker}" — the parser rejected CRLF line endings that a Windows checkout produces`);
+  }
+}
 function run(cmd, args = []) { return spawnSync(cmd, args, { cwd: tempRoot, encoding: 'utf8' }); }
 function expectStatus(result, expected, label) {
   if (result.status !== expected) fail(`${label}: expected exit ${expected}, got ${result.status}. stdout=${result.stdout?.trim()} stderr=${result.stderr?.trim()}`);
@@ -30,6 +117,10 @@ function taskEvent(value, filename = 'task-event.json') { writeJson(filename, va
 
 try {
   copyOverlay();
+  // The overlay is a copy of the live working tree, so the fixture must start from pristine
+  // ledgers and must carry a CRLF checkout of its own; neither can be assumed from the host.
+  seedPristineOperationalState();
+  installCrlfFixture();
   run('git', ['init', '-b', 'main']);
   run('git', ['config', 'user.email', 'selftest@example.invalid']);
   run('git', ['config', 'user.name', 'Qarga Self Test']);
@@ -96,7 +187,7 @@ try {
   const pilot={pilotId:'SELFTEST-SKP-001',candidateId:'SELFTEST-SKC-001',outcome:'KEEP',reviewedBy:'qarga-system-reviewer',taskIds:['REAL-1','REAL-2','REAL-3'],evidence:['Three relevant tasks passed independent review.']};writeJson('skill-pilot.json',pilot);result=runNode('scripts/record-skill-evolution.mjs',['pilot','skill-pilot.json']);expectStatus(result,0,'skill real-task pilot');
   writeJson('skill-promotion-bad.json',{candidateId:'SELFTEST-SKC-001',outcome:'PROVEN',approvedBy:'qarga-coordinator'});result=runNode('scripts/record-skill-evolution.mjs',['promotion','skill-promotion-bad.json']);if(result.status===0)fail('skill was permanently promoted without project-owner approval');
   writeJson('skill-promotion.json',{candidateId:'SELFTEST-SKC-001',outcome:'PROVEN',approvedBy:'project-owner'});result=runNode('scripts/record-skill-evolution.mjs',['promotion','skill-promotion.json']);expectStatus(result,0,'skill permanent promotion');
-  result=runNode('scripts/review-skill-evolution.mjs');expectStatus(result,0,'skill evolution review');result=runNode('scripts/audit-skill-structure.mjs');expectStatus(result,0,'skill structure audit');
+  result=runNode('scripts/review-skill-evolution.mjs');expectStatus(result,0,'skill evolution review');result=runNode('scripts/audit-skill-structure.mjs');assertCrlfTolerated(result,'skill structure audit',['missing frontmatter','unclosed frontmatter']);expectStatus(result,0,'skill structure audit');
 
   // Lifecycle logger stores metadata only.
   result=runNode('.claude/hooks/agent-lifecycle-logger.mjs',[],{input:JSON.stringify({hook_event_name:'SubagentStart',session_id:'session-1',agent_id:'agent-1',agent_name:'qarga-backend-engineer',prompt:'must-not-be-logged',tool_input:{secret:'must-not-be-logged'}})});expectStatus(result,0,'lifecycle logger');const lifecycleLine=fs.readFileSync(path.join(tempRoot,'.claude/telemetry/agent-events.jsonl'),'utf8').trim().split(/\r?\n/).at(-1);const lifecycle=JSON.parse(lifecycleLine);if('prompt' in lifecycle||'tool_input' in lifecycle||JSON.stringify(lifecycle).includes('must-not-be-logged'))fail('lifecycle telemetry captured forbidden content');
@@ -120,8 +211,8 @@ try {
   const fakeSecret='sk-'+'A'.repeat(40);fs.writeFileSync(path.join(tempRoot,'leak.txt'),`token=${fakeSecret}\n`);run('git',['add','leak.txt']);result=runNode('.claude/hooks/scan-staged-secrets.mjs',['--staged']);expectStatus(result,2,'staged secret detection');run('git',['reset','--','leak.txt']);fs.rmSync(path.join(tempRoot,'leak.txt'));
 
   // Local security, health, E2E readiness, and agent-ops reporting.
-  result=runNode('scripts/scan-agent-config-security.mjs');expectStatus(result,0,'agent config security scan');result=runNode('scripts/check-playwright-readiness.mjs');expectStatus(result,0,'Playwright structure readiness');result=runNode('scripts/generate-agent-ops-dashboard.mjs');expectStatus(result,0,'agent ops report');if(!fs.existsSync(path.join(tempRoot,'docs/agent-ops/dashboard.html')))fail('agent ops dashboard was not generated');
-  result=runNode('scripts/validate-claude-config.mjs');expectStatus(result,0,'full Claude config validator');result=runNode('scripts/system-health.mjs',['--ci']);expectStatus(result,0,'system health core gate');
+  result=runNode('scripts/scan-agent-config-security.mjs');assertCrlfTolerated(result,'agent config security scan',['agent requests unrestricted Bash(*)']);expectStatus(result,0,'agent config security scan');result=runNode('scripts/check-playwright-readiness.mjs');expectStatus(result,0,'Playwright structure readiness');result=runNode('scripts/generate-agent-ops-dashboard.mjs');expectStatus(result,0,'agent ops report');if(!fs.existsSync(path.join(tempRoot,'docs/agent-ops/dashboard.html')))fail('agent ops dashboard was not generated');
+  result=runNode('scripts/validate-claude-config.mjs');assertCrlfTolerated(result,'full Claude config validator',['YAML frontmatter is missing','YAML frontmatter is not closed']);expectStatus(result,0,'full Claude config validator');result=runNode('scripts/system-health.mjs',['--ci']);expectStatus(result,0,'system health core gate');
 
   cleanup();
   console.log('Claude system self-test passed: completion contracts, anti-spin, contract-backed scoring, learning, project memory, system evolution separation/approval/pilot, skill research/holdout evaluation/pilot/promotion, telemetry privacy, safety hooks, secret scan, security scan, health, Work OS orchestration, E2E readiness, and Agent Ops reporting are correct.');
