@@ -39,6 +39,19 @@ export function VerifiedBadge({ size = 'sm' }: { size?: 'sm' | 'md' }) {
   );
 }
 
+/**
+ * Sponsorlu yerləşdirmə etiketi. `OfferingSummary.promoted` istifadəçiyə göstərilən
+ * hər səthdə mütləq görünən etiketlə müşayiət olunmalıdır (src/lib/api.ts müqaviləsi) —
+ * yalnız ölçü və ya rəng fərqi kifayət deyil.
+ */
+export function SponsoredBadge({ size = 'sm' }: { size?: 'sm' | 'md' }) {
+  return (
+    <Badge tone="gold" size={size}>
+      Sponsorlu
+    </Badge>
+  );
+}
+
 export function QargaExclusiveBadge({ size = 'sm' }: { size?: 'sm' | 'md' }) {
   return (
     <Badge tone="gold" size={size}>
